@@ -1,0 +1,20 @@
+C:\Users\Diesel\Documents\Visual Studio 2012\Projects\Translator\Managers\bin\Debug\Managers.dll.config
+C:\Users\Diesel\Documents\Visual Studio 2012\Projects\Translator\Managers\bin\Debug\Managers.dll
+C:\Users\Diesel\Documents\Visual Studio 2012\Projects\Translator\Managers\bin\Debug\Managers.pdb
+C:\Users\Diesel\Documents\Visual Studio 2012\Projects\Translator\Managers\bin\Debug\Data.dll
+C:\Users\Diesel\Documents\Visual Studio 2012\Projects\Translator\Managers\bin\Debug\EntityFramework.dll
+C:\Users\Diesel\Documents\Visual Studio 2012\Projects\Translator\Managers\bin\Debug\Data.pdb
+C:\Users\Diesel\Documents\Visual Studio 2012\Projects\Translator\Managers\bin\Debug\EntityFramework.xml
+C:\Users\Diesel\Documents\Visual Studio 2012\Projects\Translator\Managers\obj\Debug\Managers.csprojResolveAssemblyReference.cache
+C:\Users\Diesel\Documents\Visual Studio 2012\Projects\Translator\Managers\obj\Debug\Managers.dll
+C:\Users\Diesel\Documents\Visual Studio 2012\Projects\Translator\Managers\obj\Debug\Managers.pdb
+C:\Users\Diesel\Documents\Visual Studio 2012\Projects\Translator - копия\Managers\bin\Debug\Managers.dll.config
+C:\Users\Diesel\Documents\Visual Studio 2012\Projects\Translator - копия\Managers\bin\Debug\Managers.dll
+C:\Users\Diesel\Documents\Visual Studio 2012\Projects\Translator - копия\Managers\bin\Debug\Managers.pdb
+C:\Users\Diesel\Documents\Visual Studio 2012\Projects\Translator - копия\Managers\bin\Debug\Data.dll
+C:\Users\Diesel\Documents\Visual Studio 2012\Projects\Translator - копия\Managers\bin\Debug\EntityFramework.dll
+C:\Users\Diesel\Documents\Visual Studio 2012\Projects\Translator - копия\Managers\bin\Debug\Data.pdb
+C:\Users\Diesel\Documents\Visual Studio 2012\Projects\Translator - копия\Managers\bin\Debug\EntityFramework.xml
+C:\Users\Diesel\Documents\Visual Studio 2012\Projects\Translator - копия\Managers\obj\Debug\Managers.csprojResolveAssemblyReference.cache
+C:\Users\Diesel\Documents\Visual Studio 2012\Projects\Translator - копия\Managers\obj\Debug\Managers.dll
+C:\Users\Diesel\Documents\Visual Studio 2012\Projects\Translator - копия\Managers\obj\Debug\Managers.pdb

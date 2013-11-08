@@ -1,0 +1,10 @@
+Data/Bin/
+Data/Obj/
+GetTaxi/Bin/
+GetTaxi/Obj/
+GetTaxi.Tests/Bin/
+GetTaxi.Tests/Obj/
+Manager/Bin/
+Manager/Obj/
+GetTaxi.suo
+GetTaxi.v11.suo

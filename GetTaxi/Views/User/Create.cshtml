@@ -1,0 +1,98 @@
+﻿@model Data.Domain.User
+  
+    @using (Html.BeginForm()) {
+        @Html.ValidationSummary(true)
+    
+        <fieldset>
+            <legend>User</legend>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Login)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Login)
+                @Html.ValidationMessageFor(model => model.Login)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.FirstName)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.FirstName)
+                @Html.ValidationMessageFor(model => model.FirstName)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.LastName)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.LastName)
+                @Html.ValidationMessageFor(model => model.LastName)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Email)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Email)
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Password)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Password)
+                @Html.ValidationMessageFor(model => model.Password)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Salt)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Salt)
+                @Html.ValidationMessageFor(model => model.Salt)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.CreationDate)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.CreationDate)
+                @Html.ValidationMessageFor(model => model.CreationDate)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.LastLoginDate)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.LastLoginDate)
+                @Html.ValidationMessageFor(model => model.LastLoginDate)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.BlockDate)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.BlockDate)
+                @Html.ValidationMessageFor(model => model.BlockDate)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SuspendDate)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SuspendDate)
+                @Html.ValidationMessageFor(model => model.SuspendDate)
+            </div>
+    
+            <p>
+                <input type="submit" value="Create" />
+            </p>
+        </fieldset>
+    }
+    
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
