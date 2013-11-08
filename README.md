@@ -1,1 +1,6 @@
-# GetTaxi application
+GetTaxi application
+
+
+------
+
+Very early beta version
