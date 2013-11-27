@@ -1,0 +1,10 @@
+Data/bin/*
+Data/obj/*
+GetTaxi/bin/*
+GetTaxi/obj/*
+GetTaxi.Tests/bin/*
+GetTaxi.Tests/obj/*
+Managers/bin/*
+Managers/obj/*
+GetTaxi.suo
+GetTaxi.v11.suo
