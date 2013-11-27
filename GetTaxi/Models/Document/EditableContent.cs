@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Translator.Models.Document
+namespace WebUI.Models.Document
 {
     public class EditableContent
     {

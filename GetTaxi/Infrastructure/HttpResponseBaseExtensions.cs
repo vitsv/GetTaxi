@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Security;
 
-namespace Translator.Infrastructure
+namespace WebUI.Infrastructure
 {
     public static class HttpResponseBaseExtensions
     {

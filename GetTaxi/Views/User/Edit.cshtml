@@ -1,4 +1,4 @@
-﻿@model Translator.Models.User.EditableUser
+﻿@model WebUI.Models.User.EditableUser
 
 
 
@@ -12,15 +12,15 @@
     @Html.HiddenFor(model => model.UserId)
     
     <div class="editor-label">
-        Login
+        Login:
     </div>
     <div class="editor-field">
         <span class="input-xlarge uneditable-input">@Model.Login</span>
-            @Html.HiddenFor(model => model.Login)
+        @Html.HiddenFor(model => model.Login)
     </div>
     
     <div class="editor-label">
-        First name
+        First name:
     </div>
     <div class="editor-field">
         @Html.EditorFor(model => model.FirstName)
@@ -28,7 +28,7 @@
     </div>
     
     <div class="editor-label">
-        Last name
+        Last name:
     </div>
     <div class="editor-field">
         @Html.EditorFor(model => model.LastName)
@@ -36,7 +36,7 @@
     </div>
     
     <div class="editor-label">
-        E-mail
+        E-mail:
     </div>
     <div class="editor-field">
         @Html.EditorFor(model => model.Email)
@@ -44,11 +44,15 @@
     </div>
     
     <div class="editor-label">
-        Role
+        Roles:
     </div>
     <div class="editor-field">
-        @Html.DropDownList("RoleId", ViewBag.RoleList as IEnumerable<SelectListItem>)
-        @Html.ValidationMessageFor(model => model.RoleId)
+        @foreach (var role in ViewBag.RoleList as List<Data.Domain.Role>)
+        {
+            <label>@role.Name</label>
+            <input type="checkbox" name="UserRoles" value="@role.RoleId" @(Model.UserRoles.Contains(role.RoleId) ? "checked=\"checked\"" : "")>
+        }
+
     </div>
     
             

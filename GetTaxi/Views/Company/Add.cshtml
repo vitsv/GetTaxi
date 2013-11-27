@@ -1,0 +1,34 @@
+﻿@model Data.Domain.Company
+
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    
+
+    <legend>Create new company</legend>
+      
+    <div class="editor-label">
+        Name
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Name)
+        @Html.ValidationMessageFor(model => model.Name)
+    </div>
+    
+    <div class="editor-label">
+        Description
+    </div>
+    <div class="editor-field">
+        @Html.TextAreaFor(model => model.Description)
+        @Html.ValidationMessageFor(model => model.Description)
+    </div>
+    
+    <p>
+        <input class="btn" type="submit" value="Add" />
+    </p>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

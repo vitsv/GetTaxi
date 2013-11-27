@@ -1,0 +1,69 @@
+﻿@model WebUI.Models.Car.EditableCar
+@{
+    ViewBag.Title = Model.CompanyName + " cars";
+}
+
+@using (Html.BeginForm("Add","Car"))
+{
+    @Html.ValidationSummary(true)
+    
+    @Html.HiddenFor(c => c.CompanyId);
+    
+    <legend>Add car for @Model.CompanyName</legend>
+      
+    <div class="editor-label">
+        Mark
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Mark)
+        @Html.ValidationMessageFor(model => model.Mark)
+    </div>
+    
+    <div class="editor-label">
+        Model
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Model)
+        @Html.ValidationMessageFor(model => model.Model)
+    </div>
+    
+    <div class="editor-label">
+        Number of seats
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.NrOfSeats)
+        @Html.ValidationMessageFor(model => model.NrOfSeats)
+    </div>
+    
+    <div class="editor-label">
+        Color
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Color)
+        @Html.ValidationMessageFor(model => model.Color)
+    </div>
+    
+    <div class="editor-label">
+        Number
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.CarNumber)
+        @Html.ValidationMessageFor(model => model.CarNumber)
+    </div>
+    
+    <div class="editor-label">
+        Diver name
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.DriverName)
+        @Html.ValidationMessageFor(model => model.DriverName)
+    </div>
+    
+    <p>
+        <input class="btn" type="submit" value="Add" />
+    </p>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

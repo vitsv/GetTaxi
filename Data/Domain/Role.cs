@@ -16,6 +16,7 @@ namespace Data.Domain
     {
         public Role()
         {
+            this.Right = new HashSet<Right>();
             this.UserRole = new HashSet<UserRole>();
         }
     
@@ -23,7 +24,7 @@ namespace Data.Domain
         public string Name { get; set; }
         public string Description { get; set; }
     
-        public virtual RoleRight RoleRight { get; set; }
+        public virtual ICollection<Right> Right { get; set; }
         public virtual ICollection<UserRole> UserRole { get; set; }
     }
 }

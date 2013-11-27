@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Translator.Models.User
+namespace WebUI.Models.User
 {
     public class AddUserModel
     {

@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Data.Domain.Car>
+
+<p>
+    <a href="@Url.Action("Add")" class ="btn btn-success" title="Add">Add car</a>
+</p>
+
+@if (Model.Any())
+{
+    <table class="table table-striped">
+        <thead>
+
+            <tr>
+                <th>Company
+                </th>
+                <th>Model
+                </th>
+                <th>Mark
+                </th>
+                <th>Color</th>
+                <th>Nr of seats
+                </th>
+                <th>Driver</th>
+                <th>Car number</th>
+            </tr>
+        </thead>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Company.Name
+                </td>
+                <td>
+                    @item.Model
+                </td>
+                <td>
+                    @item.Mark
+                </td>
+                <td>
+                    @item.Color
+                </td>
+                <td>
+                    @item.NrOfSeats
+                </td>
+                <td>
+                    @item.DriverName
+                </td>
+                <td>
+                    @item.CarNumber
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.CarId })
+                    ||
+                <a href="javascript:Remove(@item.CarId)">Delete</a>
+                </td>
+            </tr>
+         
+        }
+    </table>
+}
+else
+{
+    <p>
+        Firma nie ma jeszcze dodanych pojazdów.
+    </p>
+}
+
+@Html.Partial("js/Scripts")

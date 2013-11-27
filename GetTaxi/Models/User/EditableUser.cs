@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Translator.Models.User
+namespace WebUI.Models.User
 {
     public class EditableUser
     {
@@ -23,6 +23,8 @@ namespace Translator.Models.User
         [StringLength(40)]
         public string Email { get; set; }
 
-        public int? RoleId { get; set; }
+        public string Password { get; set; }
+
+        public List<int> UserRoles { get; set; }
     }
 }

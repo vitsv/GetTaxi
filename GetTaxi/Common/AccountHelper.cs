@@ -1,16 +1,27 @@
-﻿using Translator.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web;
-using System.Web.Helpers;
 using System.Web.Security;
+using WebUI.Models;
+using System.Web.Helpers;
 
-namespace Translator.Common
+namespace WebUI.Common
 {
     public class AccountHelper
     {
-        public static UserData GetCurrentUser()
+        private AccountHelper() { }
+
+        /// <summary>
+        /// Contains data of currently logged user
+        /// </summary>
+        public static UserData currentUser
+        {
+            get
+            {
+                return GetUserData();
+            }
+        }
+
+        private static UserData GetUserData()
         {
             if (HttpContext.Current.Request.IsAuthenticated)
             {
@@ -26,5 +37,75 @@ namespace Translator.Common
             }
             return null;
         }
+
+        public static void Logout(string userName)
+        {
+            FormsAuthentication.SignOut();
+        }
+
+        /// <summary>
+        /// Check if current user in given roles
+        /// </summary>
+        /// <param name="roles">roles to check</param>
+        /// <returns>Return true if user have all given roles</returns>
+        public static bool IsInRoles(params string[] roles)
+        {
+            bool inRoles = false;
+
+            UserData userData = currentUser;
+
+            if (userData != null && roles.Length > 0)
+            {
+                string[] userRoles = userData.Roles.Split(',');
+
+                if (userRoles != null)
+                {
+                    int allowRoles = 0;
+                    foreach (var role in roles)
+                    {
+                        if (userRoles.Contains(role))
+                            allowRoles++;
+                    }
+
+                    if (allowRoles > 0 && allowRoles == roles.Length)
+                        inRoles = true;
+                }
+            }
+
+            return inRoles;
+        }
+
+        /// <summary>
+        /// Check if current user in any of given roles
+        /// </summary>
+        /// <param name="roles">roles to check</param>
+        /// <returns>Return true if user have any of given roles</returns>
+        public static bool IsInAnyRoles(params string[] roles)
+        {
+            bool inRoles = false;
+
+            UserData userData = currentUser;
+
+            if (userData != null && roles.Length > 0)
+            {
+                string[] userRoles = userData.Roles.Split(',');
+
+                if (userRoles != null)
+                {
+                    int allowRoles = 0;
+                    foreach (var role in roles)
+                    {
+                        if (userRoles.Contains(role))
+                            allowRoles++;
+                    }
+
+                    if (allowRoles > 0)
+                        inRoles = true;
+                }
+            }
+
+            return inRoles;
+        }
+
     }
 }

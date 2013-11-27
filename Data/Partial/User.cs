@@ -13,6 +13,14 @@ namespace Data.Domain
             get { return this.FirstName + " " + this.LastName; }
         }
 
+        public string RolesStr
+        {
+            get
+            {
+                return String.Join(",", this.UserRole.Select(c => c.Role.Name));
+            }
+        }
+
         public bool Active
         {
             get

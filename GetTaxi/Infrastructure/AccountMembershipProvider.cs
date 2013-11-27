@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Security;
 
-namespace Translator.Infrastructure
+namespace WebUI.Infrastructure
 {
     public class AccountMembershipProvider : MembershipProvider
     {

@@ -14,15 +14,11 @@ namespace Data.Domain
     
     public partial class Right
     {
-        public Right()
-        {
-            this.RoleRight = new HashSet<RoleRight>();
-        }
-    
         public int RightId { get; set; }
         public string Name { get; set; }
         public int Value { get; set; }
+        public int RoleId { get; set; }
     
-        public virtual ICollection<RoleRight> RoleRight { get; set; }
+        public virtual Role Role { get; set; }
     }
 }

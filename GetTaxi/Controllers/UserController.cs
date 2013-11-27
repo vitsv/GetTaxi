@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Translator.Models.User;
+using WebUI.Models.User;
 
-namespace Translator.Controllers
+namespace WebUI.Controllers
 {
     public class UserController : Controller
     {
@@ -42,14 +42,19 @@ namespace Translator.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            var model = new EditableUser();
+            model.UserRoles = new List<int>();
+
+            ViewBag.RoleList = Manager.RepoGeneric.GetAll<Role>().ToList();
+
+            return View(model);
         }
 
         //
         // POST: /User/Create
 
         [HttpPost]
-        public ActionResult Create(AddUserModel model)
+        public ActionResult Create(EditableUser model)
         {
             if (ModelState.IsValid)
             {
@@ -59,8 +64,11 @@ namespace Translator.Controllers
                 newUser.FirstName = model.FirstName;
                 newUser.Email = model.Email;
                 newUser.CreationDate = DateTime.Now;
+                newUser.Password = model.Password;
 
-                Manager.AddUser(newUser);
+                var res = Manager.AddUser(newUser);
+                if (!res.IsError)
+                    Manager.UpdateRoles(newUser, model.UserRoles);
 
                 return RedirectToAction("Index");
             }
@@ -85,12 +93,9 @@ namespace Translator.Controllers
             model.LastName = user.LastName;
             model.Email = user.Email;
 
-            var role = user.UserRole.FirstOrDefault();
+            model.UserRoles = user.UserRole.Select(c => c.RoleId).ToList();
 
-            if (role != null)
-                model.RoleId = role.RoleId;
-
-            ViewBag.RoleList = Manager.RepoGeneric.GetAll<Role>().Select(c => new SelectListItem() { Text = c.Name, Value = c.RoleId.ToString() }).ToList();
+            ViewBag.RoleList = Manager.RepoGeneric.GetAll<Role>().ToList();
 
             return View(model);
         }
@@ -111,43 +116,27 @@ namespace Translator.Controllers
                 user.LastName = model.LastName;
                 user.Email = model.Email;
 
-                if (model.RoleId.HasValue)
-                    user.UserRole.Add(new UserRole() { RoleId = model.RoleId.Value });
-
-                Manager.EditUser(user);
-
+                var res = Manager.EditUser(user);
+                if (!res.IsError)
+                    Manager.UpdateRoles(user, model.UserRoles);
                 return RedirectToAction("Index");
             }
             else
             {
-                ViewBag.RoleList = Manager.RepoGeneric.GetAll<Role>().Select(c => new SelectListItem() { Text = c.Name, Value = c.RoleId.ToString() }).ToList();
+                ViewBag.RoleList = Manager.RepoGeneric.GetAll<Role>().ToList();
                 return View(model);
             }
         }
 
-        //
-        // GET: /User/Delete/5
-
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /User/Delete/5
-
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public JsonResult Delete(int id)
         {
-            try
-            {
-                // TODO: Add delete logic here
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            var res = Manager.Delete(id);
+
+            if (!res.IsError)
+                return Json(new { result = "OK" });
+
+            return Json(new { result = "ERROR", msg = res.ErrorMessage });
         }
     }
 }

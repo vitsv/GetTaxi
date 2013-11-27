@@ -1,19 +1,24 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f4b5170079734898840d073837f16992" Name="Diagram1">
-        <EntityTypeShape EntityType="GetTaxiModel.Right" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
+      <Diagram DiagramId="2b3512bdf6d74eaf92327b756b8c4b5b" Name="Diagram1">
+        <EntityTypeShape EntityType="GetTaxiModel.Company" Width="1.5" PointX="5.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GetTaxiModel.Order" Width="1.5" PointX="3" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GetTaxiModel.OrderStatus" Width="1.5" PointX="0.75" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="GetTaxiModel.Right" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="GetTaxiModel.Role" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GetTaxiModel.RoleRight" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GetTaxiModel.User" Width="1.5" PointX="0.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GetTaxiModel.User" Width="1.5" PointX="0.75" PointY="7" IsExpanded="true" />
         <EntityTypeShape EntityType="GetTaxiModel.UserRole" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
-        <AssociationConnector Association="GetTaxiModel.FK_RoleRight_Right" ManuallyRouted="false" />
-        <AssociationConnector Association="GetTaxiModel.FK_RoleRight_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="GetTaxiModel.FK_Order_OrderStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="GetTaxiModel.FK_Order_User" ManuallyRouted="false" />
+        <AssociationConnector Association="GetTaxiModel.FK_Right_Role" ManuallyRouted="false" />
         <AssociationConnector Association="GetTaxiModel.FK_UserRole_Role" ManuallyRouted="false" />
         <AssociationConnector Association="GetTaxiModel.FK_UserRole_User" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="GetTaxiModel.Car" Width="1.5" PointX="1.443571782411808" PointY="8.54930976431319" />
+        <AssociationConnector Association="GetTaxiModel.FK_Car_Company" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

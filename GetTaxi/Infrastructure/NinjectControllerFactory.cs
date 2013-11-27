@@ -7,7 +7,7 @@ using System.Web.Routing;
 using Ninject;
 using Managers;
 
-namespace Translator.Infrastructure
+namespace WebUI.Infrastructure
 {
     public class NinjectControllerFactory: DefaultControllerFactory
     {

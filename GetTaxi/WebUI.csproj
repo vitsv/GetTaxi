@@ -11,7 +11,7 @@
     <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Translator</RootNamespace>
+    <RootNamespace>WebUI</RootNamespace>
     <AssemblyName>Translator</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
@@ -125,8 +125,15 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="Common\AccountHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\CarController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Filters\AuthorizeUser.cs" />
+    <Compile Include="Filters\AuthorizeUserAny.cs" />
+    <Compile Include="Filters\ClientErrorHandler.cs" />
+    <Compile Include="GetTaxiEntit.cs" />
+    <Compile Include="GetTaxiEntities.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -134,6 +141,7 @@
     <Compile Include="Infrastructure\HttpResponseBaseExtensions.cs" />
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Car\EditableCar.cs" />
     <Compile Include="Models\Document\EditableContent.cs" />
     <Compile Include="Models\Document\EditableDocument.cs" />
     <Compile Include="Models\UserData.cs" />
@@ -243,6 +251,16 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\Company\Index.cshtml" />
+    <Content Include="Views\Company\Add.cshtml" />
+    <Content Include="Views\Company\Edit.cshtml" />
+    <Content Include="Views\Company\js\Scripts.cshtml" />
+    <Content Include="Views\Car\Add.cshtml" />
+    <Content Include="Views\Car\Edit.cshtml" />
+    <Content Include="Views\Car\Index.cshtml" />
+    <Content Include="Views\Car\js\Scripts.cshtml" />
+    <Content Include="Views\Car\CompanyCars.cshtml" />
+    <Content Include="Views\User\js\Scripts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

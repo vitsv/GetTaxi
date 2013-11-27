@@ -17,14 +17,14 @@
     }
 
         #account-box > li > a {
-            color: #333333;
+            color: #E8E8E8;
             display: block;
             padding: 5px;
             transition: all 0.1s ease-in 0s;
         }
 
             #account-box > li > a:hover {
-                color: #4183C4;
+                color: #428BCA;
                 text-decoration: none;
             }
 

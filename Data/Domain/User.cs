@@ -16,6 +16,7 @@ namespace Data.Domain
     {
         public User()
         {
+            this.Order = new HashSet<Order>();
             this.UserRole = new HashSet<UserRole>();
         }
     
@@ -31,6 +32,7 @@ namespace Data.Domain
         public Nullable<System.DateTime> BlockDate { get; set; }
         public Nullable<System.DateTime> SuspendDate { get; set; }
     
+        public virtual ICollection<Order> Order { get; set; }
         public virtual ICollection<UserRole> UserRole { get; set; }
     }
 }

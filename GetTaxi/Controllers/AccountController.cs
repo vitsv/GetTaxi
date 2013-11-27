@@ -5,14 +5,14 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
-using Translator.Models;
+using WebUI.Models;
 using Managers;
 using Data.Domain;
-using Translator.Infrastructure;
-using Translator.Common;
+using WebUI.Infrastructure;
+using WebUI.Common;
 
 
-namespace EOD.Controllers
+namespace WebUI.Controllers
 {
     public class AccountController : Controller
     {
@@ -56,7 +56,7 @@ namespace EOD.Controllers
                     {
                         ID = user.UserId,
                         FullName = user.FullName,
-                        RightsSum = 0
+                        Roles = user.RolesStr
                     };
 
                     //Nadpisuje cookie dla przechowywania dodatkowych informacji
@@ -95,7 +95,7 @@ namespace EOD.Controllers
 
         public PartialViewResult UserBox()
         {
-            return PartialView("_LogOnPartial", AccountHelper.GetCurrentUser());
+            return PartialView("_LogOnPartial", AccountHelper.currentUser);
         }
 
         public ActionResult AccessDenied()

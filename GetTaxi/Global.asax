@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Translator.Translator" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="WebUI.Translator" Language="C#" %>

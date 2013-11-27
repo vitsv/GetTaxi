@@ -39,11 +39,6 @@ namespace Managers
             return RepoGeneric.FindOne<User>(c => c.UserId == id);
         }
 
-        public int GetUserRightsSum(int id)
-        {
-            return 0;
-        }
-
         public IUnitOfWorkResult EditUser(User user)
         {
             var repo = RepoGeneric;
@@ -65,15 +60,36 @@ namespace Managers
             return res;
         }
 
-        public void DeleteUser(int id)
+        public IUnitOfWorkResult UpdateRoles(User user, List<int> roles)
         {
             var repo = RepoGeneric;
-            User user = repo.FindOne<User>(c => c.UserId == id);
+            var userRoles = repo.Find<UserRole>(c => c.UserId == user.UserId);
+            foreach (var ur in userRoles)
+                repo.Delete<UserRole>(ur);
 
-            if (user != null)
-                repo.Delete<User>(user);
+            foreach (var role in roles)
+            {
+                repo.Add<UserRole>(new UserRole { UserId = user.UserId, RoleId = role });
+            }
 
-            repo.UnitOfWork.SaveChanges();
+            return repo.UnitOfWork.SaveChanges();
+        }
+
+        public IUnitOfWorkResult Delete(int id)
+        {
+            var repo = RepoGeneric;
+            var model = repo.FindOne<User>(c => c.UserId == id);
+
+            if (model == null)
+                throw new Exception(string.Format("Can't find user with id {0}", id));
+
+            var userRoles = repo.Find<UserRole>(c => c.UserId == model.UserId);
+            foreach (var ur in userRoles)
+                repo.Delete<UserRole>(ur);
+
+            repo.Delete<User>(model);
+
+            return repo.UnitOfWork.SaveChanges();
         }
 
         public IUnitOfWorkResult UpdateLastLoginDate(int id)
@@ -220,6 +236,21 @@ namespace Managers
 
             var res = repo.UnitOfWork.SaveChanges();
             return res;
+        }
+
+        public int GetRightsSum(int id)
+        {
+            var user = RepoGeneric.FindOne<User>(c => c.UserId == id);
+            if (user == null)
+                throw new Exception(string.Format("User not found", id));
+
+            int sum = 0;
+            foreach (var role in user.UserRole)
+            {
+                sum = sum + role.Role.Right.Sum(c => c.Value);
+            }
+
+            return sum;
         }
     }
 }

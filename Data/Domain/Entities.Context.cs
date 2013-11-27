@@ -25,10 +25,13 @@ namespace Data.Domain
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<Company> Company { get; set; }
+        public DbSet<Order> Order { get; set; }
+        public DbSet<OrderStatus> OrderStatus { get; set; }
         public DbSet<Right> Right { get; set; }
         public DbSet<Role> Role { get; set; }
-        public DbSet<RoleRight> RoleRight { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<UserRole> UserRole { get; set; }
+        public DbSet<Car> Car { get; set; }
     }
 }

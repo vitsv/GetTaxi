@@ -6,7 +6,7 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
 
-namespace Translator.Models
+namespace WebUI.Models
 {
     public class UserDataModelBinder<T> : IModelBinder
     {
