@@ -14,14 +14,14 @@ namespace WebUI.Infrastructure
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="responseBase"></param>
-        /// <param name="name">Login</param>
+        /// <param name="phone">Phone</param>
         /// <param name="rememberMe">Set permanent cookie</param>
         /// <param name="userData">Additional user data</param>
         /// <returns></returns>
-        public static int SetAuthCookie<T>(this HttpResponseBase responseBase, string name, bool rememberMe, T userData)
+        public static int SetAuthCookie<T>(this HttpResponseBase responseBase, string phone, bool rememberMe, T userData)
         {
             // Create own cookies based on original
-            var cookie = FormsAuthentication.GetAuthCookie(name, rememberMe);
+            var cookie = FormsAuthentication.GetAuthCookie(phone, rememberMe);
             var ticket = FormsAuthentication.Decrypt(cookie.Value);
 
             //add additional user data

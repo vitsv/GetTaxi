@@ -101,16 +101,20 @@
             <PropertyRef Name="UserId" />
           </Key>
           <Property Name="UserId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Login" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" />
-          <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="Email" Type="nvarchar" MaxLength="200" />
           <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="Salt" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="CreationDate" Type="datetime" Nullable="false" />
           <Property Name="LastLoginDate" Type="datetime" />
           <Property Name="BlockDate" Type="datetime" />
           <Property Name="SuspendDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="15" />
+          <Property Name="ActivateCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="SmsSentCount" Type="int" />
         </EntityType>
         <EntityType Name="UserRole">
           <Key>
@@ -286,10 +290,10 @@
             <PropertyRef Name="UserId" />
           </Key>
           <Property Name="UserId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Login" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Login" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="FirstName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="LastName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
+          <Property Name="Email" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="Salt" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
@@ -298,6 +302,10 @@
           <Property Name="SuspendDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Order" Relationship="GetTaxiModel.FK_Order_User" FromRole="User" ToRole="Order" />
           <NavigationProperty Name="UserRole" Relationship="GetTaxiModel.FK_UserRole_User" FromRole="User" ToRole="UserRole" />
+          <Property Type="Boolean" Name="IsActive" />
+          <Property Type="String" Name="Phone" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ActivateCode" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="SmsSentCount" />
         </EntityType>
         <EntityType Name="UserRole">
           <Key>
@@ -453,6 +461,10 @@
           <EntitySetMapping Name="User">
             <EntityTypeMapping TypeName="GetTaxiModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="SmsSentCount" ColumnName="SmsSentCount" />
+                <ScalarProperty Name="ActivateCode" ColumnName="ActivateCode" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />

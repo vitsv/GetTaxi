@@ -1,0 +1,15 @@
+﻿@model Dashboard.Models.UserData
+<ul id="account-box">
+    @if (Request.IsAuthenticated)
+    {
+        <li>
+            <a href="#" class="name">@Model.FullName</a>
+
+        </li>
+        <li>@Html.ActionLink("Log off", "LogOff", "Account", new object { }, new { @class = "power", title = "Log off" })</li>
+    }
+    else
+    {
+        <li><a href="@Url.Action("LogOn", "Account")" class="btn btn-success btn-sm" role="button">Zaloguj się</a></li>
+    }
+</ul>

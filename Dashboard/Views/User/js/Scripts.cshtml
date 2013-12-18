@@ -1,0 +1,48 @@
+﻿<script type="text/javascript">
+
+    function Remove(id) {
+        if (id != null) {
+            if (confirm("Are you sure?")) {
+                var url = '@Url.Action("Delete", "User")';
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: { id: id },
+                    success: function (data) {
+                        if (data.result == "OK") {
+                            location.reload();
+                        }
+                        else
+                            alert(data.msg);
+                    },
+                    error: function (data) {
+                        alert(data);
+                    }
+                })
+            }
+        }
+    }
+
+    function ReseandSMS() {
+        var url = '@Url.Action("ResendActivateSms", "User")';
+        $.ajax({
+            type: "POST",
+            url: url,
+            success: function (data) {
+                $(".alert").removeClass("alert-danger");
+                $(".alert").removeClass("alert-success");
+                if (data.result == "OK") {
+                    $(".alert").addClass("alert-success");
+                    $(".alert").html(data.msg);
+                } else {
+                    $(".alert").addClass("alert-danger");
+                    $(".alert").html(data.msg);
+                }
+                $(".alert").show();
+            },
+            error: function (data) {
+                alert(data);
+            }
+        })
+    }
+</script>

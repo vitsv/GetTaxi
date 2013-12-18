@@ -1,0 +1,68 @@
+﻿@model Dashboard.Models.User.EditableUser
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    
+
+    <legend>User @Model.Login details</legend>
+    
+    @Html.HiddenFor(model => model.UserId)
+    
+    <div class="editor-label">
+        Login:
+    </div>
+    <div class="editor-field">
+        <span class="input-xlarge uneditable-input">@Model.Login</span>
+        @Html.HiddenFor(model => model.Login)
+    </div>
+    
+    <div class="editor-label">
+        First name:
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.FirstName)
+        @Html.ValidationMessageFor(model => model.FirstName)
+    </div>
+    
+    <div class="editor-label">
+        Last name:
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.LastName)
+        @Html.ValidationMessageFor(model => model.LastName)
+    </div>
+    
+    <div class="editor-label">
+        E-mail:
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Email)
+        @Html.ValidationMessageFor(model => model.Email)
+    </div>
+    
+    <div class="editor-label">
+        Roles:
+    </div>
+    <div class="editor-field">
+        @foreach (var role in ViewBag.RoleList as List<Data.Domain.Role>)
+        {
+            <label>@role.Name</label>
+            <input type="checkbox" name="UserRoles" value="@role.RoleId" @(Model.UserRoles.Contains(role.RoleId) ? "checked=\"checked\"" : "")>
+        }
+
+    </div>
+    
+            
+   
+    
+    <p>
+        <input class="btn" type="submit" value="Save" />
+    </p>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

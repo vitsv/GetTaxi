@@ -13,11 +13,11 @@ namespace Data.Domain
             get { return this.FirstName + " " + this.LastName; }
         }
 
-        public string RolesStr
+        public int[] Roles
         {
             get
             {
-                return String.Join(",", this.UserRole.Select(c => c.Role.Name));
+                return this.UserRole.Select(c => c.RoleId).ToArray();
             }
         }
 

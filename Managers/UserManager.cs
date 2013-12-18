@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Security;
 using System.Text;
 using System.Threading.Tasks;
+using Data.Enumerators;
 
 namespace Managers
 {
@@ -15,6 +16,11 @@ namespace Managers
         public User GetUserByLogin(string login)
         {
             return RepoGeneric.FindOne<User>(c => c.Login == login);
+        }
+
+        public User GetUserByPhone(string phone)
+        {
+            return RepoGeneric.FindOne<User>(c => c.Phone.Equals(phone));
         }
 
         public IEnumerable<User> GetAllUsers()
@@ -112,6 +118,25 @@ namespace Managers
         {
 
             var user = this.GetUserByLogin(login);
+
+            if (user != null)
+            {
+                string passHash = CreatePasswordHash(password, user.Salt);
+                if (user.Password == passHash && user.Active == true)
+                {
+                    UpdateLastLoginDate(user.UserId);
+                    return true;
+                }
+            }
+
+
+            return false;
+        }
+
+        public bool IsValidPhone(string phone, string password)
+        {
+
+            var user = this.GetUserByPhone(phone);
 
             if (user != null)
             {
@@ -251,6 +276,81 @@ namespace Managers
             }
 
             return sum;
+        }
+
+        /// <summary>
+        /// Check if user with given phone exist in DB
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <returns>Return True if user doesn't exist</returns>
+        public bool CheckIfPhoneUniq(string phone)
+        {
+            return (RepoGeneric.FindOne<User>(c => c.Phone.Equals(phone)) == null);
+        }
+
+        public bool ActivateNewUser(int userId, string code)
+        {
+            var repo = RepoGeneric;
+            var user = repo.FindOne<User>(c => c.UserId == userId);
+            if (user.ActivateCode.Equals(code))
+            {
+                var userRoles = user.UserRole.ToList();
+
+                foreach (var ur in userRoles)
+                    repo.Delete<UserRole>(ur);
+
+                user.UserRole.Add(new UserRole { RoleId = (int)GlobalEnumerator.UserRoleId.User });
+
+                var res = repo.UnitOfWork.SaveChanges();
+                if (res.IsError)
+                    throw new Exception(res.ErrorMessage);
+                return true;
+            }
+            else
+                return false;
+        }
+
+        public string GenerateSmsCode()
+        {
+            Random _rng = new Random((int)DateTime.Now.Ticks);
+            string _chars = "0123456789";
+            int size = 5;
+
+            char[] buffer = new char[size];
+
+            for (int i = 0; i < size; i++)
+            {
+                buffer[i] = _chars[_rng.Next(_chars.Length)];
+            }
+            return new string(buffer);
+        }
+
+        public bool ResendActivateSms(int userId)
+        {
+            var repo = RepoGeneric;
+
+            var user = repo.FindOne<User>(c => c.UserId == userId);
+
+            if (user == null)
+                return false;
+
+            if (user.SmsSentCount >= 3)
+                return false;
+
+            var kod = GenerateSmsCode();
+
+            //TODO Wyslac SMS
+
+            user.SmsSentCount = user.SmsSentCount + 1;
+            user.ActivateCode = kod;
+
+            var res = repo.UnitOfWork.SaveChanges();
+
+            if (res.IsError)
+                return false;
+
+            return true;
+
         }
     }
 }

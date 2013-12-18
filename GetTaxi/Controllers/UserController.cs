@@ -1,10 +1,14 @@
 ﻿using Data.Domain;
+using Data.Enumerators;
 using Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
+using WebUI.Common;
+using WebUI.Infrastructure;
+using WebUI.Models;
 using WebUI.Models.User;
 
 namespace WebUI.Controllers
@@ -23,120 +27,108 @@ namespace WebUI.Controllers
             }
         }
 
-        public ActionResult Index()
+        public ActionResult Register()
         {
-            var model = Manager.GetAllUsers();
-            return View(model);
+            if (AccountHelper.currentUser == null)
+                return View();
+            else
+                return RedirectToAction("Index", "Home");
         }
 
-        //
-        // GET: /User/Details/5
+        [HttpPost]
+        public ActionResult Register(RegisterModel model)
+        {
+            if (!string.IsNullOrEmpty(model.Phone) && !Manager.CheckIfPhoneUniq(model.Phone))
+                ModelState.AddModelError("Phone", "Taki telefon został już zarejestrowany");
 
-        public ActionResult Details(int id)
+            if (ModelState.IsValid)
+            {
+                User newUser = new User();
+                newUser.FirstName = model.Name;
+                newUser.Phone = model.Phone;
+                newUser.CreationDate = DateTime.Now;
+                newUser.Password = model.Password;
+                newUser.ActivateCode = Manager.GenerateSmsCode();
+                newUser.IsActive = true;
+                newUser.SmsSentCount = 1;
+
+                var res = Manager.AddUser(newUser);
+                if (!res.IsError)
+                    res = Manager.UpdateRoles(newUser, new List<int> { (int)GlobalEnumerator.UserRoleId.NotActive });
+
+                if (!res.IsError)
+                {
+                    LogInUser(newUser);
+
+                    //TODO wyslac SMS
+
+                    return RedirectToAction("Activate");
+                }
+            }
+
+
+            return View();
+
+        }
+
+        private void LogInUser(User user)
+        {
+            FormsAuthentication.SetAuthCookie(user.Phone, false);
+
+            UserData userData = new UserData
+            {
+                Phone = user.Phone,
+                ID = user.UserId,
+                FullName = user.FullName,
+                Roles = user.Roles
+            };
+
+            //Nadpisuje cookie dla przechowywania dodatkowych informacji
+            Response.SetAuthCookie(user.Phone, false, userData);
+        }
+
+
+
+        public ActionResult Activate()
         {
             return View();
         }
 
-        //
-        // GET: /User/Create
-
-        public ActionResult Create()
-        {
-            var model = new EditableUser();
-            model.UserRoles = new List<int>();
-
-            ViewBag.RoleList = Manager.RepoGeneric.GetAll<Role>().ToList();
-
-            return View(model);
-        }
-
-        //
-        // POST: /User/Create
-
         [HttpPost]
-        public ActionResult Create(EditableUser model)
+        public ActionResult Activate(ActivateModel model)
         {
             if (ModelState.IsValid)
             {
-                User newUser = new User();
-                newUser.Login = model.Login;
-                newUser.LastName = model.LastName;
-                newUser.FirstName = model.FirstName;
-                newUser.Email = model.Email;
-                newUser.CreationDate = DateTime.Now;
-                newUser.Password = model.Password;
+                if (Manager.ActivateNewUser(AccountHelper.currentUser.ID, model.Code))
+                {
+                    var user = Manager.GetUserById(AccountHelper.currentUser.ID);
 
-                var res = Manager.AddUser(newUser);
-                if (!res.IsError)
-                    Manager.UpdateRoles(newUser, model.UserRoles);
+                    AccountHelper.Logout();
 
-                return RedirectToAction("Index");
+                    LogInUser(user);
+
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("Code", "Kod jest nieprawidłowy");
+                }
             }
-            else
-            {
-                return View();
-            }
-        }
 
-        //
-        // GET: /User/Edit/5
-
-        public ActionResult Edit(int id)
-        {
-            var user = Manager.GetUserById(id);
-
-            var model = new EditableUser();
-
-            model.UserId = user.UserId;
-            model.Login = user.Login;
-            model.FirstName = user.FirstName;
-            model.LastName = user.LastName;
-            model.Email = user.Email;
-
-            model.UserRoles = user.UserRole.Select(c => c.RoleId).ToList();
-
-            ViewBag.RoleList = Manager.RepoGeneric.GetAll<Role>().ToList();
-
-            return View(model);
-        }
-
-        //
-        // POST: /User/Edit/5
-
-        [HttpPost]
-        public ActionResult Edit(int id, EditableUser model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = new User();
-
-                user.UserId = model.UserId;
-                user.Login = model.Login;
-                user.FirstName = model.FirstName;
-                user.LastName = model.LastName;
-                user.Email = model.Email;
-
-                var res = Manager.EditUser(user);
-                if (!res.IsError)
-                    Manager.UpdateRoles(user, model.UserRoles);
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                ViewBag.RoleList = Manager.RepoGeneric.GetAll<Role>().ToList();
-                return View(model);
-            }
+            return View();
         }
 
         [HttpPost]
-        public JsonResult Delete(int id)
+        public JsonResult ResendActivateSms()
         {
-            var res = Manager.Delete(id);
-
-            if (!res.IsError)
-                return Json(new { result = "OK" });
-
-            return Json(new { result = "ERROR", msg = res.ErrorMessage });
+            if (Manager.ResendActivateSms(AccountHelper.currentUser.ID))
+            {
+                return Json(new { result = "OK", msg = "SMS został wysłany." });
+            }
+            else
+            {
+                return Json(new { result = "ERROR", msg = "SMS nie został wysłany! Proszę skontaktować się z biurem obsługi klienta." });
+            }
         }
     }
 }

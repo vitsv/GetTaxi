@@ -503,7 +503,7 @@ namespace WebUI.Infrastructure
         {
             using (var AccountRepository = new UserManager())
             {
-                return AccountRepository.IsValidLogin(username, password);
+                return AccountRepository.IsValidPhone(username, password);
             }
         }
 

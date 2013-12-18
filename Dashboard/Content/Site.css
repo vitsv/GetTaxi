@@ -1,0 +1,34 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+#account-box {
+    float: right;
+    list-style: none outside none;
+    margin: 7px 0 0;
+    padding: 0;
+}
+
+    #account-box > li {
+        float: left;
+        margin-left: 5px;
+        position: relative;
+    }
+
+        #account-box > li > a {
+            color: #E8E8E8;
+            display: block;
+            padding: 5px;
+            transition: all 0.1s ease-in 0s;
+        }
+
+            #account-box > li > a:hover {
+                color: #428BCA;
+                text-decoration: none;
+            }
+
+    #account-box .name {
+        font-weight: bold;
+        white-space: nowrap;
+    }

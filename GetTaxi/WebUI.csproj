@@ -125,8 +125,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="Common\AccountHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\CompanyController.cs" />
-    <Compile Include="Controllers\CarController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filters\AuthorizeUser.cs" />
@@ -146,8 +144,10 @@
     <Compile Include="Models\Document\EditableDocument.cs" />
     <Compile Include="Models\UserData.cs" />
     <Compile Include="Models\UserDataModelBinder.cs" />
+    <Compile Include="Models\User\ActivateModel.cs" />
     <Compile Include="Models\User\AddUserModel.cs" />
     <Compile Include="Models\User\EditableUser.cs" />
+    <Compile Include="Models\User\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -251,16 +251,9 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\Company\Index.cshtml" />
-    <Content Include="Views\Company\Add.cshtml" />
-    <Content Include="Views\Company\Edit.cshtml" />
-    <Content Include="Views\Company\js\Scripts.cshtml" />
-    <Content Include="Views\Car\Add.cshtml" />
-    <Content Include="Views\Car\Edit.cshtml" />
-    <Content Include="Views\Car\Index.cshtml" />
-    <Content Include="Views\Car\js\Scripts.cshtml" />
-    <Content Include="Views\Car\CompanyCars.cshtml" />
     <Content Include="Views\User\js\Scripts.cshtml" />
+    <Content Include="Views\User\Register.cshtml" />
+    <Content Include="Views\User\Activate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -288,15 +281,6 @@
       <Project>{1f64a8ed-213e-4f8c-b8a3-b13394f08555}</Project>
       <Name>Managers</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\User\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\User\Create.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\User\Edit.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

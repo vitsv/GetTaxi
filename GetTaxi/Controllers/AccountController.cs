@@ -46,21 +46,22 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Membership.ValidateUser(model.UserName, model.Password))
+                if (Membership.ValidateUser(model.Phone, model.Password))
                 {
-                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+                    FormsAuthentication.SetAuthCookie(model.Phone, model.RememberMe);
 
-                    User user = Manager.GetUserByLogin(model.UserName);
+                    User user = Manager.GetUserByPhone(model.Phone);
 
                     UserData userData = new UserData
                     {
+                        Phone = user.Phone,
                         ID = user.UserId,
                         FullName = user.FullName,
-                        Roles = user.RolesStr
+                        Roles = user.Roles
                     };
 
                     //Nadpisuje cookie dla przechowywania dodatkowych informacji
-                    Response.SetAuthCookie(model.UserName, model.RememberMe, userData);
+                    Response.SetAuthCookie(model.Phone, model.RememberMe, userData);
 
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                         && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))

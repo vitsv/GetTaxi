@@ -8,10 +8,11 @@ namespace Data.Enumerators
 {
     public class GlobalEnumerator
     {
-        public enum SplitType
+        public enum UserRoleId
         {
-            Sentens = 1,
-            Paragrapth = 2
+            User = 1,
+            Company = 2,
+            NotActive = 3
         }
     }
 }

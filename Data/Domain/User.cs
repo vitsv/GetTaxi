@@ -31,6 +31,10 @@ namespace Data.Domain
         public Nullable<System.DateTime> LastLoginDate { get; set; }
         public Nullable<System.DateTime> BlockDate { get; set; }
         public Nullable<System.DateTime> SuspendDate { get; set; }
+        public Nullable<bool> IsActive { get; set; }
+        public string Phone { get; set; }
+        public string ActivateCode { get; set; }
+        public Nullable<int> SmsSentCount { get; set; }
     
         public virtual ICollection<Order> Order { get; set; }
         public virtual ICollection<UserRole> UserRole { get; set; }

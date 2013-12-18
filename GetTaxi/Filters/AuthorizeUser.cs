@@ -9,9 +9,9 @@ namespace WebUI.Filters
     /// </summary>
     public class AuthorizeUser : AuthorizeAttribute
     {
-        private string[] necessaryRoles;
+        private int[] necessaryRoles;
 
-        public AuthorizeUser(params string[] roles)
+        public AuthorizeUser(params int[] roles)
         {
             necessaryRoles = roles;
         }

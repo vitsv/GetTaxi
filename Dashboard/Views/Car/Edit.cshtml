@@ -1,0 +1,70 @@
+﻿@model Dashboard.Models.Car.EditableCar
+@{
+    ViewBag.Title = Model.CompanyName + " cars";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    
+    @Html.HiddenFor(c => c.CarId);
+    @Html.HiddenFor(c => c.CompanyId);
+    
+    <legend>Edit @Model.CompanyName car</legend>
+      
+    <div class="editor-label">
+        Mark
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Mark)
+        @Html.ValidationMessageFor(model => model.Mark)
+    </div>
+    
+    <div class="editor-label">
+        Model
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Model)
+        @Html.ValidationMessageFor(model => model.Model)
+    </div>
+    
+    <div class="editor-label">
+        Number of seats
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.NrOfSeats)
+        @Html.ValidationMessageFor(model => model.NrOfSeats)
+    </div>
+    
+    <div class="editor-label">
+        Color
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Color)
+        @Html.ValidationMessageFor(model => model.Color)
+    </div>
+    
+    <div class="editor-label">
+        Number
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.CarNumber)
+        @Html.ValidationMessageFor(model => model.CarNumber)
+    </div>
+    
+    <div class="editor-label">
+        Diver name
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.DriverName)
+        @Html.ValidationMessageFor(model => model.DriverName)
+    </div>
+    
+    <p>
+        <input class="btn" type="submit" value="Save" />
+    </p>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

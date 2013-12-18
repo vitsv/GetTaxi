@@ -38,7 +38,7 @@ namespace WebUI.Common
             return null;
         }
 
-        public static void Logout(string userName)
+        public static void Logout()
         {
             FormsAuthentication.SignOut();
         }
@@ -48,7 +48,7 @@ namespace WebUI.Common
         /// </summary>
         /// <param name="roles">roles to check</param>
         /// <returns>Return true if user have all given roles</returns>
-        public static bool IsInRoles(params string[] roles)
+        public static bool IsInRoles(params int[] roles)
         {
             bool inRoles = false;
 
@@ -56,7 +56,7 @@ namespace WebUI.Common
 
             if (userData != null && roles.Length > 0)
             {
-                string[] userRoles = userData.Roles.Split(',');
+                int[] userRoles = userData.Roles;
 
                 if (userRoles != null)
                 {
@@ -80,7 +80,7 @@ namespace WebUI.Common
         /// </summary>
         /// <param name="roles">roles to check</param>
         /// <returns>Return true if user have any of given roles</returns>
-        public static bool IsInAnyRoles(params string[] roles)
+        public static bool IsInAnyRoles(params int[] roles)
         {
             bool inRoles = false;
 
@@ -88,7 +88,7 @@ namespace WebUI.Common
 
             if (userData != null && roles.Length > 0)
             {
-                string[] userRoles = userData.Roles.Split(',');
+                int[] userRoles = userData.Roles;
 
                 if (userRoles != null)
                 {

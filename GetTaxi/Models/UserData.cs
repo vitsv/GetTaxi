@@ -7,9 +7,11 @@ namespace WebUI.Models
 {
     public class UserData
     {
+        public string Phone { get; set; }
+
         public string FullName { get; set; }
 
-        public string Roles { get; set; }
+        public int[] Roles { get; set; }
 
         public int ID { get; set; }
 
