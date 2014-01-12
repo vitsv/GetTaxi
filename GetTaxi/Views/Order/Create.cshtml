@@ -1,0 +1,102 @@
+﻿@model WebUI.Models.Order.EditableOrder
+@{
+    ViewBag.Title = "Nowe zamówienie";
+}
+
+@using (Html.BeginForm("Create", "Order"))
+{
+    @Html.ValidationSummary(true)
+    
+    <legend>Nowe zamowienie</legend>
+      
+    <div class="editor-label">
+        Skąd
+    </div>
+    <div class="editor-field">
+        <label>Miasto:</label>
+        @Html.DropDownList("CityFrom", ViewBag.CityList as IEnumerable<SelectListItem>);
+        @Html.ValidationMessageFor(model => model.CityFrom)
+
+        <label>Adres</label>
+        @Html.EditorFor(model => model.AddressFrom)
+        @Html.ValidationMessageFor(model => model.AddressFrom)
+    </div>
+    
+    <div class="editor-label">
+        Dokąd
+    </div>
+    <div class="editor-field">
+        <label>Miasto:</label>
+        @Html.DropDownList("CityTo", ViewBag.CityList as IEnumerable<SelectListItem>);
+        @Html.ValidationMessageFor(model => model.CityTo)
+
+        <label>Adres</label>
+        @Html.EditorFor(model => model.AddressTo)
+        @Html.ValidationMessageFor(model => model.AddressTo)
+    </div>
+    
+    <div class="editor-label">
+        Kiedy
+    </div>
+    <div class="editor-field">
+        @Html.DropDownList("IsPlanned", new List<SelectListItem> { new SelectListItem { Text = "Teraz", Value = "False", Selected = true }, new SelectListItem { Text = "Później", Value = "True" } });
+    </div>
+    
+    <div class="editor-label">
+        Na kiedy podać samochod
+    </div>
+    <div class="editor-field">
+        <label>Dzień</label>
+        @Html.DropDownList("PlannedDay", new List<SelectListItem> { new SelectListItem { Text = "Dzisiaj", Value = "1", Selected = true }, new SelectListItem { Text = "Jutro", Value = "2" } });
+                <label>Godzina</label>
+        @{//TODO Zrobic to jako partial, przeladowany AJAXem przy zmianie PlannedDay
+        }
+        @Html.DropDownList("PlannedHour", ViewBag.HoursList as IEnumerable<SelectListItem>);
+                <label>Minuty</label>
+        @Html.DropDownList("PlannedMinute", ViewBag.MinutesList as IEnumerable<SelectListItem>);
+    </div>
+    
+    <div class="editor-label">
+        Platność kartą kredytową
+    </div>
+    <div class="editor-field">
+        @Html.CheckBoxFor(m => m.Card)
+    </div>
+   
+    <div class="editor-label">
+        Niepalący
+    </div>
+    <div class="editor-field">
+        @Html.CheckBoxFor(m => m.NoSmoking)
+    </div>
+    
+    <div class="editor-label">
+        Zwierzęta
+    </div>
+    <div class="editor-field">
+        @Html.CheckBoxFor(m => m.Animal)
+    </div>
+    
+    <div class="editor-label">
+        Krzesłko dla dziecka
+    </div>
+    <div class="editor-field">
+        @Html.CheckBoxFor(m => m.Childer)
+    </div>
+    
+        <div class="editor-label">
+        Komentarz
+    </div>
+    <div class="editor-field">
+        @Html.TextAreaFor(model => model.Comment)
+        @Html.ValidationMessageFor(model => model.Comment)
+    </div>
+    
+    <p>
+        <input class="btn" type="submit" value="Zamów" />
+    </p>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
