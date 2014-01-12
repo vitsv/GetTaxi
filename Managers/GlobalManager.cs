@@ -51,6 +51,15 @@ namespace Managers
                 }
             }
         }
+
+        public UnitOfWorkResult CreateResultError(string errorMsg)
+        {
+            return new UnitOfWorkResult
+            {
+                IsError = true,
+                ErrorInfo = new Exception(errorMsg)
+            };
+        }
     }
 
 }

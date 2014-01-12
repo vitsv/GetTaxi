@@ -103,6 +103,14 @@ namespace Managers.Repository
 
 
         /// <summary>
+        /// Get IQueryable set of entities
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <returns></returns>
+        IQueryable<TEntity> GetQuery<TEntity>() where TEntity : class;
+
+
+        /// <summary>
         /// Gets the unit of work.
         /// </summary>
         /// <value>The unit of work.</value>

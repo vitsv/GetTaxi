@@ -132,6 +132,11 @@ namespace Managers.Repository
         {
             return _objectContext.Set<TEntity>().Count(criteria);
         }
-  
+
+        public IQueryable<TEntity> GetQuery<TEntity>() where TEntity : class
+        {
+            return _objectContext.Set<TEntity>().AsQueryable<TEntity>();
+        }
+
     }
 }

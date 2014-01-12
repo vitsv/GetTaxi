@@ -14,6 +14,11 @@ namespace Data.Domain
     
     public partial class Car
     {
+        public Car()
+        {
+            this.Order = new HashSet<Order>();
+        }
+    
         public int CarId { get; set; }
         public string Mark { get; set; }
         public string Model { get; set; }
@@ -24,5 +29,6 @@ namespace Data.Domain
         public int CompanyId { get; set; }
     
         public virtual Company Company { get; set; }
+        public virtual ICollection<Order> Order { get; set; }
     }
 }

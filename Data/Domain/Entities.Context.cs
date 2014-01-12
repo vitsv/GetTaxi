@@ -26,12 +26,15 @@ namespace Data.Domain
         }
     
         public DbSet<Company> Company { get; set; }
-        public DbSet<Order> Order { get; set; }
-        public DbSet<OrderStatus> OrderStatus { get; set; }
         public DbSet<Right> Right { get; set; }
         public DbSet<Role> Role { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<UserRole> UserRole { get; set; }
+        public DbSet<Address> Address { get; set; }
+        public DbSet<City> City { get; set; }
+        public DbSet<OrderNote> OrderNote { get; set; }
+        public DbSet<OrderProperties> OrderProperties { get; set; }
         public DbSet<Car> Car { get; set; }
+        public DbSet<Order> Order { get; set; }
     }
 }

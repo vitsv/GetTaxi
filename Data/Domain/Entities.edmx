@@ -6,25 +6,52 @@
     <edmx:StorageModels>
     <Schema Namespace="GetTaxiModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="GetTaxiModelStoreContainer">
+          <EntitySet Name="Address" EntityType="GetTaxiModel.Store.Address" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Car" EntityType="GetTaxiModel.Store.Car" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="City" EntityType="GetTaxiModel.Store.City" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Company" EntityType="GetTaxiModel.Store.Company" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Order" EntityType="GetTaxiModel.Store.Order" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="OrderStatus" EntityType="GetTaxiModel.Store.OrderStatus" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OrderNote" EntityType="GetTaxiModel.Store.OrderNote" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OrderProperties" EntityType="GetTaxiModel.Store.OrderProperties" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Right" EntityType="GetTaxiModel.Store.Right" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Role" EntityType="GetTaxiModel.Store.Role" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="User" EntityType="GetTaxiModel.Store.User" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UserRole" EntityType="GetTaxiModel.Store.UserRole" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Address_CityFrom" Association="GetTaxiModel.Store.FK_Address_CityFrom">
+            <End Role="City" EntitySet="City" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Address_CityTo" Association="GetTaxiModel.Store.FK_Address_CityTo">
+            <End Role="City" EntitySet="City" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
           <AssociationSet Name="FK_Car_Company" Association="GetTaxiModel.Store.FK_Car_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="Car" EntitySet="Car" />
           </AssociationSet>
-          <AssociationSet Name="FK_Order_OrderStatus" Association="GetTaxiModel.Store.FK_Order_OrderStatus">
-            <End Role="OrderStatus" EntitySet="OrderStatus" />
+          <AssociationSet Name="FK_Order_Address" Association="GetTaxiModel.Store.FK_Order_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Car" Association="GetTaxiModel.Store.FK_Order_Car">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_OrderProperties" Association="GetTaxiModel.Store.FK_Order_OrderProperties">
+            <End Role="OrderProperties" EntitySet="OrderProperties" />
             <End Role="Order" EntitySet="Order" />
           </AssociationSet>
           <AssociationSet Name="FK_Order_User" Association="GetTaxiModel.Store.FK_Order_User">
             <End Role="User" EntitySet="User" />
             <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderNote_Order" Association="GetTaxiModel.Store.FK_OrderNote_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="OrderNote" EntitySet="OrderNote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderProperties_Company" Association="GetTaxiModel.Store.FK_OrderProperties_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="OrderProperties" EntitySet="OrderProperties" />
           </AssociationSet>
           <AssociationSet Name="FK_Right_Role" Association="GetTaxiModel.Store.FK_Right_Role">
             <End Role="Role" EntitySet="Role" />
@@ -39,6 +66,19 @@
             <End Role="UserRole" EntitySet="UserRole" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="AddressId" />
+          </Key>
+          <Property Name="AddressId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CityFrom" Type="int" Nullable="false" />
+          <Property Name="AddressFrom" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="CityTo" Type="int" />
+          <Property Name="AddressTo" Type="nvarchar" MaxLength="250" />
+          <Property Name="Latitude" Type="float" />
+          <Property Name="Longitude" Type="float" />
+          <Property Name="Accurancy" Type="float" />
+        </EntityType>
         <EntityType Name="Car">
           <Key>
             <PropertyRef Name="CarId" />
@@ -51,6 +91,14 @@
           <Property Name="DriverName" Type="nvarchar" Nullable="false" MaxLength="150" />
           <Property Name="CarNumber" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="CompanyId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="CityId" />
+          </Key>
+          <Property Name="CityId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="DisplayOrder" Type="int" />
         </EntityType>
         <EntityType Name="Company">
           <Key>
@@ -66,18 +114,52 @@
           </Key>
           <Property Name="OrderId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="int" Nullable="false" />
-          <Property Name="OrderStatusId" Type="int" Nullable="false" />
-          <Property Name="CreationDate" Type="datetime" Nullable="false" />
-          <Property Name="ModificationDate" Type="datetime" />
-          <Property Name="FromAddress" Type="nvarchar" Nullable="false" MaxLength="100" />
-          <Property Name="ToAddress" Type="nvarchar" MaxLength="100" />
+          <Property Name="OrderPropertiesId" Type="int" Nullable="false" />
+          <Property Name="CarId" Type="int" />
+          <Property Name="Deadline" Type="datetime" Nullable="false" />
+          <Property Name="AddressId" Type="int" Nullable="false" />
+          <Property Name="Tariff" Type="int" />
+          <Property Name="EstimatedPrice" Type="float" />
+          <Property Name="IsPrepaid" Type="bit" Nullable="false" />
+          <Property Name="IsPlanned" Type="bit" Nullable="false" />
+          <Property Name="PlannedOn" Type="datetime" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="TimeCreated" Type="datetime" Nullable="false" />
+          <Property Name="TimeAssigned" Type="datetime" />
+          <Property Name="TimeArrived" Type="datetime" />
+          <Property Name="TimeInCar" Type="datetime" />
+          <Property Name="TimeDone" Type="datetime" />
+          <Property Name="TimeCanceled" Type="datetime" />
+          <Property Name="CanceledBy" Type="int" />
+          <Property Name="CancelCause" Type="int" />
+          <Property Name="FinalPrice" Type="float" />
+          <Property Name="UserComment" Type="nvarchar" MaxLength="500" />
+          <Property Name="TaxiComment" Type="nvarchar" MaxLength="500" />
         </EntityType>
-        <EntityType Name="OrderStatus">
+        <EntityType Name="OrderNote">
           <Key>
-            <PropertyRef Name="OrderStatusId" />
+            <PropertyRef Name="OrderNoteId" />
           </Key>
-          <Property Name="OrderStatusId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="OrderNoteId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="NoteType" Type="int" Nullable="false" />
+          <Property Name="Vote" Type="int" />
+          <Property Name="UserComment" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreationTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderProperties">
+          <Key>
+            <PropertyRef Name="OrderPropertiesId" />
+          </Key>
+          <Property Name="OrderPropertiesId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="OrderClass" Type="int" Nullable="false" />
+          <Property Name="Priority" Type="int" Nullable="false" />
+          <Property Name="Childer" Type="bit" Nullable="false" />
+          <Property Name="Nosmoking" Type="bit" Nullable="false" />
+          <Property Name="Animal" Type="bit" Nullable="false" />
+          <Property Name="English" Type="bit" Nullable="false" />
+          <Property Name="Card" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Right">
           <Key>
@@ -124,6 +206,30 @@
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="RoleId" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Address_CityFrom">
+          <End Role="City" Type="GetTaxiModel.Store.City" Multiplicity="1" />
+          <End Role="Address" Type="GetTaxiModel.Store.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="CityId" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="CityFrom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Address_CityTo">
+          <End Role="City" Type="GetTaxiModel.Store.City" Multiplicity="0..1" />
+          <End Role="Address" Type="GetTaxiModel.Store.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="CityId" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="CityTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Car_Company">
           <End Role="Company" Type="GetTaxiModel.Store.Company" Multiplicity="1" />
           <End Role="Car" Type="GetTaxiModel.Store.Car" Multiplicity="*" />
@@ -136,15 +242,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Order_OrderStatus">
-          <End Role="OrderStatus" Type="GetTaxiModel.Store.OrderStatus" Multiplicity="1" />
+        <Association Name="FK_Order_Address">
+          <End Role="Address" Type="GetTaxiModel.Store.Address" Multiplicity="1" />
           <End Role="Order" Type="GetTaxiModel.Store.Order" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="OrderStatus">
-              <PropertyRef Name="OrderStatusId" />
+            <Principal Role="Address">
+              <PropertyRef Name="AddressId" />
             </Principal>
             <Dependent Role="Order">
-              <PropertyRef Name="OrderStatusId" />
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Car">
+          <End Role="Car" Type="GetTaxiModel.Store.Car" Multiplicity="0..1" />
+          <End Role="Order" Type="GetTaxiModel.Store.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="CarId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="CarId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_OrderProperties">
+          <End Role="OrderProperties" Type="GetTaxiModel.Store.OrderProperties" Multiplicity="1" />
+          <End Role="Order" Type="GetTaxiModel.Store.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderProperties">
+              <PropertyRef Name="OrderPropertiesId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="OrderPropertiesId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -157,6 +287,30 @@
             </Principal>
             <Dependent Role="Order">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderNote_Order">
+          <End Role="Order" Type="GetTaxiModel.Store.Order" Multiplicity="1" />
+          <End Role="OrderNote" Type="GetTaxiModel.Store.OrderNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="OrderNote">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderProperties_Company">
+          <End Role="Company" Type="GetTaxiModel.Store.Company" Multiplicity="0..1" />
+          <End Role="OrderProperties" Type="GetTaxiModel.Store.OrderProperties" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="OrderProperties">
+              <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -202,20 +356,10 @@
       <Schema Namespace="GetTaxiModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="GetTaxiEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="Company" EntityType="GetTaxiModel.Company" />
-          <EntitySet Name="Order" EntityType="GetTaxiModel.Order" />
-          <EntitySet Name="OrderStatus" EntityType="GetTaxiModel.OrderStatus" />
           <EntitySet Name="Right" EntityType="GetTaxiModel.Right" />
           <EntitySet Name="Role" EntityType="GetTaxiModel.Role" />
           <EntitySet Name="User" EntityType="GetTaxiModel.User" />
           <EntitySet Name="UserRole" EntityType="GetTaxiModel.UserRole" />
-          <AssociationSet Name="FK_Order_OrderStatus" Association="GetTaxiModel.FK_Order_OrderStatus">
-            <End Role="OrderStatus" EntitySet="OrderStatus" />
-            <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_User" Association="GetTaxiModel.FK_Order_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
           <AssociationSet Name="FK_Right_Role" Association="GetTaxiModel.FK_Right_Role">
             <End Role="Role" EntitySet="Role" />
             <End Role="Right" EntitySet="Right" />
@@ -228,12 +372,49 @@
             <End Role="User" EntitySet="User" />
             <End Role="UserRole" EntitySet="UserRole" />
           </AssociationSet>
+          <EntitySet Name="Address" EntityType="GetTaxiModel.Address" />
+          <EntitySet Name="City" EntityType="GetTaxiModel.City" />
+          <EntitySet Name="OrderNote" EntityType="GetTaxiModel.OrderNote" />
+          <AssociationSet Name="FK_Address_CityFrom" Association="GetTaxiModel.FK_Address_CityFrom">
+            <End Role="City" EntitySet="City" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Address_CityTo" Association="GetTaxiModel.FK_Address_CityTo">
+            <End Role="City" EntitySet="City" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <EntitySet Name="OrderProperties" EntityType="GetTaxiModel.OrderProperties" />
+          <AssociationSet Name="FK_OrderProperties_Company" Association="GetTaxiModel.FK_OrderProperties_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="OrderProperties" EntitySet="OrderProperties" />
+          </AssociationSet>
           <EntitySet Name="Car" EntityType="GetTaxiModel.Car" />
           <AssociationSet Name="FK_Car_Company" Association="GetTaxiModel.FK_Car_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="Car" EntitySet="Car" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="Order" EntityType="GetTaxiModel.Order" />
+          <AssociationSet Name="FK_Order_Address" Association="GetTaxiModel.FK_Order_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Car" Association="GetTaxiModel.FK_Order_Car">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_OrderProperties" Association="GetTaxiModel.FK_Order_OrderProperties">
+            <End Role="OrderProperties" EntitySet="OrderProperties" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_User" Association="GetTaxiModel.FK_Order_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderNote_Order" Association="GetTaxiModel.FK_OrderNote_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="OrderNote" EntitySet="OrderNote" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Company">
           <Key>
             <PropertyRef Name="CompanyId" />
@@ -241,29 +422,8 @@
           <Property Name="CompanyId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="Description" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="OrderProperties" Relationship="GetTaxiModel.FK_OrderProperties_Company" FromRole="Company" ToRole="OrderProperties" />
           <NavigationProperty Name="Car" Relationship="GetTaxiModel.FK_Car_Company" FromRole="Company" ToRole="Car" />
-        </EntityType>
-        <EntityType Name="Order">
-          <Key>
-            <PropertyRef Name="OrderId" />
-          </Key>
-          <Property Name="OrderId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="OrderStatusId" Type="Int32" Nullable="false" />
-          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModificationDate" Type="DateTime" Precision="3" />
-          <Property Name="FromAddress" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
-          <Property Name="ToAddress" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="OrderStatus" Relationship="GetTaxiModel.FK_Order_OrderStatus" FromRole="Order" ToRole="OrderStatus" />
-          <NavigationProperty Name="User" Relationship="GetTaxiModel.FK_Order_User" FromRole="Order" ToRole="User" />
-        </EntityType>
-        <EntityType Name="OrderStatus">
-          <Key>
-            <PropertyRef Name="OrderStatusId" />
-          </Key>
-          <Property Name="OrderStatusId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="Order" Relationship="GetTaxiModel.FK_Order_OrderStatus" FromRole="OrderStatus" ToRole="Order" />
         </EntityType>
         <EntityType Name="Right">
           <Key>
@@ -300,12 +460,12 @@
           <Property Name="LastLoginDate" Type="DateTime" Precision="3" />
           <Property Name="BlockDate" Type="DateTime" Precision="3" />
           <Property Name="SuspendDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Order" Relationship="GetTaxiModel.FK_Order_User" FromRole="User" ToRole="Order" />
           <NavigationProperty Name="UserRole" Relationship="GetTaxiModel.FK_UserRole_User" FromRole="User" ToRole="UserRole" />
           <Property Type="Boolean" Name="IsActive" />
           <Property Type="String" Name="Phone" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ActivateCode" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="SmsSentCount" />
+          <NavigationProperty Name="Order" Relationship="GetTaxiModel.FK_Order_User" FromRole="User" ToRole="Order" />
         </EntityType>
         <EntityType Name="UserRole">
           <Key>
@@ -317,30 +477,6 @@
           <NavigationProperty Name="Role" Relationship="GetTaxiModel.FK_UserRole_Role" FromRole="UserRole" ToRole="Role" />
           <NavigationProperty Name="User" Relationship="GetTaxiModel.FK_UserRole_User" FromRole="UserRole" ToRole="User" />
         </EntityType>
-        <Association Name="FK_Order_OrderStatus">
-          <End Role="OrderStatus" Type="GetTaxiModel.OrderStatus" Multiplicity="1" />
-          <End Role="Order" Type="GetTaxiModel.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrderStatus">
-              <PropertyRef Name="OrderStatusId" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="OrderStatusId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_User">
-          <End Role="User" Type="GetTaxiModel.User" Multiplicity="1" />
-          <End Role="Order" Type="GetTaxiModel.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Right_Role">
           <End Role="Role" Type="GetTaxiModel.Role" Multiplicity="1" />
           <End Role="Right" Type="GetTaxiModel.Right" Multiplicity="*" />
@@ -377,6 +513,96 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="AddressId" />
+          </Key>
+          <Property Type="Int32" Name="AddressId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="CityFrom" Nullable="false" />
+          <Property Type="String" Name="AddressFrom" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="CityTo" />
+          <Property Type="String" Name="AddressTo" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="Double" Name="Latitude" />
+          <Property Type="Double" Name="Longitude" />
+          <Property Type="Double" Name="Accurancy" />
+          <NavigationProperty Name="City" Relationship="GetTaxiModel.FK_Address_CityFrom" FromRole="Address" ToRole="City" />
+          <NavigationProperty Name="City1" Relationship="GetTaxiModel.FK_Address_CityTo" FromRole="Address" ToRole="City" />
+          <NavigationProperty Name="Order" Relationship="GetTaxiModel.FK_Order_Address" FromRole="Address" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="CityId" />
+          </Key>
+          <Property Type="Int32" Name="CityId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="DisplayOrder" />
+          <NavigationProperty Name="Address" Relationship="GetTaxiModel.FK_Address_CityFrom" FromRole="City" ToRole="Address" />
+          <NavigationProperty Name="Address1" Relationship="GetTaxiModel.FK_Address_CityTo" FromRole="City" ToRole="Address" />
+        </EntityType>
+        <EntityType Name="OrderNote">
+          <Key>
+            <PropertyRef Name="OrderNoteId" />
+          </Key>
+          <Property Type="Int32" Name="OrderNoteId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="OrderId" Nullable="false" />
+          <Property Type="Int32" Name="NoteType" Nullable="false" />
+          <Property Type="Int32" Name="Vote" />
+          <Property Type="String" Name="UserComment" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreationTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Order" Relationship="GetTaxiModel.FK_OrderNote_Order" FromRole="OrderNote" ToRole="Order" />
+        </EntityType>
+        <Association Name="FK_Address_CityFrom">
+          <End Type="GetTaxiModel.City" Role="City" Multiplicity="1" />
+          <End Type="GetTaxiModel.Address" Role="Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="CityId" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="CityFrom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Address_CityTo">
+          <End Type="GetTaxiModel.City" Role="City" Multiplicity="0..1" />
+          <End Type="GetTaxiModel.Address" Role="Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="CityId" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="CityTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OrderProperties">
+          <Key>
+            <PropertyRef Name="OrderPropertiesId" />
+          </Key>
+          <Property Type="Int32" Name="OrderPropertiesId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="CompanyId" />
+          <Property Type="Int32" Name="OrderClass" Nullable="false" />
+          <Property Type="Int32" Name="Priority" Nullable="false" />
+          <Property Type="Boolean" Name="Childer" Nullable="false" />
+          <Property Type="Boolean" Name="Nosmoking" Nullable="false" />
+          <Property Type="Boolean" Name="Animal" Nullable="false" />
+          <Property Type="Boolean" Name="English" Nullable="false" />
+          <Property Type="Boolean" Name="Card" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="GetTaxiModel.FK_OrderProperties_Company" FromRole="OrderProperties" ToRole="Company" />
+          <NavigationProperty Name="Order" Relationship="GetTaxiModel.FK_Order_OrderProperties" FromRole="OrderProperties" ToRole="Order" />
+        </EntityType>
+        <Association Name="FK_OrderProperties_Company">
+          <End Type="GetTaxiModel.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="GetTaxiModel.OrderProperties" Role="OrderProperties" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="OrderProperties">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="Car">
           <Key>
             <PropertyRef Name="CarId" />
@@ -390,6 +616,7 @@
           <Property Type="String" Name="CarNumber" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="CompanyId" Nullable="false" />
           <NavigationProperty Name="Company" Relationship="GetTaxiModel.FK_Car_Company" FromRole="Car" ToRole="Company" />
+          <NavigationProperty Name="Order" Relationship="GetTaxiModel.FK_Order_Car" FromRole="Car" ToRole="Order" />
         </EntityType>
         <Association Name="FK_Car_Company">
           <End Type="GetTaxiModel.Company" Role="Company" Multiplicity="1" />
@@ -403,7 +630,100 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Type="Int32" Name="OrderId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="Int32" Name="OrderPropertiesId" Nullable="false" />
+          <Property Type="Int32" Name="CarId" />
+          <Property Type="DateTime" Name="Deadline" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="AddressId" Nullable="false" />
+          <Property Type="Int32" Name="Tariff" />
+          <Property Type="Double" Name="EstimatedPrice" />
+          <Property Type="Boolean" Name="IsPrepaid" Nullable="false" />
+          <Property Type="Boolean" Name="IsPlanned" Nullable="false" />
+          <Property Type="DateTime" Name="PlannedOn" Precision="3" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="DateTime" Name="TimeCreated" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="TimeAssigned" Precision="3" />
+          <Property Type="DateTime" Name="TimeArrived" Precision="3" />
+          <Property Type="DateTime" Name="TimeInCar" Precision="3" />
+          <Property Type="DateTime" Name="TimeDone" Precision="3" />
+          <Property Type="DateTime" Name="TimeCanceled" Precision="3" />
+          <Property Type="Int32" Name="CanceledBy" />
+          <Property Type="Int32" Name="CancelCause" />
+          <Property Type="Double" Name="FinalPrice" />
+          <Property Type="String" Name="UserComment" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TaxiComment" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Address" Relationship="GetTaxiModel.FK_Order_Address" FromRole="Order" ToRole="Address" />
+          <NavigationProperty Name="Car" Relationship="GetTaxiModel.FK_Order_Car" FromRole="Order" ToRole="Car" />
+          <NavigationProperty Name="OrderProperties" Relationship="GetTaxiModel.FK_Order_OrderProperties" FromRole="Order" ToRole="OrderProperties" />
+          <NavigationProperty Name="User" Relationship="GetTaxiModel.FK_Order_User" FromRole="Order" ToRole="User" />
+          <NavigationProperty Name="OrderNote" Relationship="GetTaxiModel.FK_OrderNote_Order" FromRole="Order" ToRole="OrderNote" />
+        </EntityType>
+        <Association Name="FK_Order_Address">
+          <End Type="GetTaxiModel.Address" Role="Address" Multiplicity="1" />
+          <End Type="GetTaxiModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Car">
+          <End Type="GetTaxiModel.Car" Role="Car" Multiplicity="0..1" />
+          <End Type="GetTaxiModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="CarId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="CarId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_OrderProperties">
+          <End Type="GetTaxiModel.OrderProperties" Role="OrderProperties" Multiplicity="1" />
+          <End Type="GetTaxiModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderProperties">
+              <PropertyRef Name="OrderPropertiesId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="OrderPropertiesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_User">
+          <End Type="GetTaxiModel.User" Role="User" Multiplicity="1" />
+          <End Type="GetTaxiModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderNote_Order">
+          <End Type="GetTaxiModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="GetTaxiModel.OrderNote" Role="OrderNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="OrderNote">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -415,27 +735,6 @@
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Order">
-            <EntityTypeMapping TypeName="GetTaxiModel.Order">
-              <MappingFragment StoreEntitySet="Order">
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="OrderStatusId" ColumnName="OrderStatusId" />
-                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
-                <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
-                <ScalarProperty Name="FromAddress" ColumnName="FromAddress" />
-                <ScalarProperty Name="ToAddress" ColumnName="ToAddress" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrderStatus">
-            <EntityTypeMapping TypeName="GetTaxiModel.OrderStatus">
-              <MappingFragment StoreEntitySet="OrderStatus">
-                <ScalarProperty Name="OrderStatusId" ColumnName="OrderStatusId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -488,6 +787,56 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Address">
+            <EntityTypeMapping TypeName="GetTaxiModel.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="Accurancy" ColumnName="Accurancy" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="AddressTo" ColumnName="AddressTo" />
+                <ScalarProperty Name="CityTo" ColumnName="CityTo" />
+                <ScalarProperty Name="AddressFrom" ColumnName="AddressFrom" />
+                <ScalarProperty Name="CityFrom" ColumnName="CityFrom" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="City">
+            <EntityTypeMapping TypeName="GetTaxiModel.City">
+              <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderNote">
+            <EntityTypeMapping TypeName="GetTaxiModel.OrderNote">
+              <MappingFragment StoreEntitySet="OrderNote">
+                <ScalarProperty Name="CreationTime" ColumnName="CreationTime" />
+                <ScalarProperty Name="UserComment" ColumnName="UserComment" />
+                <ScalarProperty Name="Vote" ColumnName="Vote" />
+                <ScalarProperty Name="NoteType" ColumnName="NoteType" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="OrderNoteId" ColumnName="OrderNoteId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderProperties">
+            <EntityTypeMapping TypeName="GetTaxiModel.OrderProperties">
+              <MappingFragment StoreEntitySet="OrderProperties">
+                <ScalarProperty Name="Card" ColumnName="Card" />
+                <ScalarProperty Name="English" ColumnName="English" />
+                <ScalarProperty Name="Animal" ColumnName="Animal" />
+                <ScalarProperty Name="Nosmoking" ColumnName="Nosmoking" />
+                <ScalarProperty Name="Childer" ColumnName="Childer" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="OrderClass" ColumnName="OrderClass" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="OrderPropertiesId" ColumnName="OrderPropertiesId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Car">
             <EntityTypeMapping TypeName="GetTaxiModel.Car">
               <MappingFragment StoreEntitySet="Car">
@@ -499,6 +848,35 @@
                 <ScalarProperty Name="Model" ColumnName="Model" />
                 <ScalarProperty Name="Mark" ColumnName="Mark" />
                 <ScalarProperty Name="CarId" ColumnName="CarId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Order">
+            <EntityTypeMapping TypeName="GetTaxiModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="TaxiComment" ColumnName="TaxiComment" />
+                <ScalarProperty Name="UserComment" ColumnName="UserComment" />
+                <ScalarProperty Name="FinalPrice" ColumnName="FinalPrice" />
+                <ScalarProperty Name="CancelCause" ColumnName="CancelCause" />
+                <ScalarProperty Name="CanceledBy" ColumnName="CanceledBy" />
+                <ScalarProperty Name="TimeCanceled" ColumnName="TimeCanceled" />
+                <ScalarProperty Name="TimeDone" ColumnName="TimeDone" />
+                <ScalarProperty Name="TimeInCar" ColumnName="TimeInCar" />
+                <ScalarProperty Name="TimeArrived" ColumnName="TimeArrived" />
+                <ScalarProperty Name="TimeAssigned" ColumnName="TimeAssigned" />
+                <ScalarProperty Name="TimeCreated" ColumnName="TimeCreated" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="PlannedOn" ColumnName="PlannedOn" />
+                <ScalarProperty Name="IsPlanned" ColumnName="IsPlanned" />
+                <ScalarProperty Name="IsPrepaid" ColumnName="IsPrepaid" />
+                <ScalarProperty Name="EstimatedPrice" ColumnName="EstimatedPrice" />
+                <ScalarProperty Name="Tariff" ColumnName="Tariff" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="Deadline" ColumnName="Deadline" />
+                <ScalarProperty Name="CarId" ColumnName="CarId" />
+                <ScalarProperty Name="OrderPropertiesId" ColumnName="OrderPropertiesId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

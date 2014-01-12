@@ -6,5 +6,7 @@ GetTaxi.Tests/bin/*
 GetTaxi.Tests/obj/*
 Managers/bin/*
 Managers/obj/*
+Dashboard/bin/*
+Dashboard/obj/*
 GetTaxi.suo
 GetTaxi.v11.suo
