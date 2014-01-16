@@ -35,6 +35,7 @@ namespace Data.Domain
         public DbSet<OrderNote> OrderNote { get; set; }
         public DbSet<OrderProperties> OrderProperties { get; set; }
         public DbSet<Car> Car { get; set; }
+        public DbSet<Client> Client { get; set; }
         public DbSet<Order> Order { get; set; }
     }
 }

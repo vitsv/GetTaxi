@@ -17,7 +17,6 @@ namespace Data.Domain
         public User()
         {
             this.UserRole = new HashSet<UserRole>();
-            this.Order = new HashSet<Order>();
         }
     
         public int UserId { get; set; }
@@ -35,8 +34,9 @@ namespace Data.Domain
         public string Phone { get; set; }
         public string ActivateCode { get; set; }
         public Nullable<int> SmsSentCount { get; set; }
+        public Nullable<int> CompanyId { get; set; }
     
         public virtual ICollection<UserRole> UserRole { get; set; }
-        public virtual ICollection<Order> Order { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace Data.Domain
         }
     
         public int OrderId { get; set; }
-        public int UserId { get; set; }
+        public int ClientId { get; set; }
         public int OrderPropertiesId { get; set; }
         public Nullable<int> CarId { get; set; }
         public System.DateTime Deadline { get; set; }
@@ -45,8 +45,8 @@ namespace Data.Domain
     
         public virtual Address Address { get; set; }
         public virtual Car Car { get; set; }
+        public virtual Client Client { get; set; }
         public virtual OrderProperties OrderProperties { get; set; }
-        public virtual User User { get; set; }
         public virtual ICollection<OrderNote> OrderNote { get; set; }
     }
 }

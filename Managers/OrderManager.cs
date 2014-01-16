@@ -1,5 +1,6 @@
 ﻿using Data.Domain;
 using Data.Enumerators;
+using Data.Models;
 using Managers.Repository;
 using System;
 using System.Collections.Generic;
@@ -101,6 +102,28 @@ namespace Managers
             repo.Add<OrderNote>(orderNote);
 
             return repo.UnitOfWork.SaveChanges();
+        }
+
+        public IEnumerable<OrderGridModel> GetOrdersGridModelForCompany(int companyId)
+        {
+            //TODO: filtrowanie zamówień przez statusy
+            var orders = RepoGeneric.Find<Order>(c => c.OrderProperties.CompanyId == companyId || !c.OrderProperties.CompanyId.HasValue)
+                .Select(c => new OrderGridModel()
+                {
+                    OrderId = c.OrderId,
+                    ClientId = c.ClientId,
+                    Status = c.Status,
+                    //StatusName = 
+                    TimeCreated = c.TimeCreated,
+                    AddressFrom = c.Address.AddressFrom,
+                    AddressTo = c.Address.AddressTo,
+                    Client = c.Client.LastName + " " + c.Client.FirstName,
+                    EstimatedPrice = c.EstimatedPrice,
+                    Priority = c.OrderProperties.Priority
+                })
+                .ToList();
+
+            return orders;
         }
     }
 }

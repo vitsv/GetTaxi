@@ -12,7 +12,7 @@
     <!-- Custom styles for this template -->
     <link href="jumbotron.css" rel="stylesheet">
     @Styles.Render("~/Content/css")
-
+    @RenderSection("styles", false)
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -26,6 +26,9 @@
         <div class="container">
             <div class="navbar-header">                          
                 <a class="navbar-brand" href="#">GetTaxi</a>
+            </div>
+            <div class="navbar-header">
+                @Html.ActionLink("Zamówienia", "Index", "Orders", null, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 @Html.Action("UserBox", "Account")
@@ -54,7 +57,10 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+    <script src="~/Scripts/DataTables-1.9.4/media/js/jquery.dataTables.extensions.js"></script> 
     @RenderSection("scripts", required: false)
+    
 </body>
 </html>
 

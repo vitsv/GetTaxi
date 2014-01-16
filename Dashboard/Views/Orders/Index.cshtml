@@ -1,0 +1,117 @@
+﻿@model IEnumerable<Data.Models.OrderGridModel>
+
+@{
+    ViewBag.Title = "Zamówienia";
+}
+@section styles{
+    <link href="~/Content/DataTables-1.9.4/media/css/demo_table_jui.css" rel="stylesheet" />
+}
+
+@section scripts{
+    <script type="text/javascript">
+
+        var dtInit = {
+            "bPaginate": false,
+            "bFilter": true,
+            "bInfo": false,
+            "bSort": true,
+            "bServerSide": false,
+            "sAjaxSource": "Orders/GetOrders",
+            "oLanguage": {
+                "sProcessing": "Proszę czekać...",
+                "sLengthMenu": "Pokaż _MENU_ pozycji",
+                "sZeroRecords": "Nie znaleziono żadnych pasujących indeksów",
+                "sInfo": "Pozycje od _START_ do _END_ z _TOTAL_ łącznie",
+                "sInfoEmpty": "Pozycji 0 z 0 dostępnych",
+                "sInfoFiltered": "(filtrowanie spośród _MAX_ dostępnych pozycji)",
+                "sInfoPostFix": "",
+                "sSearch": "Szukaj:",
+                "sUrl": "",
+                "oPaginate": {
+                    "sFirst": "Pierwsza",
+                    "sPrevious": "Poprzednia",
+                    "sNext": "Następna",
+                    "sLast": "Ostatnia"
+                }
+            },
+            "aoColumns": [
+                { "mData": "AddressFrom" },
+                { "mData": "AddressTo" },
+                { "mData": "Client" },
+                {
+                    "mData": "TimeCreated", "mRender": function (data, type, full) {
+                        return new Date(parseInt(data.substr(6)));
+                    }
+                },
+                { "mData": "StatusName" },
+                { "mData": "Priority" },
+                { "mData": "EstimatedPrice" },
+                { "mData": "OrderId", "mRender": function (data, type, full) {
+                    return "<a href=\"#\"  class=\"acceptButton\" onclick=\"acceptOrder(" + data + ")\" >Przyjmij</a>" + " | <a href=\"#\" class=\"cancelButton\"onclick=\"cancelOrder(" + data + ")\">Odrzuć</a>";
+                    }
+                }
+            ]
+        };
+
+        $(function () {
+            var refreshInterval = 5000;//częstotliwość odświerzania grida
+            
+            var ordersTable = $('#ordersTable');
+            ordersTable.dataTable(dtInit);
+
+            window.setInterval(function () {
+                ordersTable.fnReloadAjax();
+            }, refreshInterval);
+
+            $("#refreshButton").click(function () {
+                ordersTable.fnReloadAjax();
+            });
+
+        });
+
+        function acceptOrder(orderId) {
+            alert("accept " + orderId);
+        }
+
+        function cancelOrder(orderId) {
+            alert("cancel " + orderId);
+        }
+
+
+    </script>
+}
+<div style="height: 50px"></div>
+<input type="button" id="refreshButton" value="Odśwież" />
+<div>
+    <table id="ordersTable" style="width: 100%">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.AddressFrom)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AddressTo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Client)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TimeCreated)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StatusName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Priority)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EstimatedPrice)
+                </th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+</div>

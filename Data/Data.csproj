@@ -56,6 +56,9 @@
     <Compile Include="Domain\City.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Domain\Client.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Domain\Company.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
@@ -96,6 +99,7 @@
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="Enumerators\GlobalEnumerator.cs" />
+    <Compile Include="Models\OrderGridModel.cs" />
     <Compile Include="Partial\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
