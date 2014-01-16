@@ -15,13 +15,13 @@ namespace WebUI.Controllers
 {
     public class UserController : Controller
     {
-        private UserManager _manager;
-        private UserManager Manager
+        private ClientManager _manager;
+        private ClientManager Manager
         {
             get
             {
                 if (_manager == null)
-                    _manager = new UserManager();
+                    _manager = new ClientManager();
 
                 return _manager;
             }
@@ -43,18 +43,16 @@ namespace WebUI.Controllers
 
             if (ModelState.IsValid)
             {
-                User newUser = new User();
+                Client newUser = new Client();
                 newUser.FirstName = model.Name;
                 newUser.Phone = model.Phone;
                 newUser.CreationDate = DateTime.Now;
                 newUser.Password = model.Password;
                 newUser.ActivateCode = Manager.GenerateSmsCode();
-                newUser.IsActive = true;
+                newUser.IsActive = false;
                 newUser.SmsSentCount = 1;
 
-                var res = Manager.AddUser(newUser);
-                if (!res.IsError)
-                    res = Manager.UpdateRoles(newUser, new List<int> { (int)GlobalEnumerator.UserRoleId.NotActive });
+                var res = Manager.Add(newUser);
 
                 if (!res.IsError)
                 {
@@ -71,20 +69,19 @@ namespace WebUI.Controllers
 
         }
 
-        private void LogInUser(User user)
+        private void LogInUser(Client client)
         {
-            FormsAuthentication.SetAuthCookie(user.Phone, false);
+            FormsAuthentication.SetAuthCookie(client.Phone, false);
 
             UserData userData = new UserData
             {
-                Phone = user.Phone,
-                ID = user.UserId,
-                FullName = user.FullName,
-                Roles = user.Roles
+                Phone = client.Phone,
+                ID = client.ClientId,
+                FullName = client.FullName
             };
 
             //Nadpisuje cookie dla przechowywania dodatkowych informacji
-            Response.SetAuthCookie(user.Phone, false, userData);
+            Response.SetAuthCookie(client.Phone, false, userData);
         }
 
 

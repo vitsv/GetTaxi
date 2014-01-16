@@ -19,6 +19,11 @@ namespace WebUI.Models.Order
         public GlobalEnumerator.OrderStatus Status { get; set; }
 
         /// <summary>
+        /// Nazwa statusu
+        /// </summary>
+        public String StatusText { get; set; }
+
+        /// <summary>
         /// Czas do ktorego musi być przypisany samochod
         /// </summary>
         public DateTime Deadline { get; set; }

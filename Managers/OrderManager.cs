@@ -12,6 +12,11 @@ namespace Managers
 {
     public class OrderManager : GlobalManager
     {
+        public Order GetOrderById(int id)
+        {
+            return RepoGeneric.FindOne<Order>(c => c.OrderId == id);
+        }
+
         public IEnumerable<Order> GetOrderForCompany(int companyId)
         {
             return RepoGeneric.Find<Order>(c => c.OrderProperties.CompanyId == companyId || !c.OrderProperties.CompanyId.HasValue).ToList();

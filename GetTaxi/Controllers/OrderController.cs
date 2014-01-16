@@ -56,7 +56,7 @@ namespace WebUI.Controllers
             if (ModelState.IsValid)
             {
                 Order newOrder = new Order();
-                newOrder.UserId = AccountHelper.currentUser.ID;
+                newOrder.ClientId = AccountHelper.currentUser.ID;
                 newOrder.Status = (int)GlobalEnumerator.OrderStatus.Created;
                 newOrder.TimeCreated = DateTime.Now;
                 newOrder.Deadline = DateTime.Now.AddMinutes(10);
@@ -100,7 +100,7 @@ namespace WebUI.Controllers
                 var res = Manager.AddOrder(newOrder);
 
                 if (!res.IsError)
-                    return RedirectToAction("Status");
+                    return RedirectToAction("Status", new { id = newOrder.OrderId });
                 else
                     ViewData["ErrorMsg"] = res.ErrorMessage;
             }
@@ -108,9 +108,15 @@ namespace WebUI.Controllers
             return Create();
         }
 
-        public ActionResult Status()
+        public ActionResult Status(int id)
         {
+            var order = Manager.GetOrderById(id);
+            if (order == null)
+                throw new Exception(string.Format("Order with id {0} was not found", id));
             var model = new OrderStatusModel();
+
+            model.OrderId = id;
+            model.Status = (GlobalEnumerator.OrderStatus)order.Status;
 
             return View(model);
         }

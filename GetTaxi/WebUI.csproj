@@ -128,8 +128,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Filters\AuthorizeUser.cs" />
-    <Compile Include="Filters\AuthorizeUserAny.cs" />
     <Compile Include="Filters\ClientErrorHandler.cs" />
     <Compile Include="GetTaxiEntit.cs" />
     <Compile Include="GetTaxiEntities.cs" />

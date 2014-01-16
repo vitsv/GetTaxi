@@ -4,33 +4,33 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="2b3512bdf6d74eaf92327b756b8c4b5b" Name="Diagram1" ZoomLevel="81">
-        <EntityTypeShape EntityType="GetTaxiModel.Company" Width="1.5" PointX="5.75" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GetTaxiModel.Right" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GetTaxiModel.Role" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GetTaxiModel.User" Width="1.5" PointX="0.75" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="GetTaxiModel.UserRole" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
-        <AssociationConnector Association="GetTaxiModel.FK_Right_Role" ManuallyRouted="false" />
-        <AssociationConnector Association="GetTaxiModel.FK_UserRole_Role" ManuallyRouted="false" />
-        <AssociationConnector Association="GetTaxiModel.FK_UserRole_User" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="GetTaxiModel.Address" Width="1.5" PointX="7.625" PointY="15.875" />
-        <EntityTypeShape EntityType="GetTaxiModel.City" Width="1.5" PointX="4.7867338176754926" PointY="14.860880679851809" />
-        <EntityTypeShape EntityType="GetTaxiModel.OrderNote" Width="1.5" PointX="10" PointY="12.875" />
-        <AssociationConnector Association="GetTaxiModel.FK_Address_CityFrom" />
-        <AssociationConnector Association="GetTaxiModel.FK_Address_CityTo" />
-        <EntityTypeShape EntityType="GetTaxiModel.OrderProperties" Width="1.5" PointX="10.375" PointY="7.25" />
-        <AssociationConnector Association="GetTaxiModel.FK_OrderProperties_Company" />
-        <EntityTypeShape EntityType="GetTaxiModel.Car" Width="1.5" PointX="3.0446978635362805" PointY="28.412530554650598" />
-        <AssociationConnector Association="GetTaxiModel.FK_Car_Company" />
-        <EntityTypeShape EntityType="GetTaxiModel.Client" Width="1.5" PointX="10.25" PointY="18.5" />
-        <AssociationConnector Association="GetTaxiModel.FK_User_Company" />
-        <EntityTypeShape EntityType="GetTaxiModel.Order" Width="1.5" PointX="4.1617957745500824" PointY="30.174189998849382" />
-        <AssociationConnector Association="GetTaxiModel.FK_Order_Address" />
-        <AssociationConnector Association="GetTaxiModel.FK_Order_Car" />
-        <AssociationConnector Association="GetTaxiModel.FK_Order_Client" />
-        <AssociationConnector Association="GetTaxiModel.FK_Order_OrderProperties" />
-        <AssociationConnector Association="GetTaxiModel.FK_OrderNote_Order" />
-        </Diagram>
+      <Diagram DiagramId="cea9d1e82a484d489e808ca1636aa07b" Name="Diagram1">
+        <EntityTypeShape EntityType="Entities.Address" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Entities.Car" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Entities.City" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Entities.Client" Width="1.5" PointX="3" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Entities.Company" Width="1.5" PointX="0.75" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="Entities.Order" Width="1.5" PointX="5.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Entities.OrderNote" Width="1.5" PointX="7.5" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Entities.OrderProperties" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Entities.Right" Width="1.5" PointX="5.25" PointY="23.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Entities.Role" Width="1.5" PointX="3" PointY="23.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Entities.User" Width="1.5" PointX="3" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Entities.UserRole" Width="1.5" PointX="5.25" PointY="13.875" IsExpanded="true" />
+        <AssociationConnector Association="Entities.FK_Address_CityFrom" ManuallyRouted="false" />
+        <AssociationConnector Association="Entities.FK_Address_CityTo" ManuallyRouted="false" />
+        <AssociationConnector Association="Entities.FK_Order_Address" ManuallyRouted="false" />
+        <AssociationConnector Association="Entities.FK_Car_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="Entities.FK_Order_Car" ManuallyRouted="false" />
+        <AssociationConnector Association="Entities.FK_Order_Client" ManuallyRouted="false" />
+        <AssociationConnector Association="Entities.FK_OrderProperties_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="Entities.FK_User_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="Entities.FK_Order_OrderProperties" ManuallyRouted="false" />
+        <AssociationConnector Association="Entities.FK_OrderNote_Order" ManuallyRouted="false" />
+        <AssociationConnector Association="Entities.FK_Right_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="Entities.FK_UserRole_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="Entities.FK_UserRole_User" ManuallyRouted="false" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="CompanyManager.cs" />
     <Compile Include="CarManager.cs" />
+    <Compile Include="ClientManager.cs" />
     <Compile Include="GlobalManager.cs" />
     <Compile Include="OrderManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -3,6 +3,7 @@
     ViewBag.Title = "Status zamowienia";
 }
 <h2>Status zamowienia</h2>
+<span id="order-status-lbl">@Model.StatusText</span>
 <div id="order_status_box">
     <p>Zamówienie zostało przyjęte! W ciągu 5 minut zostanie wysłany SMS z informacją o samochodzie i czasie oczekiwania.</p>
     <p>Jeżeli w ciągu 5 minut nie dostaną Państwo SMSa, oznacza to że w dannej chwili w tym rejonie wszystkie samochody są zajęte. W takim przypadku należy <span style="text-decoration: dotted">reaktywować</span>  zamówienie, lub złożyć <span style="text-decoration: dotted">nowe</span>.</p>

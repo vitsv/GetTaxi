@@ -21,6 +21,7 @@ namespace Data.Domain
     
         public int UserId { get; set; }
         public string Login { get; set; }
+        public Nullable<int> CompanyId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
@@ -34,9 +35,8 @@ namespace Data.Domain
         public string Phone { get; set; }
         public string ActivateCode { get; set; }
         public Nullable<int> SmsSentCount { get; set; }
-        public Nullable<int> CompanyId { get; set; }
     
-        public virtual ICollection<UserRole> UserRole { get; set; }
         public virtual Company Company { get; set; }
+        public virtual ICollection<UserRole> UserRole { get; set; }
     }
 }

@@ -56,8 +56,7 @@ namespace WebUI.Controllers
                     {
                         Phone = user.Phone,
                         ID = user.UserId,
-                        FullName = user.FullName,
-                        Roles = user.Roles
+                        FullName = user.FullName
                     };
 
                     //Nadpisuje cookie dla przechowywania dodatkowych informacji

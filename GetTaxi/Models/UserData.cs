@@ -11,8 +11,6 @@ namespace WebUI.Models
 
         public string FullName { get; set; }
 
-        public int[] Roles { get; set; }
-
         public int ID { get; set; }
 
         public UserData()

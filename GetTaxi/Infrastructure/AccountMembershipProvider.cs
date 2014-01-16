@@ -464,14 +464,7 @@ namespace WebUI.Infrastructure
         //     true if the membership user was successfully unlocked; otherwise, false.
         public override bool UnlockUser(string userName)
         {
-            using (var AccountRepository = new UserManager())
-            {
-                var res = AccountRepository.UnlockUser(userName);
-                if (res.IsError)
-                    return false;
-                else
-                    return true;
-            }
+            throw new NotImplementedException();
         }
         //
         // Summary:
@@ -501,9 +494,9 @@ namespace WebUI.Infrastructure
         //     true if the specified username and password are valid; otherwise, false.
         public override bool ValidateUser(string username, string password)
         {
-            using (var AccountRepository = new UserManager())
+            using (var AccountRepository = new ClientManager())
             {
-                return AccountRepository.IsValidPhone(username, password);
+                return AccountRepository.IsValidLogin(username, password);
             }
         }
 
