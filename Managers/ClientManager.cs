@@ -148,10 +148,10 @@ namespace Managers
             return sBuilder.ToString();
         }
 
-        public IUnitOfWorkResult ChangePassword(string login, string password)
+        public IUnitOfWorkResult ChangePassword(string phone, string password)
         {
             var repo = RepoGeneric;
-            var user = repo.FindOne<User>(c => c.Login == login && c.Active == true);
+            var user = repo.FindOne<Client>(c => c.Phone == phone && c.IsActive == true);
             if (user != null)
             {
                 if (!String.IsNullOrEmpty(password))

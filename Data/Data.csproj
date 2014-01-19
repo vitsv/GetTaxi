@@ -98,6 +98,7 @@
     <Compile Include="Domain\UserRole.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Enumerators\DictionaryItem.cs" />
     <Compile Include="Enumerators\GlobalEnumerator.cs" />
     <Compile Include="Models\OrderGridModel.cs" />
     <Compile Include="Partial\Client.cs" />

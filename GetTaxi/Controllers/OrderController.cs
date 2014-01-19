@@ -117,6 +117,7 @@ namespace WebUI.Controllers
 
             model.OrderId = id;
             model.Status = (GlobalEnumerator.OrderStatus)order.Status;
+            model.StatusText = GlobalEnumerator.GetEnumName<GlobalEnumerator.OrderStatus>(model.Status);
 
             return View(model);
         }
