@@ -16,11 +16,11 @@ namespace WebUI.Controllers
 {
     public class AccountController : Controller
     {
-        private UserManager Manager
+        private ClientManager Manager
         {
             get
             {
-                return new UserManager();
+                return new ClientManager();
             }
         }
         /// <summary>
@@ -44,18 +44,19 @@ namespace WebUI.Controllers
         [HttpPost]
         public ActionResult LogOn(LogOnModel model, string returnUrl)
         {
+
             if (ModelState.IsValid)
             {
                 if (Membership.ValidateUser(model.Phone, model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.Phone, model.RememberMe);
 
-                    User user = Manager.GetUserByPhone(model.Phone);
+                    Client user = Manager.GetClientByPhone(model.Phone);
 
                     UserData userData = new UserData
                     {
                         Phone = user.Phone,
-                        ID = user.UserId,
+                        ID = user.ClientId,
                         FullName = user.FullName
                     };
 
