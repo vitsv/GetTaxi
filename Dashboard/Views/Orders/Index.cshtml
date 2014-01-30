@@ -35,6 +35,7 @@
                 }
             },
             "aoColumns": [
+                { "mData": "OrderId", "bVisible": false },
                 { "mData": "AddressFrom" },
                 { "mData": "AddressTo" },
                 { "mData": "Client" },
@@ -45,29 +46,52 @@
                 },
                 { "mData": "StatusName" },
                 { "mData": "Priority" },
-                { "mData": "EstimatedPrice" },
-                { "mData": "OrderId", "mRender": function (data, type, full) {
-                    return "<a href=\"#\"  class=\"acceptButton\" onclick=\"acceptOrder(" + data + ")\" >Przyjmij</a>" + " | <a href=\"#\" class=\"cancelButton\"onclick=\"cancelOrder(" + data + ")\">Odrzuć</a>";
+                { "mData": "EstimatedPrice" }
+            ],
+            "fnDrawCallback": function () {
+                $("#ordersTable tbody tr").click(function () {
+                    //TODO: ponowne zaznaczenie wiersza który był zaznaczony przed przeładowanie danych na gridzie
+                    if ($(this).hasClass("row_selected")) {
+                        //$(this).removeClass("row_selected");
+                        //TODO: ponowne pobranie szczegółów zamówienia (?)
+                    } else {
+                        ordersTable.$("tr.row_selected").removeClass("row_selected");
+                        $(this).addClass("row_selected");
+
+                        var position = ordersTable.fnGetPosition(this);
+                        var order = ordersTable.fnGetData(position);
+
+                        showSelectedRowDetails(order.OrderId);
                     }
-                }
-            ]
+                });
+            }
         };
 
+        var ordersTable;
+
         $(function () {
-            var refreshInterval = 5000;//częstotliwość odświerzania grida
+            var refreshInterval = 30000;//częstotliwość odświerzania grida
             
-            var ordersTable = $('#ordersTable');
+            ordersTable = $("#ordersTable");
             ordersTable.dataTable(dtInit);
 
-            window.setInterval(function () {
+            window.setInterval(function() {
                 ordersTable.fnReloadAjax();
             }, refreshInterval);
 
-            $("#refreshButton").click(function () {
+            $("#refreshButton").click(function() {
                 ordersTable.fnReloadAjax();
             });
-
         });
+
+        function getSelectedRow(table) {
+            return table.$("tr.row_selected");
+        }
+
+        function showSelectedRowDetails(selectedRow) {
+            console.log(selectedRow);
+            $("#selectedRowDetails").text(selectedRow);
+        }
 
         function acceptOrder(orderId) {
             alert("accept " + orderId);
@@ -78,14 +102,19 @@
         }
 
 
+
     </script>
 }
 <div style="height: 50px"></div>
 <input type="button" id="refreshButton" value="Odśwież" />
 <div>
+    <div id="selectedRowDetails">
+
+    </div>
     <table id="ordersTable" style="width: 100%">
         <thead>
             <tr>
+                <th></th>
                 <th>
                     @Html.DisplayNameFor(model => model.AddressFrom)
                 </th>
@@ -107,7 +136,6 @@
                 <th>
                     @Html.DisplayNameFor(model => model.EstimatedPrice)
                 </th>
-                <th>Akcje</th>
             </tr>
         </thead>
         <tbody>
