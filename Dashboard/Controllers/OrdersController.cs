@@ -64,7 +64,7 @@ namespace Dashboard.Controllers
             }
             catch (Exception ex)
             {
-                return new ContentResult("Błąd pobierania szczegółów zamówienia: " + ex.Message);
+                return null;
             }
         }
 

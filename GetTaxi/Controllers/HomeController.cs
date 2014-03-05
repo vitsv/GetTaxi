@@ -8,7 +8,7 @@ namespace WebUI.Controllers
 {
     public class HomeController : Controller
     {
-        [Authorize]
+        //[Authorize]
         public ActionResult Index()
         {
 
