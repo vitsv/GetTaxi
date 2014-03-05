@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Entities.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Entities.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="EntitiesStoreContainer">
           <EntitySet Name="Address" EntityType="Entities.Store.Address" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Car" EntityType="Entities.Store.Car" store:Type="Tables" Schema="dbo" />
@@ -14,10 +14,67 @@
           <EntitySet Name="Order" EntityType="Entities.Store.Order" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="OrderNote" EntityType="Entities.Store.OrderNote" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="OrderProperties" EntityType="Entities.Store.OrderProperties" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PricesRate" EntityType="Entities.Store.PricesRate" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Right" EntityType="Entities.Store.Right" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Role" EntityType="Entities.Store.Role" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="User" EntityType="Entities.Store.User" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UserRole" EntityType="Entities.Store.UserRole" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OrderCompany" EntityType="Entities.Store.OrderCompany" store:Type="Tables" Schema="vitsv_gettaxi" />
+          <EntitySet Name="OrderDetails" EntityType="Entities.Store.OrderDetails" store:Type="Views" store:Schema="vitsv_gettaxi" store:Name="OrderDetails">
+            <DefiningQuery>SELECT 
+      [OrderDetails].[OrderId] AS [OrderId], 
+      [OrderDetails].[ClientId] AS [ClientId], 
+      [OrderDetails].[Expr2] AS [Expr2], 
+      [OrderDetails].[CarId] AS [CarId], 
+      [OrderDetails].[Deadline] AS [Deadline], 
+      [OrderDetails].[AddressId] AS [AddressId], 
+      [OrderDetails].[Tariff] AS [Tariff], 
+      [OrderDetails].[EstimatedPrice] AS [EstimatedPrice], 
+      [OrderDetails].[IsPrepaid] AS [IsPrepaid], 
+      [OrderDetails].[IsPlanned] AS [IsPlanned], 
+      [OrderDetails].[PlannedOn] AS [PlannedOn], 
+      [OrderDetails].[Status] AS [Status], 
+      [OrderDetails].[TimeCreated] AS [TimeCreated], 
+      [OrderDetails].[TimeAssigned] AS [TimeAssigned], 
+      [OrderDetails].[TimeArrived] AS [TimeArrived], 
+      [OrderDetails].[TimeInCar] AS [TimeInCar], 
+      [OrderDetails].[TimeDone] AS [TimeDone], 
+      [OrderDetails].[TimeCanceled] AS [TimeCanceled], 
+      [OrderDetails].[CanceledBy] AS [CanceledBy], 
+      [OrderDetails].[CancelCause] AS [CancelCause], 
+      [OrderDetails].[FinalPrice] AS [FinalPrice], 
+      [OrderDetails].[UserComment] AS [UserComment], 
+      [OrderDetails].[TaxiComment] AS [TaxiComment], 
+      [OrderDetails].[CityFrom] AS [CityFrom], 
+      [OrderDetails].[AddressFrom] AS [AddressFrom], 
+      [OrderDetails].[CityTo] AS [CityTo], 
+      [OrderDetails].[AddressTo] AS [AddressTo], 
+      [OrderDetails].[Latitude] AS [Latitude], 
+      [OrderDetails].[Longitude] AS [Longitude], 
+      [OrderDetails].[Accurancy] AS [Accurancy], 
+      [OrderDetails].[NoteType] AS [NoteType], 
+      [OrderDetails].[Vote] AS [Vote], 
+      [OrderDetails].[Expr1] AS [Expr1], 
+      [OrderDetails].[CreationTime] AS [CreationTime], 
+      [OrderDetails].[Phone] AS [Phone], 
+      [OrderDetails].[FirstName] AS [FirstName], 
+      [OrderDetails].[LastName] AS [LastName], 
+      [OrderDetails].[Email] AS [Email], 
+      [OrderDetails].[OrderClass] AS [OrderClass], 
+      [OrderDetails].[Priority] AS [Priority], 
+      [OrderDetails].[Childer] AS [Childer], 
+      [OrderDetails].[Nosmoking] AS [Nosmoking], 
+      [OrderDetails].[Animal] AS [Animal], 
+      [OrderDetails].[English] AS [English], 
+      [OrderDetails].[Card] AS [Card], 
+      [OrderDetails].[Mark] AS [Mark], 
+      [OrderDetails].[Model] AS [Model], 
+      [OrderDetails].[Color] AS [Color], 
+      [OrderDetails].[NrOfSeats] AS [NrOfSeats], 
+      [OrderDetails].[CarNumber] AS [CarNumber], 
+      [OrderDetails].[DriverName] AS [DriverName]
+      FROM [vitsv_gettaxi].[OrderDetails] AS [OrderDetails]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Address_CityFrom" Association="Entities.Store.FK_Address_CityFrom">
             <End Role="City" EntitySet="City" />
             <End Role="Address" EntitySet="Address" />
@@ -46,13 +103,21 @@
             <End Role="OrderProperties" EntitySet="OrderProperties" />
             <End Role="Order" EntitySet="Order" />
           </AssociationSet>
+          <AssociationSet Name="FK_OrderCompany_Company" Association="Entities.Store.FK_OrderCompany_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="OrderCompany" EntitySet="OrderCompany" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCompany_Order" Association="Entities.Store.FK_OrderCompany_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="OrderCompany" EntitySet="OrderCompany" />
+          </AssociationSet>
           <AssociationSet Name="FK_OrderNote_Order" Association="Entities.Store.FK_OrderNote_Order">
             <End Role="Order" EntitySet="Order" />
             <End Role="OrderNote" EntitySet="OrderNote" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrderProperties_Company" Association="Entities.Store.FK_OrderProperties_Company">
+          <AssociationSet Name="FK_PricesRate_Company" Association="Entities.Store.FK_PricesRate_Company">
             <End Role="Company" EntitySet="Company" />
-            <End Role="OrderProperties" EntitySet="OrderProperties" />
+            <End Role="PricesRate" EntitySet="PricesRate" />
           </AssociationSet>
           <AssociationSet Name="FK_Right_Role" Association="Entities.Store.FK_Right_Role">
             <End Role="Role" EntitySet="Role" />
@@ -174,7 +239,6 @@
             <PropertyRef Name="OrderPropertiesId" />
           </Key>
           <Property Name="OrderPropertiesId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="CompanyId" Type="int" />
           <Property Name="OrderClass" Type="int" Nullable="false" />
           <Property Name="Priority" Type="int" Nullable="false" />
           <Property Name="Childer" Type="bit" Nullable="false" />
@@ -182,6 +246,20 @@
           <Property Name="Animal" Type="bit" Nullable="false" />
           <Property Name="English" Type="bit" Nullable="false" />
           <Property Name="Card" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PricesRate">
+          <Key>
+            <PropertyRef Name="PricesRateId" />
+          </Key>
+          <Property Name="PricesRateId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="IsUsingNightRate" Type="bit" Nullable="false" />
+          <Property Name="PerKmAtDay" Type="decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="PerKmAtNight" Type="decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="Pet" Type="decimal" Precision="6" Scale="2" />
+          <Property Name="ClosingDoor" Type="decimal" Nullable="false" Precision="6" />
+          <Property Name="DayStarstAt" Type="int" Nullable="false" />
+          <Property Name="NightStartsAt" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Right">
           <Key>
@@ -228,6 +306,98 @@
           <Property Name="UserRoleId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="RoleId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderCompany">
+          <Key>
+            <PropertyRef Name="OrderCompanyId" />
+          </Key>
+          <Property Name="OrderCompanyId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'vitsv_gettaxi.vitsv_gettaxi.OrderDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="OrderDetails">
+          <Key>
+            <PropertyRef Name="OrderId" />
+            <PropertyRef Name="ClientId" />
+            <PropertyRef Name="Expr2" />
+            <PropertyRef Name="Deadline" />
+            <PropertyRef Name="AddressId" />
+            <PropertyRef Name="IsPrepaid" />
+            <PropertyRef Name="IsPlanned" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="TimeCreated" />
+            <PropertyRef Name="CityFrom" />
+            <PropertyRef Name="AddressFrom" />
+            <PropertyRef Name="NoteType" />
+            <PropertyRef Name="CreationTime" />
+            <PropertyRef Name="Phone" />
+            <PropertyRef Name="OrderClass" />
+            <PropertyRef Name="Priority" />
+            <PropertyRef Name="Childer" />
+            <PropertyRef Name="Nosmoking" />
+            <PropertyRef Name="Animal" />
+            <PropertyRef Name="English" />
+            <PropertyRef Name="Card" />
+            <PropertyRef Name="Mark" />
+            <PropertyRef Name="Model" />
+            <PropertyRef Name="Color" />
+            <PropertyRef Name="CarNumber" />
+            <PropertyRef Name="DriverName" />
+          </Key>
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="ClientId" Type="int" Nullable="false" />
+          <Property Name="Expr2" Type="int" Nullable="false" />
+          <Property Name="CarId" Type="int" />
+          <Property Name="Deadline" Type="datetime" Nullable="false" />
+          <Property Name="AddressId" Type="int" Nullable="false" />
+          <Property Name="Tariff" Type="int" />
+          <Property Name="EstimatedPrice" Type="float" />
+          <Property Name="IsPrepaid" Type="bit" Nullable="false" />
+          <Property Name="IsPlanned" Type="bit" Nullable="false" />
+          <Property Name="PlannedOn" Type="datetime" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="TimeCreated" Type="datetime" Nullable="false" />
+          <Property Name="TimeAssigned" Type="datetime" />
+          <Property Name="TimeArrived" Type="datetime" />
+          <Property Name="TimeInCar" Type="datetime" />
+          <Property Name="TimeDone" Type="datetime" />
+          <Property Name="TimeCanceled" Type="datetime" />
+          <Property Name="CanceledBy" Type="int" />
+          <Property Name="CancelCause" Type="int" />
+          <Property Name="FinalPrice" Type="float" />
+          <Property Name="UserComment" Type="nvarchar" MaxLength="500" />
+          <Property Name="TaxiComment" Type="nvarchar" MaxLength="500" />
+          <Property Name="CityFrom" Type="int" Nullable="false" />
+          <Property Name="AddressFrom" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="CityTo" Type="int" />
+          <Property Name="AddressTo" Type="nvarchar" MaxLength="250" />
+          <Property Name="Latitude" Type="float" />
+          <Property Name="Longitude" Type="float" />
+          <Property Name="Accurancy" Type="float" />
+          <Property Name="NoteType" Type="int" Nullable="false" />
+          <Property Name="Vote" Type="int" />
+          <Property Name="Expr1" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreationTime" Type="datetime" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" Nullable="false" MaxLength="15" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="200" />
+          <Property Name="OrderClass" Type="int" Nullable="false" />
+          <Property Name="Priority" Type="int" Nullable="false" />
+          <Property Name="Childer" Type="bit" Nullable="false" />
+          <Property Name="Nosmoking" Type="bit" Nullable="false" />
+          <Property Name="Animal" Type="bit" Nullable="false" />
+          <Property Name="English" Type="bit" Nullable="false" />
+          <Property Name="Card" Type="bit" Nullable="false" />
+          <Property Name="Mark" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Model" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Color" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="NrOfSeats" Type="int" />
+          <Property Name="CarNumber" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="DriverName" Type="nvarchar" Nullable="false" MaxLength="150" />
         </EntityType>
         <Association Name="FK_Address_CityFrom">
           <End Role="City" Type="Entities.Store.City" Multiplicity="1" />
@@ -313,6 +483,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_OrderCompany_Company">
+          <End Role="Company" Type="Entities.Store.Company" Multiplicity="1" />
+          <End Role="OrderCompany" Type="Entities.Store.OrderCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="OrderCompany">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCompany_Order">
+          <End Role="Order" Type="Entities.Store.Order" Multiplicity="1" />
+          <End Role="OrderCompany" Type="Entities.Store.OrderCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="OrderCompany">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OrderNote_Order">
           <End Role="Order" Type="Entities.Store.Order" Multiplicity="1" />
           <End Role="OrderNote" Type="Entities.Store.OrderNote" Multiplicity="*" />
@@ -325,14 +519,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrderProperties_Company">
-          <End Role="Company" Type="Entities.Store.Company" Multiplicity="0..1" />
-          <End Role="OrderProperties" Type="Entities.Store.OrderProperties" Multiplicity="*" />
+        <Association Name="FK_PricesRate_Company">
+          <End Role="Company" Type="Entities.Store.Company" Multiplicity="1" />
+          <End Role="PricesRate" Type="Entities.Store.PricesRate" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Company">
               <PropertyRef Name="CompanyId" />
             </Principal>
-            <Dependent Role="OrderProperties">
+            <Dependent Role="PricesRate">
               <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
@@ -385,8 +579,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Entities" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -394,23 +587,25 @@
           <EntitySet Name="Address" EntityType="Entities.Address" />
           <EntitySet Name="Car" EntityType="Entities.Car" />
           <EntitySet Name="City" EntityType="Entities.City" />
+          <AssociationSet Name="FK_Address_CityFrom" Association="Entities.FK_Address_CityFrom">
+            <End EntitySet="City" Role="City" />
+            <End EntitySet="Address" Role="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Address_CityTo" Association="Entities.FK_Address_CityTo">
+            <End EntitySet="City" Role="City" />
+            <End EntitySet="Address" Role="Address" />
+          </AssociationSet>
           <EntitySet Name="Client" EntityType="Entities.Client" />
           <EntitySet Name="Company" EntityType="Entities.Company" />
           <EntitySet Name="Order" EntityType="Entities.Order" />
           <EntitySet Name="OrderNote" EntityType="Entities.OrderNote" />
           <EntitySet Name="OrderProperties" EntityType="Entities.OrderProperties" />
+          <EntitySet Name="PricesRate" EntityType="Entities.PricesRate" />
           <EntitySet Name="Right" EntityType="Entities.Right" />
           <EntitySet Name="Role" EntityType="Entities.Role" />
           <EntitySet Name="User" EntityType="Entities.User" />
           <EntitySet Name="UserRole" EntityType="Entities.UserRole" />
-          <AssociationSet Name="FK_Address_CityFrom" Association="Entities.FK_Address_CityFrom">
-            <End Role="City" EntitySet="City" />
-            <End Role="Address" EntitySet="Address" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Address_CityTo" Association="Entities.FK_Address_CityTo">
-            <End Role="City" EntitySet="City" />
-            <End Role="Address" EntitySet="Address" />
-          </AssociationSet>
+          <EntitySet Name="OrderCompany" EntityType="Entities.OrderCompany" />
           <AssociationSet Name="FK_Order_Address" Association="Entities.FK_Order_Address">
             <End Role="Address" EntitySet="Address" />
             <End Role="Order" EntitySet="Order" />
@@ -427,9 +622,13 @@
             <End Role="Client" EntitySet="Client" />
             <End Role="Order" EntitySet="Order" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrderProperties_Company" Association="Entities.FK_OrderProperties_Company">
+          <AssociationSet Name="FK_OrderCompany_Company" Association="Entities.FK_OrderCompany_Company">
             <End Role="Company" EntitySet="Company" />
-            <End Role="OrderProperties" EntitySet="OrderProperties" />
+            <End Role="OrderCompany" EntitySet="OrderCompany" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PricesRate_Company" Association="Entities.FK_PricesRate_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="PricesRate" EntitySet="PricesRate" />
           </AssociationSet>
           <AssociationSet Name="FK_User_Company" Association="Entities.FK_User_Company">
             <End Role="Company" EntitySet="Company" />
@@ -438,6 +637,10 @@
           <AssociationSet Name="FK_Order_OrderProperties" Association="Entities.FK_Order_OrderProperties">
             <End Role="OrderProperties" EntitySet="OrderProperties" />
             <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCompany_Order" Association="Entities.FK_OrderCompany_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="OrderCompany" EntitySet="OrderCompany" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderNote_Order" Association="Entities.FK_OrderNote_Order">
             <End Role="Order" EntitySet="Order" />
@@ -455,16 +658,17 @@
             <End Role="User" EntitySet="User" />
             <End Role="UserRole" EntitySet="UserRole" />
           </AssociationSet>
+          <EntitySet Name="OrderDetails" EntityType="Entities.OrderDetails" />
         </EntityContainer>
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="AddressId" />
           </Key>
-          <Property Name="AddressId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="CityFrom" Type="Int32" Nullable="false" />
-          <Property Name="AddressFrom" Type="String" Nullable="false" MaxLength="250" Unicode="true" FixedLength="false" />
+          <Property Name="AddressId" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="CityFrom" Nullable="false" Type="Int32" />
+          <Property Name="AddressFrom" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" Type="String" />
           <Property Name="CityTo" Type="Int32" />
-          <Property Name="AddressTo" Type="String" MaxLength="250" Unicode="true" FixedLength="false" />
+          <Property Name="AddressTo" MaxLength="250" FixedLength="false" Unicode="true" Type="String" />
           <Property Name="Latitude" Type="Double" />
           <Property Name="Longitude" Type="Double" />
           <Property Name="Accurancy" Type="Double" />
@@ -476,173 +680,30 @@
           <Key>
             <PropertyRef Name="CarId" />
           </Key>
-          <Property Name="CarId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Mark" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Model" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Color" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="CarId" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="Mark" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="Model" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="Color" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
           <Property Name="NrOfSeats" Type="Int32" />
-          <Property Name="DriverName" Type="String" Nullable="false" MaxLength="150" Unicode="true" FixedLength="false" />
-          <Property Name="CarNumber" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="DriverName" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="CarNumber" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="CompanyId" Nullable="false" Type="Int32" />
           <NavigationProperty Name="Company" Relationship="Entities.FK_Car_Company" FromRole="Car" ToRole="Company" />
           <NavigationProperty Name="Order" Relationship="Entities.FK_Order_Car" FromRole="Car" ToRole="Order" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="City">
           <Key>
             <PropertyRef Name="CityId" />
           </Key>
-          <Property Name="CityId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="CityId" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
           <Property Name="DisplayOrder" Type="Int32" />
           <NavigationProperty Name="Address" Relationship="Entities.FK_Address_CityFrom" FromRole="City" ToRole="Address" />
           <NavigationProperty Name="Address1" Relationship="Entities.FK_Address_CityTo" FromRole="City" ToRole="Address" />
         </EntityType>
-        <EntityType Name="Client">
-          <Key>
-            <PropertyRef Name="ClientId" />
-          </Key>
-          <Property Name="ClientId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Phone" Type="String" Nullable="false" MaxLength="15" Unicode="true" FixedLength="false" />
-          <Property Name="FirstName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Email" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
-          <Property Name="Salt" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
-          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="ActivateCode" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
-          <Property Name="SmsSentCount" Type="Int32" />
-          <Property Name="LastLoginDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Order" Relationship="Entities.FK_Order_Client" FromRole="Client" ToRole="Order" />
-        </EntityType>
-        <EntityType Name="Company">
-          <Key>
-            <PropertyRef Name="CompanyId" />
-          </Key>
-          <Property Name="CompanyId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
-          <Property Name="Description" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="Car" Relationship="Entities.FK_Car_Company" FromRole="Company" ToRole="Car" />
-          <NavigationProperty Name="OrderProperties" Relationship="Entities.FK_OrderProperties_Company" FromRole="Company" ToRole="OrderProperties" />
-          <NavigationProperty Name="User" Relationship="Entities.FK_User_Company" FromRole="Company" ToRole="User" />
-        </EntityType>
-        <EntityType Name="Order">
-          <Key>
-            <PropertyRef Name="OrderId" />
-          </Key>
-          <Property Name="OrderId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="ClientId" Type="Int32" Nullable="false" />
-          <Property Name="OrderPropertiesId" Type="Int32" Nullable="false" />
-          <Property Name="CarId" Type="Int32" />
-          <Property Name="Deadline" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="AddressId" Type="Int32" Nullable="false" />
-          <Property Name="Tariff" Type="Int32" />
-          <Property Name="EstimatedPrice" Type="Double" />
-          <Property Name="IsPrepaid" Type="Boolean" Nullable="false" />
-          <Property Name="IsPlanned" Type="Boolean" Nullable="false" />
-          <Property Name="PlannedOn" Type="DateTime" Precision="3" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="TimeCreated" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="TimeAssigned" Type="DateTime" Precision="3" />
-          <Property Name="TimeArrived" Type="DateTime" Precision="3" />
-          <Property Name="TimeInCar" Type="DateTime" Precision="3" />
-          <Property Name="TimeDone" Type="DateTime" Precision="3" />
-          <Property Name="TimeCanceled" Type="DateTime" Precision="3" />
-          <Property Name="CanceledBy" Type="Int32" />
-          <Property Name="CancelCause" Type="Int32" />
-          <Property Name="FinalPrice" Type="Double" />
-          <Property Name="UserComment" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
-          <Property Name="TaxiComment" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="Address" Relationship="Entities.FK_Order_Address" FromRole="Order" ToRole="Address" />
-          <NavigationProperty Name="Car" Relationship="Entities.FK_Order_Car" FromRole="Order" ToRole="Car" />
-          <NavigationProperty Name="Client" Relationship="Entities.FK_Order_Client" FromRole="Order" ToRole="Client" />
-          <NavigationProperty Name="OrderProperties" Relationship="Entities.FK_Order_OrderProperties" FromRole="Order" ToRole="OrderProperties" />
-          <NavigationProperty Name="OrderNote" Relationship="Entities.FK_OrderNote_Order" FromRole="Order" ToRole="OrderNote" />
-        </EntityType>
-        <EntityType Name="OrderNote">
-          <Key>
-            <PropertyRef Name="OrderNoteId" />
-          </Key>
-          <Property Name="OrderNoteId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderId" Type="Int32" Nullable="false" />
-          <Property Name="NoteType" Type="Int32" Nullable="false" />
-          <Property Name="Vote" Type="Int32" />
-          <Property Name="UserComment" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
-          <Property Name="CreationTime" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Order" Relationship="Entities.FK_OrderNote_Order" FromRole="OrderNote" ToRole="Order" />
-        </EntityType>
-        <EntityType Name="OrderProperties">
-          <Key>
-            <PropertyRef Name="OrderPropertiesId" />
-          </Key>
-          <Property Name="OrderPropertiesId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="CompanyId" Type="Int32" />
-          <Property Name="OrderClass" Type="Int32" Nullable="false" />
-          <Property Name="Priority" Type="Int32" Nullable="false" />
-          <Property Name="Childer" Type="Boolean" Nullable="false" />
-          <Property Name="Nosmoking" Type="Boolean" Nullable="false" />
-          <Property Name="Animal" Type="Boolean" Nullable="false" />
-          <Property Name="English" Type="Boolean" Nullable="false" />
-          <Property Name="Card" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Company" Relationship="Entities.FK_OrderProperties_Company" FromRole="OrderProperties" ToRole="Company" />
-          <NavigationProperty Name="Order" Relationship="Entities.FK_Order_OrderProperties" FromRole="OrderProperties" ToRole="Order" />
-        </EntityType>
-        <EntityType Name="Right">
-          <Key>
-            <PropertyRef Name="RightId" />
-          </Key>
-          <Property Name="RightId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Value" Type="Int32" Nullable="false" />
-          <Property Name="RoleId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Role" Relationship="Entities.FK_Right_Role" FromRole="Right" ToRole="Role" />
-        </EntityType>
-        <EntityType Name="Role">
-          <Key>
-            <PropertyRef Name="RoleId" />
-          </Key>
-          <Property Name="RoleId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Description" Type="String" MaxLength="300" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="Right" Relationship="Entities.FK_Right_Role" FromRole="Role" ToRole="Right" />
-          <NavigationProperty Name="UserRole" Relationship="Entities.FK_UserRole_Role" FromRole="Role" ToRole="UserRole" />
-        </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Login" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="CompanyId" Type="Int32" />
-          <Property Name="FirstName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Email" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
-          <Property Name="Salt" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
-          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="LastLoginDate" Type="DateTime" Precision="3" />
-          <Property Name="BlockDate" Type="DateTime" Precision="3" />
-          <Property Name="SuspendDate" Type="DateTime" Precision="3" />
-          <Property Name="IsActive" Type="Boolean" />
-          <Property Name="Phone" Type="String" MaxLength="15" Unicode="true" FixedLength="false" />
-          <Property Name="ActivateCode" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
-          <Property Name="SmsSentCount" Type="Int32" />
-          <NavigationProperty Name="Company" Relationship="Entities.FK_User_Company" FromRole="User" ToRole="Company" />
-          <NavigationProperty Name="UserRole" Relationship="Entities.FK_UserRole_User" FromRole="User" ToRole="UserRole" />
-        </EntityType>
-        <EntityType Name="UserRole">
-          <Key>
-            <PropertyRef Name="UserRoleId" />
-          </Key>
-          <Property Name="UserRoleId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="RoleId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Role" Relationship="Entities.FK_UserRole_Role" FromRole="UserRole" ToRole="Role" />
-          <NavigationProperty Name="User" Relationship="Entities.FK_UserRole_User" FromRole="UserRole" ToRole="User" />
-        </EntityType>
         <Association Name="FK_Address_CityFrom">
-          <End Role="City" Type="Entities.City" Multiplicity="1" />
-          <End Role="Address" Type="Entities.Address" Multiplicity="*" />
+          <End Type="Entities.City" Multiplicity="1" Role="City" />
+          <End Type="Entities.Address" Multiplicity="*" Role="Address" />
           <ReferentialConstraint>
             <Principal Role="City">
               <PropertyRef Name="CityId" />
@@ -653,8 +714,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Address_CityTo">
-          <End Role="City" Type="Entities.City" Multiplicity="0..1" />
-          <End Role="Address" Type="Entities.Address" Multiplicity="*" />
+          <End Type="Entities.City" Multiplicity="0..1" Role="City" />
+          <End Type="Entities.Address" Multiplicity="*" Role="Address" />
           <ReferentialConstraint>
             <Principal Role="City">
               <PropertyRef Name="CityId" />
@@ -664,9 +725,177 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="ClientId" />
+          </Key>
+          <Property Type="Int32" Name="ClientId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Phone" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FirstName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LastName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Email" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Salt" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreationDate" Nullable="false" Precision="3" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="String" Name="ActivateCode" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="SmsSentCount" />
+          <Property Type="DateTime" Name="LastLoginDate" Precision="3" />
+          <NavigationProperty Name="Order" Relationship="Entities.FK_Order_Client" FromRole="Client" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Type="Int32" Name="CompanyId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Car" Relationship="Entities.FK_Car_Company" FromRole="Company" ToRole="Car" />
+          <NavigationProperty Name="OrderCompany" Relationship="Entities.FK_OrderCompany_Company" FromRole="Company" ToRole="OrderCompany" />
+          <NavigationProperty Name="PricesRate" Relationship="Entities.FK_PricesRate_Company" FromRole="Company" ToRole="PricesRate" />
+          <NavigationProperty Name="User" Relationship="Entities.FK_User_Company" FromRole="Company" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Type="Int32" Name="OrderId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="ClientId" Nullable="false" />
+          <Property Type="Int32" Name="OrderPropertiesId" Nullable="false" />
+          <Property Type="Int32" Name="CarId" />
+          <Property Type="DateTime" Name="Deadline" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="AddressId" Nullable="false" />
+          <Property Type="Int32" Name="Tariff" />
+          <Property Type="Double" Name="EstimatedPrice" />
+          <Property Type="Boolean" Name="IsPrepaid" Nullable="false" />
+          <Property Type="Boolean" Name="IsPlanned" Nullable="false" />
+          <Property Type="DateTime" Name="PlannedOn" Precision="3" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="DateTime" Name="TimeCreated" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="TimeAssigned" Precision="3" />
+          <Property Type="DateTime" Name="TimeArrived" Precision="3" />
+          <Property Type="DateTime" Name="TimeInCar" Precision="3" />
+          <Property Type="DateTime" Name="TimeDone" Precision="3" />
+          <Property Type="DateTime" Name="TimeCanceled" Precision="3" />
+          <Property Type="Int32" Name="CanceledBy" />
+          <Property Type="Int32" Name="CancelCause" />
+          <Property Type="Double" Name="FinalPrice" />
+          <Property Type="String" Name="UserComment" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TaxiComment" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Address" Relationship="Entities.FK_Order_Address" FromRole="Order" ToRole="Address" />
+          <NavigationProperty Name="Car" Relationship="Entities.FK_Order_Car" FromRole="Order" ToRole="Car" />
+          <NavigationProperty Name="Client" Relationship="Entities.FK_Order_Client" FromRole="Order" ToRole="Client" />
+          <NavigationProperty Name="OrderProperties" Relationship="Entities.FK_Order_OrderProperties" FromRole="Order" ToRole="OrderProperties" />
+          <NavigationProperty Name="OrderCompany" Relationship="Entities.FK_OrderCompany_Order" FromRole="Order" ToRole="OrderCompany" />
+          <NavigationProperty Name="OrderNote" Relationship="Entities.FK_OrderNote_Order" FromRole="Order" ToRole="OrderNote" />
+        </EntityType>
+        <EntityType Name="OrderNote">
+          <Key>
+            <PropertyRef Name="OrderNoteId" />
+          </Key>
+          <Property Type="Int32" Name="OrderNoteId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="OrderId" Nullable="false" />
+          <Property Type="Int32" Name="NoteType" Nullable="false" />
+          <Property Type="Int32" Name="Vote" />
+          <Property Type="String" Name="UserComment" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreationTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Order" Relationship="Entities.FK_OrderNote_Order" FromRole="OrderNote" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="OrderProperties">
+          <Key>
+            <PropertyRef Name="OrderPropertiesId" />
+          </Key>
+          <Property Type="Int32" Name="OrderPropertiesId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="OrderClass" Nullable="false" />
+          <Property Type="Int32" Name="Priority" Nullable="false" />
+          <Property Type="Boolean" Name="Childer" Nullable="false" />
+          <Property Type="Boolean" Name="Nosmoking" Nullable="false" />
+          <Property Type="Boolean" Name="Animal" Nullable="false" />
+          <Property Type="Boolean" Name="English" Nullable="false" />
+          <Property Type="Boolean" Name="Card" Nullable="false" />
+          <NavigationProperty Name="Order" Relationship="Entities.FK_Order_OrderProperties" FromRole="OrderProperties" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="PricesRate">
+          <Key>
+            <PropertyRef Name="PricesRateId" />
+          </Key>
+          <Property Type="Int32" Name="PricesRateId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="CompanyId" Nullable="false" />
+          <Property Type="Boolean" Name="IsUsingNightRate" Nullable="false" />
+          <Property Type="Decimal" Name="PerKmAtDay" Nullable="false" Precision="5" Scale="2" />
+          <Property Type="Decimal" Name="PerKmAtNight" Nullable="false" Precision="5" Scale="2" />
+          <Property Type="Decimal" Name="Pet" Precision="6" Scale="2" />
+          <Property Type="Decimal" Name="ClosingDoor" Nullable="false" Precision="6" Scale="0" />
+          <Property Type="Int32" Name="DayStarstAt" Nullable="false" />
+          <Property Type="Int32" Name="NightStartsAt" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="Entities.FK_PricesRate_Company" FromRole="PricesRate" ToRole="Company" />
+        </EntityType>
+        <EntityType Name="Right">
+          <Key>
+            <PropertyRef Name="RightId" />
+          </Key>
+          <Property Type="Int32" Name="RightId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Value" Nullable="false" />
+          <Property Type="Int32" Name="RoleId" Nullable="false" />
+          <NavigationProperty Name="Role" Relationship="Entities.FK_Right_Role" FromRole="Right" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Type="Int32" Name="RoleId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="300" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Right" Relationship="Entities.FK_Right_Role" FromRole="Role" ToRole="Right" />
+          <NavigationProperty Name="UserRole" Relationship="Entities.FK_UserRole_Role" FromRole="Role" ToRole="UserRole" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Type="Int32" Name="UserId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Login" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="CompanyId" />
+          <Property Type="String" Name="FirstName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LastName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Email" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Salt" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreationDate" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="LastLoginDate" Precision="3" />
+          <Property Type="DateTime" Name="BlockDate" Precision="3" />
+          <Property Type="DateTime" Name="SuspendDate" Precision="3" />
+          <Property Type="Boolean" Name="IsActive" />
+          <Property Type="String" Name="Phone" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ActivateCode" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="SmsSentCount" />
+          <NavigationProperty Name="Company" Relationship="Entities.FK_User_Company" FromRole="User" ToRole="Company" />
+          <NavigationProperty Name="UserRole" Relationship="Entities.FK_UserRole_User" FromRole="User" ToRole="UserRole" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="UserRoleId" />
+          </Key>
+          <Property Type="Int32" Name="UserRoleId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="Int32" Name="RoleId" Nullable="false" />
+          <NavigationProperty Name="Role" Relationship="Entities.FK_UserRole_Role" FromRole="UserRole" ToRole="Role" />
+          <NavigationProperty Name="User" Relationship="Entities.FK_UserRole_User" FromRole="UserRole" ToRole="User" />
+        </EntityType>
+        <EntityType Name="OrderCompany">
+          <Key>
+            <PropertyRef Name="OrderCompanyId" />
+          </Key>
+          <Property Type="Int32" Name="OrderCompanyId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="OrderId" Nullable="false" />
+          <Property Type="Int32" Name="CompanyId" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="Entities.FK_OrderCompany_Company" FromRole="OrderCompany" ToRole="Company" />
+          <NavigationProperty Name="Order" Relationship="Entities.FK_OrderCompany_Order" FromRole="OrderCompany" ToRole="Order" />
+        </EntityType>
         <Association Name="FK_Order_Address">
-          <End Role="Address" Type="Entities.Address" Multiplicity="1" />
-          <End Role="Order" Type="Entities.Order" Multiplicity="*" />
+          <End Type="Entities.Address" Role="Address" Multiplicity="1" />
+          <End Type="Entities.Order" Role="Order" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Address">
               <PropertyRef Name="AddressId" />
@@ -677,8 +906,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Car_Company">
-          <End Role="Company" Type="Entities.Company" Multiplicity="1" />
-          <End Role="Car" Type="Entities.Car" Multiplicity="*" />
+          <End Type="Entities.Company" Role="Company" Multiplicity="1" />
+          <End Type="Entities.Car" Role="Car" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Company">
               <PropertyRef Name="CompanyId" />
@@ -689,8 +918,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Order_Car">
-          <End Role="Car" Type="Entities.Car" Multiplicity="0..1" />
-          <End Role="Order" Type="Entities.Order" Multiplicity="*" />
+          <End Type="Entities.Car" Role="Car" Multiplicity="0..1" />
+          <End Type="Entities.Order" Role="Order" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Car">
               <PropertyRef Name="CarId" />
@@ -701,8 +930,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Order_Client">
-          <End Role="Client" Type="Entities.Client" Multiplicity="1" />
-          <End Role="Order" Type="Entities.Order" Multiplicity="*" />
+          <End Type="Entities.Client" Role="Client" Multiplicity="1" />
+          <End Type="Entities.Order" Role="Order" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Client">
               <PropertyRef Name="ClientId" />
@@ -712,21 +941,33 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrderProperties_Company">
-          <End Role="Company" Type="Entities.Company" Multiplicity="0..1" />
-          <End Role="OrderProperties" Type="Entities.OrderProperties" Multiplicity="*" />
+        <Association Name="FK_OrderCompany_Company">
+          <End Type="Entities.Company" Role="Company" Multiplicity="1" />
+          <End Type="Entities.OrderCompany" Role="OrderCompany" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Company">
               <PropertyRef Name="CompanyId" />
             </Principal>
-            <Dependent Role="OrderProperties">
+            <Dependent Role="OrderCompany">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PricesRate_Company">
+          <End Type="Entities.Company" Role="Company" Multiplicity="1" />
+          <End Type="Entities.PricesRate" Role="PricesRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="PricesRate">
               <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_User_Company">
-          <End Role="Company" Type="Entities.Company" Multiplicity="0..1" />
-          <End Role="User" Type="Entities.User" Multiplicity="*" />
+          <End Type="Entities.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="Entities.User" Role="User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Company">
               <PropertyRef Name="CompanyId" />
@@ -737,8 +978,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Order_OrderProperties">
-          <End Role="OrderProperties" Type="Entities.OrderProperties" Multiplicity="1" />
-          <End Role="Order" Type="Entities.Order" Multiplicity="*" />
+          <End Type="Entities.OrderProperties" Role="OrderProperties" Multiplicity="1" />
+          <End Type="Entities.Order" Role="Order" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OrderProperties">
               <PropertyRef Name="OrderPropertiesId" />
@@ -748,9 +989,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_OrderCompany_Order">
+          <End Type="Entities.Order" Role="Order" Multiplicity="1" />
+          <End Type="Entities.OrderCompany" Role="OrderCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="OrderCompany">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OrderNote_Order">
-          <End Role="Order" Type="Entities.Order" Multiplicity="1" />
-          <End Role="OrderNote" Type="Entities.OrderNote" Multiplicity="*" />
+          <End Type="Entities.Order" Role="Order" Multiplicity="1" />
+          <End Type="Entities.OrderNote" Role="OrderNote" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Order">
               <PropertyRef Name="OrderId" />
@@ -761,8 +1014,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Right_Role">
-          <End Role="Role" Type="Entities.Role" Multiplicity="1" />
-          <End Role="Right" Type="Entities.Right" Multiplicity="*" />
+          <End Type="Entities.Role" Role="Role" Multiplicity="1" />
+          <End Type="Entities.Right" Role="Right" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
               <PropertyRef Name="RoleId" />
@@ -773,8 +1026,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_UserRole_Role">
-          <End Role="Role" Type="Entities.Role" Multiplicity="1" />
-          <End Role="UserRole" Type="Entities.UserRole" Multiplicity="*" />
+          <End Type="Entities.Role" Role="Role" Multiplicity="1" />
+          <End Type="Entities.UserRole" Role="UserRole" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
               <PropertyRef Name="RoleId" />
@@ -785,8 +1038,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_UserRole_User">
-          <End Role="User" Type="Entities.User" Multiplicity="1" />
-          <End Role="UserRole" Type="Entities.UserRole" Multiplicity="*" />
+          <End Type="Entities.User" Role="User" Multiplicity="1" />
+          <End Type="Entities.UserRole" Role="UserRole" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="UserId" />
@@ -796,6 +1049,87 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="OrderDetails">
+          <Key>
+            <PropertyRef Name="OrderId" />
+            <PropertyRef Name="ClientId" />
+            <PropertyRef Name="Expr2" />
+            <PropertyRef Name="Deadline" />
+            <PropertyRef Name="AddressId" />
+            <PropertyRef Name="IsPrepaid" />
+            <PropertyRef Name="IsPlanned" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="TimeCreated" />
+            <PropertyRef Name="CityFrom" />
+            <PropertyRef Name="AddressFrom" />
+            <PropertyRef Name="NoteType" />
+            <PropertyRef Name="CreationTime" />
+            <PropertyRef Name="Phone" />
+            <PropertyRef Name="OrderClass" />
+            <PropertyRef Name="Priority" />
+            <PropertyRef Name="Childer" />
+            <PropertyRef Name="Nosmoking" />
+            <PropertyRef Name="Animal" />
+            <PropertyRef Name="English" />
+            <PropertyRef Name="Card" />
+            <PropertyRef Name="Mark" />
+            <PropertyRef Name="Model" />
+            <PropertyRef Name="Color" />
+            <PropertyRef Name="CarNumber" />
+            <PropertyRef Name="DriverName" />
+          </Key>
+          <Property Type="Int32" Name="OrderId" Nullable="false" />
+          <Property Type="Int32" Name="ClientId" Nullable="false" />
+          <Property Type="Int32" Name="Expr2" Nullable="false" />
+          <Property Type="Int32" Name="CarId" />
+          <Property Type="DateTime" Name="Deadline" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="AddressId" Nullable="false" />
+          <Property Type="Int32" Name="Tariff" />
+          <Property Type="Double" Name="EstimatedPrice" />
+          <Property Type="Boolean" Name="IsPrepaid" Nullable="false" />
+          <Property Type="Boolean" Name="IsPlanned" Nullable="false" />
+          <Property Type="DateTime" Name="PlannedOn" Precision="3" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="DateTime" Name="TimeCreated" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="TimeAssigned" Precision="3" />
+          <Property Type="DateTime" Name="TimeArrived" Precision="3" />
+          <Property Type="DateTime" Name="TimeInCar" Precision="3" />
+          <Property Type="DateTime" Name="TimeDone" Precision="3" />
+          <Property Type="DateTime" Name="TimeCanceled" Precision="3" />
+          <Property Type="Int32" Name="CanceledBy" />
+          <Property Type="Int32" Name="CancelCause" />
+          <Property Type="Double" Name="FinalPrice" />
+          <Property Type="String" Name="UserComment" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TaxiComment" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="CityFrom" Nullable="false" />
+          <Property Type="String" Name="AddressFrom" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="CityTo" />
+          <Property Type="String" Name="AddressTo" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="Double" Name="Latitude" />
+          <Property Type="Double" Name="Longitude" />
+          <Property Type="Double" Name="Accurancy" />
+          <Property Type="Int32" Name="NoteType" Nullable="false" />
+          <Property Type="Int32" Name="Vote" />
+          <Property Type="String" Name="Expr1" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreationTime" Nullable="false" Precision="3" />
+          <Property Type="String" Name="Phone" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FirstName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LastName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Email" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="OrderClass" Nullable="false" />
+          <Property Type="Int32" Name="Priority" Nullable="false" />
+          <Property Type="Boolean" Name="Childer" Nullable="false" />
+          <Property Type="Boolean" Name="Nosmoking" Nullable="false" />
+          <Property Type="Boolean" Name="Animal" Nullable="false" />
+          <Property Type="Boolean" Name="English" Nullable="false" />
+          <Property Type="Boolean" Name="Card" Nullable="false" />
+          <Property Type="String" Name="Mark" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Model" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Color" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="NrOfSeats" />
+          <Property Type="String" Name="CarNumber" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DriverName" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -842,133 +1176,213 @@
           <EntitySetMapping Name="Client">
             <EntityTypeMapping TypeName="Entities.Client">
               <MappingFragment StoreEntitySet="Client">
-                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Salt" ColumnName="Salt" />
-                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="ActivateCode" ColumnName="ActivateCode" />
-                <ScalarProperty Name="SmsSentCount" ColumnName="SmsSentCount" />
                 <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+                <ScalarProperty Name="SmsSentCount" ColumnName="SmsSentCount" />
+                <ScalarProperty Name="ActivateCode" ColumnName="ActivateCode" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Company">
             <EntityTypeMapping TypeName="Entities.Company">
               <MappingFragment StoreEntitySet="Company">
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Order">
             <EntityTypeMapping TypeName="Entities.Order">
               <MappingFragment StoreEntitySet="Order">
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
-                <ScalarProperty Name="OrderPropertiesId" ColumnName="OrderPropertiesId" />
-                <ScalarProperty Name="CarId" ColumnName="CarId" />
-                <ScalarProperty Name="Deadline" ColumnName="Deadline" />
-                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
-                <ScalarProperty Name="Tariff" ColumnName="Tariff" />
-                <ScalarProperty Name="EstimatedPrice" ColumnName="EstimatedPrice" />
-                <ScalarProperty Name="IsPrepaid" ColumnName="IsPrepaid" />
-                <ScalarProperty Name="IsPlanned" ColumnName="IsPlanned" />
-                <ScalarProperty Name="PlannedOn" ColumnName="PlannedOn" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="TimeCreated" ColumnName="TimeCreated" />
-                <ScalarProperty Name="TimeAssigned" ColumnName="TimeAssigned" />
-                <ScalarProperty Name="TimeArrived" ColumnName="TimeArrived" />
-                <ScalarProperty Name="TimeInCar" ColumnName="TimeInCar" />
-                <ScalarProperty Name="TimeDone" ColumnName="TimeDone" />
-                <ScalarProperty Name="TimeCanceled" ColumnName="TimeCanceled" />
-                <ScalarProperty Name="CanceledBy" ColumnName="CanceledBy" />
-                <ScalarProperty Name="CancelCause" ColumnName="CancelCause" />
-                <ScalarProperty Name="FinalPrice" ColumnName="FinalPrice" />
-                <ScalarProperty Name="UserComment" ColumnName="UserComment" />
                 <ScalarProperty Name="TaxiComment" ColumnName="TaxiComment" />
+                <ScalarProperty Name="UserComment" ColumnName="UserComment" />
+                <ScalarProperty Name="FinalPrice" ColumnName="FinalPrice" />
+                <ScalarProperty Name="CancelCause" ColumnName="CancelCause" />
+                <ScalarProperty Name="CanceledBy" ColumnName="CanceledBy" />
+                <ScalarProperty Name="TimeCanceled" ColumnName="TimeCanceled" />
+                <ScalarProperty Name="TimeDone" ColumnName="TimeDone" />
+                <ScalarProperty Name="TimeInCar" ColumnName="TimeInCar" />
+                <ScalarProperty Name="TimeArrived" ColumnName="TimeArrived" />
+                <ScalarProperty Name="TimeAssigned" ColumnName="TimeAssigned" />
+                <ScalarProperty Name="TimeCreated" ColumnName="TimeCreated" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="PlannedOn" ColumnName="PlannedOn" />
+                <ScalarProperty Name="IsPlanned" ColumnName="IsPlanned" />
+                <ScalarProperty Name="IsPrepaid" ColumnName="IsPrepaid" />
+                <ScalarProperty Name="EstimatedPrice" ColumnName="EstimatedPrice" />
+                <ScalarProperty Name="Tariff" ColumnName="Tariff" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="Deadline" ColumnName="Deadline" />
+                <ScalarProperty Name="CarId" ColumnName="CarId" />
+                <ScalarProperty Name="OrderPropertiesId" ColumnName="OrderPropertiesId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="OrderNote">
             <EntityTypeMapping TypeName="Entities.OrderNote">
               <MappingFragment StoreEntitySet="OrderNote">
-                <ScalarProperty Name="OrderNoteId" ColumnName="OrderNoteId" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="NoteType" ColumnName="NoteType" />
-                <ScalarProperty Name="Vote" ColumnName="Vote" />
-                <ScalarProperty Name="UserComment" ColumnName="UserComment" />
                 <ScalarProperty Name="CreationTime" ColumnName="CreationTime" />
+                <ScalarProperty Name="UserComment" ColumnName="UserComment" />
+                <ScalarProperty Name="Vote" ColumnName="Vote" />
+                <ScalarProperty Name="NoteType" ColumnName="NoteType" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="OrderNoteId" ColumnName="OrderNoteId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="OrderProperties">
             <EntityTypeMapping TypeName="Entities.OrderProperties">
               <MappingFragment StoreEntitySet="OrderProperties">
-                <ScalarProperty Name="OrderPropertiesId" ColumnName="OrderPropertiesId" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="OrderClass" ColumnName="OrderClass" />
-                <ScalarProperty Name="Priority" ColumnName="Priority" />
-                <ScalarProperty Name="Childer" ColumnName="Childer" />
-                <ScalarProperty Name="Nosmoking" ColumnName="Nosmoking" />
-                <ScalarProperty Name="Animal" ColumnName="Animal" />
-                <ScalarProperty Name="English" ColumnName="English" />
                 <ScalarProperty Name="Card" ColumnName="Card" />
+                <ScalarProperty Name="English" ColumnName="English" />
+                <ScalarProperty Name="Animal" ColumnName="Animal" />
+                <ScalarProperty Name="Nosmoking" ColumnName="Nosmoking" />
+                <ScalarProperty Name="Childer" ColumnName="Childer" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="OrderClass" ColumnName="OrderClass" />
+                <ScalarProperty Name="OrderPropertiesId" ColumnName="OrderPropertiesId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PricesRate">
+            <EntityTypeMapping TypeName="Entities.PricesRate">
+              <MappingFragment StoreEntitySet="PricesRate">
+                <ScalarProperty Name="NightStartsAt" ColumnName="NightStartsAt" />
+                <ScalarProperty Name="DayStarstAt" ColumnName="DayStarstAt" />
+                <ScalarProperty Name="ClosingDoor" ColumnName="ClosingDoor" />
+                <ScalarProperty Name="Pet" ColumnName="Pet" />
+                <ScalarProperty Name="PerKmAtNight" ColumnName="PerKmAtNight" />
+                <ScalarProperty Name="PerKmAtDay" ColumnName="PerKmAtDay" />
+                <ScalarProperty Name="IsUsingNightRate" ColumnName="IsUsingNightRate" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="PricesRateId" ColumnName="PricesRateId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Right">
             <EntityTypeMapping TypeName="Entities.Right">
               <MappingFragment StoreEntitySet="Right">
-                <ScalarProperty Name="RightId" ColumnName="RightId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RightId" ColumnName="RightId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Role">
             <EntityTypeMapping TypeName="Entities.Role">
               <MappingFragment StoreEntitySet="Role">
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="User">
             <EntityTypeMapping TypeName="Entities.User">
               <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Login" ColumnName="Login" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Salt" ColumnName="Salt" />
-                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
-                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
-                <ScalarProperty Name="BlockDate" ColumnName="BlockDate" />
-                <ScalarProperty Name="SuspendDate" ColumnName="SuspendDate" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="ActivateCode" ColumnName="ActivateCode" />
                 <ScalarProperty Name="SmsSentCount" ColumnName="SmsSentCount" />
+                <ScalarProperty Name="ActivateCode" ColumnName="ActivateCode" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="SuspendDate" ColumnName="SuspendDate" />
+                <ScalarProperty Name="BlockDate" ColumnName="BlockDate" />
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserRole">
             <EntityTypeMapping TypeName="Entities.UserRole">
               <MappingFragment StoreEntitySet="UserRole">
-                <ScalarProperty Name="UserRoleId" ColumnName="UserRoleId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserRoleId" ColumnName="UserRoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderCompany">
+            <EntityTypeMapping TypeName="Entities.OrderCompany">
+              <MappingFragment StoreEntitySet="OrderCompany">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="OrderCompanyId" ColumnName="OrderCompanyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderDetails">
+            <EntityTypeMapping TypeName="Entities.OrderDetails">
+              <MappingFragment StoreEntitySet="OrderDetails">
+                <ScalarProperty Name="DriverName" ColumnName="DriverName" />
+                <ScalarProperty Name="CarNumber" ColumnName="CarNumber" />
+                <ScalarProperty Name="NrOfSeats" ColumnName="NrOfSeats" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Mark" ColumnName="Mark" />
+                <ScalarProperty Name="Card" ColumnName="Card" />
+                <ScalarProperty Name="English" ColumnName="English" />
+                <ScalarProperty Name="Animal" ColumnName="Animal" />
+                <ScalarProperty Name="Nosmoking" ColumnName="Nosmoking" />
+                <ScalarProperty Name="Childer" ColumnName="Childer" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="OrderClass" ColumnName="OrderClass" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="CreationTime" ColumnName="CreationTime" />
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+                <ScalarProperty Name="Vote" ColumnName="Vote" />
+                <ScalarProperty Name="NoteType" ColumnName="NoteType" />
+                <ScalarProperty Name="Accurancy" ColumnName="Accurancy" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="AddressTo" ColumnName="AddressTo" />
+                <ScalarProperty Name="CityTo" ColumnName="CityTo" />
+                <ScalarProperty Name="AddressFrom" ColumnName="AddressFrom" />
+                <ScalarProperty Name="CityFrom" ColumnName="CityFrom" />
+                <ScalarProperty Name="TaxiComment" ColumnName="TaxiComment" />
+                <ScalarProperty Name="UserComment" ColumnName="UserComment" />
+                <ScalarProperty Name="FinalPrice" ColumnName="FinalPrice" />
+                <ScalarProperty Name="CancelCause" ColumnName="CancelCause" />
+                <ScalarProperty Name="CanceledBy" ColumnName="CanceledBy" />
+                <ScalarProperty Name="TimeCanceled" ColumnName="TimeCanceled" />
+                <ScalarProperty Name="TimeDone" ColumnName="TimeDone" />
+                <ScalarProperty Name="TimeInCar" ColumnName="TimeInCar" />
+                <ScalarProperty Name="TimeArrived" ColumnName="TimeArrived" />
+                <ScalarProperty Name="TimeAssigned" ColumnName="TimeAssigned" />
+                <ScalarProperty Name="TimeCreated" ColumnName="TimeCreated" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="PlannedOn" ColumnName="PlannedOn" />
+                <ScalarProperty Name="IsPlanned" ColumnName="IsPlanned" />
+                <ScalarProperty Name="IsPrepaid" ColumnName="IsPrepaid" />
+                <ScalarProperty Name="EstimatedPrice" ColumnName="EstimatedPrice" />
+                <ScalarProperty Name="Tariff" ColumnName="Tariff" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="Deadline" ColumnName="Deadline" />
+                <ScalarProperty Name="CarId" ColumnName="CarId" />
+                <ScalarProperty Name="Expr2" ColumnName="Expr2" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -86,7 +86,7 @@ namespace WebUI.Controllers
 
                 OrderProperties properties = new OrderProperties();
                 if (model.Company > 0)
-                    properties.CompanyId = model.Company;
+                    //properties.CompanyId = model.Company;
                 properties.OrderClass = (int)GlobalEnumerator.OrderClass.Fastest;
                 properties.Priority = (int)GlobalEnumerator.OrderPriority.Normal;
                 properties.Childer = model.Childer;

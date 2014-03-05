@@ -17,10 +17,10 @@ namespace Managers
             return RepoGeneric.FindOne<Order>(c => c.OrderId == id);
         }
 
-        public IEnumerable<Order> GetOrderForCompany(int companyId)
-        {
-            return RepoGeneric.Find<Order>(c => c.OrderProperties.CompanyId == companyId || !c.OrderProperties.CompanyId.HasValue).ToList();
-        }
+        //public IEnumerable<Order> GetOrderForCompany(int companyId)
+        //{
+        //    return RepoGeneric.Find<Order>(c => c.OrderCompany.Contains(   OrderProperties.CompanyId == companyId || !c.OrderProperties.CompanyId.HasValue).ToList();
+        //}
 
         public IUnitOfWorkResult AddOrder(Order order)
         {
@@ -112,13 +112,12 @@ namespace Managers
         public IEnumerable<OrderGridModel> GetOrdersGridModelForCompany(int companyId)
         {
             //TODO: filtrowanie zamówień przez statusy
-            var orders = RepoGeneric.Find<Order>(c => c.OrderProperties.CompanyId == companyId || !c.OrderProperties.CompanyId.HasValue)
+            var orders = RepoGeneric.Find<Order>(c => c.OrderCompany.FirstOrDefault(o => o.CompanyId == companyId) != null)
                 .Select(c => new OrderGridModel()
                 {
                     OrderId = c.OrderId,
                     ClientId = c.ClientId,
                     Status = c.Status,
-                    //StatusName = 
                     TimeCreated = c.TimeCreated,
                     AddressFrom = c.Address.AddressFrom,
                     AddressTo = c.Address.AddressTo,
@@ -129,6 +128,13 @@ namespace Managers
                 .ToList();
 
             return orders;
+        }
+
+        public OrderDetails GetOrderDetails(int orderId)
+        {
+            //var order = CTX.Set<Order>().Include("Address").Include("Client").Include("OrderNote").Include("OrderProperties").Where(o => o.OrderId == orderId).Single();
+            var order = RepoGeneric.Find<OrderDetails>(o => o.OrderId == orderId).Single();
+            return order;
         }
     }
 }

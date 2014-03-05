@@ -20,7 +20,6 @@ namespace Data.Domain
         }
     
         public int OrderPropertiesId { get; set; }
-        public Nullable<int> CompanyId { get; set; }
         public int OrderClass { get; set; }
         public int Priority { get; set; }
         public bool Childer { get; set; }
@@ -29,7 +28,6 @@ namespace Data.Domain
         public bool English { get; set; }
         public bool Card { get; set; }
     
-        public virtual Company Company { get; set; }
         public virtual ICollection<Order> Order { get; set; }
     }
 }

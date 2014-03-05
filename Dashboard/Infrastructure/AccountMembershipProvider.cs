@@ -506,9 +506,5 @@ namespace Dashboard.Infrastructure
                 return AccountRepository.IsValidLogin(username, password);
             }
         }
-
-
-
-
     }
 }

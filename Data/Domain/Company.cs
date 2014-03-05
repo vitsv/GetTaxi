@@ -17,7 +17,8 @@ namespace Data.Domain
         public Company()
         {
             this.Car = new HashSet<Car>();
-            this.OrderProperties = new HashSet<OrderProperties>();
+            this.OrderCompany = new HashSet<OrderCompany>();
+            this.PricesRate = new HashSet<PricesRate>();
             this.User = new HashSet<User>();
         }
     
@@ -26,7 +27,8 @@ namespace Data.Domain
         public string Description { get; set; }
     
         public virtual ICollection<Car> Car { get; set; }
-        public virtual ICollection<OrderProperties> OrderProperties { get; set; }
+        public virtual ICollection<OrderCompany> OrderCompany { get; set; }
+        public virtual ICollection<PricesRate> PricesRate { get; set; }
         public virtual ICollection<User> User { get; set; }
     }
 }

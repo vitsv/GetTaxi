@@ -12,17 +12,11 @@ namespace Data.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Order
+    public partial class OrderDetails
     {
-        public Order()
-        {
-            this.OrderCompany = new HashSet<OrderCompany>();
-            this.OrderNote = new HashSet<OrderNote>();
-        }
-    
         public int OrderId { get; set; }
         public int ClientId { get; set; }
-        public int OrderPropertiesId { get; set; }
+        public int Expr2 { get; set; }
         public Nullable<int> CarId { get; set; }
         public System.DateTime Deadline { get; set; }
         public int AddressId { get; set; }
@@ -43,12 +37,33 @@ namespace Data.Domain
         public Nullable<double> FinalPrice { get; set; }
         public string UserComment { get; set; }
         public string TaxiComment { get; set; }
-    
-        public virtual Address Address { get; set; }
-        public virtual Car Car { get; set; }
-        public virtual Client Client { get; set; }
-        public virtual OrderProperties OrderProperties { get; set; }
-        public virtual ICollection<OrderCompany> OrderCompany { get; set; }
-        public virtual ICollection<OrderNote> OrderNote { get; set; }
+        public int CityFrom { get; set; }
+        public string AddressFrom { get; set; }
+        public Nullable<int> CityTo { get; set; }
+        public string AddressTo { get; set; }
+        public Nullable<double> Latitude { get; set; }
+        public Nullable<double> Longitude { get; set; }
+        public Nullable<double> Accurancy { get; set; }
+        public int NoteType { get; set; }
+        public Nullable<int> Vote { get; set; }
+        public string Expr1 { get; set; }
+        public System.DateTime CreationTime { get; set; }
+        public string Phone { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public int OrderClass { get; set; }
+        public int Priority { get; set; }
+        public bool Childer { get; set; }
+        public bool Nosmoking { get; set; }
+        public bool Animal { get; set; }
+        public bool English { get; set; }
+        public bool Card { get; set; }
+        public string Mark { get; set; }
+        public string Model { get; set; }
+        public string Color { get; set; }
+        public Nullable<int> NrOfSeats { get; set; }
+        public string CarNumber { get; set; }
+        public string DriverName { get; set; }
     }
 }

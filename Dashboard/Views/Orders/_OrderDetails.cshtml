@@ -1,0 +1,187 @@
+﻿@model Data.Domain.Order
+
+<div>
+    Zamówienie
+    @if (Model.OrderProperties.Animal)
+    {
+        <i class="fa fa-github-alt fa-2x" title="Przewóz zwierząt"></i>
+    }
+    @if (Model.OrderProperties.Card)
+    {
+        <i class="fa fa-credit-card fa-2x" title="Płatność kartą"></i>
+    }
+    @if (Model.OrderProperties.Childer)
+    {
+        <i class="fa  fa-users fa-2x" title="Przewóz dzieci"></i>
+    }
+    @if (Model.OrderProperties.English)
+    {
+        <i class="fa fa-volume-up fa-2x" title="Pasażer anglojęzyczny"></i>
+    }
+    @if (Model.OrderProperties.Nosmoking)
+    {
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-fire  fa-stack-1x"></i>
+            <i class="fa fa-ban fa-stack-2x text-danger" title="Nie palący"></i>
+        </span>
+    }
+    
+</div>
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ClientId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ClientId)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.OrderPropertiesId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.OrderPropertiesId)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CarId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CarId)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Deadline)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Deadline)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.AddressId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AddressId)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Tariff)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Tariff)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.EstimatedPrice)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.EstimatedPrice)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IsPrepaid)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsPrepaid)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IsPlanned)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsPlanned)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.PlannedOn)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PlannedOn)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Status)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Status)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TimeCreated)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TimeCreated)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TimeAssigned)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TimeAssigned)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TimeArrived)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TimeArrived)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TimeInCar)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TimeInCar)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TimeDone)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TimeDone)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TimeCanceled)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TimeCanceled)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CanceledBy)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CanceledBy)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CancelCause)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CancelCause)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.FinalPrice)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FinalPrice)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.UserComment)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UserComment)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TaxiComment)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TaxiComment)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.OrderId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

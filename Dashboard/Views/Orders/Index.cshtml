@@ -3,8 +3,10 @@
 @{
     ViewBag.Title = "Zamówienia";
 }
+
 @section styles{
     <link href="~/Content/DataTables-1.9.4/media/css/demo_table_jui.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet">
 }
 
 @section scripts{
@@ -84,13 +86,20 @@
             });
         });
 
-        function getSelectedRow(table) {
-            return table.$("tr.row_selected");
-        }
-
         function showSelectedRowDetails(selectedRow) {
-            console.log(selectedRow);
-            $("#selectedRowDetails").text(selectedRow);
+            $.ajax({
+                url: "/Orders/GetOrderDetails/" + selectedRow,
+                success: function (viewHtml) {
+                    $("#selectedRowDetails").html(viewHtml);
+                    console.log(viewHtml);
+                },
+                error: function(error){
+                    $("#selectedRowDetails").text("Błąd pobierania szczegółów zamówienia");
+                    $("#selectedRowDetails").append(error);
+                    console.log(error);
+                }
+            })
+            //$("#selectedRowDetails").text(selectedRow);
         }
 
         function acceptOrder(orderId) {
