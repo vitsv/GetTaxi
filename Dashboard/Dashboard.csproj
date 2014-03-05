@@ -454,16 +454,16 @@
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Company\Add.cshtml" />
+    <Content Include="Views\Home\Company\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Company\Edit.cshtml" />
+    <Content Include="Views\Home\Company\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Company\Index.cshtml" />
+    <Content Include="Views\Home\Company\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Company\js\Scripts.cshtml" />
+    <Content Include="Views\Home\Company\js\Scripts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Car\Add.cshtml" />
