@@ -12,6 +12,18 @@ namespace Managers
 {
     public class OrderManager : GlobalManager
     {
+        public OrderManager(bool enableProxy)
+            : base(enableProxy)
+        {
+
+        }
+
+        public OrderManager()
+            : base()
+        {
+
+        }
+
         public Order GetOrderById(int id)
         {
             return RepoGeneric.FindOne<Order>(c => c.OrderId == id);
@@ -19,7 +31,14 @@ namespace Managers
 
         public IEnumerable<Order> GetOrderForCompany(int companyId)
         {
-            return RepoGeneric.Find<Order>(c => c.OrderProperties.CompanyId == companyId || !c.OrderProperties.CompanyId.HasValue).ToList();
+            var repo = RepoGeneric;
+            var orders = repo.GetQuery<Order>();
+            var orderCompanies = repo.GetQuery<OrderCompany>();
+            var list = from o in orders
+                       join c in orderCompanies on o.OrderId equals c.OrderId
+                       where c.CompanyId == companyId
+                       select o;
+            return list;
         }
 
         public IUnitOfWorkResult AddOrder(Order order)
@@ -63,7 +82,7 @@ namespace Managers
             return repo.UnitOfWork.SaveChanges();
         }
 
-        public IUnitOfWorkResult OrderCancel(int orderId, GlobalEnumerator.OrderStatus status, GlobalEnumerator.OrderCancelCause cause)
+        public IUnitOfWorkResult OrderCancel(int orderId, GlobalEnumerator.OrderStatus status)
         {
             var repo = RepoGeneric;
             var order = repo.FindOne<Order>(c => c.OrderId == orderId);
@@ -79,7 +98,7 @@ namespace Managers
                 case GlobalEnumerator.OrderStatus.Canceled_by_taxi: order.CanceledBy = (int)GlobalEnumerator.OrderCanceledBy.Taxi; break;
             }
             order.TimeCanceled = DateTime.Now;
-            order.CancelCause = (int)cause;
+            order.CancelCause = 0;
 
             return repo.UnitOfWork.SaveChanges();
         }
@@ -96,7 +115,7 @@ namespace Managers
             orderNote.NoteType = (int)type;
             switch (type)
             {
-                    //TODO Obsluzyc zmiane rankingu firmy uwzgledniajac ten glos
+                //TODO Obsluzyc zmiane rankingu firmy uwzgledniajac ten glos
                 case GlobalEnumerator.OrderNoteType.Feedback: orderNote.Vote = vote.GetValueOrDefault(); break;
             }
             if (!string.IsNullOrEmpty(comment))
@@ -112,23 +131,25 @@ namespace Managers
         public IEnumerable<OrderGridModel> GetOrdersGridModelForCompany(int companyId)
         {
             //TODO: filtrowanie zamówień przez statusy
-            var orders = RepoGeneric.Find<Order>(c => c.OrderProperties.CompanyId == companyId || !c.OrderProperties.CompanyId.HasValue)
-                .Select(c => new OrderGridModel()
-                {
-                    OrderId = c.OrderId,
-                    ClientId = c.ClientId,
-                    Status = c.Status,
-                    //StatusName = 
-                    TimeCreated = c.TimeCreated,
-                    AddressFrom = c.Address.AddressFrom,
-                    AddressTo = c.Address.AddressTo,
-                    Client = c.Client.LastName + " " + c.Client.FirstName,
-                    EstimatedPrice = c.EstimatedPrice,
-                    Priority = c.OrderProperties.Priority
-                })
-                .ToList();
+            //var orders = RepoGeneric.Find<Order>(c => c.OrderProperties.CompanyId == companyId || !c.OrderProperties.CompanyId.HasValue)
+            //    .Select(c => new OrderGridModel()
+            //    {
+            //        OrderId = c.OrderId,
+            //        ClientId = c.ClientId,
+            //        Status = c.Status,
+            //        //StatusName = 
+            //        TimeCreated = c.TimeCreated,
+            //        AddressFrom = c.Address.AddressFrom,
+            //        AddressTo = c.Address.AddressTo,
+            //        Client = c.Client.LastName + " " + c.Client.FirstName,
+            //        EstimatedPrice = c.EstimatedPrice,
+            //        Priority = c.OrderProperties.Priority
+            //    })
+            //    .ToList();
 
-            return orders;
+            //return orders;
+
+            return null;
         }
     }
 }

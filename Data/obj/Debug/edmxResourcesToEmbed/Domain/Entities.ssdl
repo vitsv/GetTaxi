@@ -1,0 +1,407 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Entities.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="EntitiesStoreContainer">
+    <EntitySet Name="Address" EntityType="Entities.Store.Address" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Car" EntityType="Entities.Store.Car" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="City" EntityType="Entities.Store.City" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Client" EntityType="Entities.Store.Client" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Company" EntityType="Entities.Store.Company" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Order" EntityType="Entities.Store.Order" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrderNote" EntityType="Entities.Store.OrderNote" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrderProperties" EntityType="Entities.Store.OrderProperties" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Right" EntityType="Entities.Store.Right" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Role" EntityType="Entities.Store.Role" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="User" EntityType="Entities.Store.User" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserRole" EntityType="Entities.Store.UserRole" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrderCompany" EntityType="Entities.Store.OrderCompany" store:Type="Tables" Schema="vitsv_gettaxi" />
+    <AssociationSet Name="FK_Address_CityFrom" Association="Entities.Store.FK_Address_CityFrom">
+      <End Role="City" EntitySet="City" />
+      <End Role="Address" EntitySet="Address" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Address_CityTo" Association="Entities.Store.FK_Address_CityTo">
+      <End Role="City" EntitySet="City" />
+      <End Role="Address" EntitySet="Address" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Car_Company" Association="Entities.Store.FK_Car_Company">
+      <End Role="Company" EntitySet="Company" />
+      <End Role="Car" EntitySet="Car" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Address" Association="Entities.Store.FK_Order_Address">
+      <End Role="Address" EntitySet="Address" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Car" Association="Entities.Store.FK_Order_Car">
+      <End Role="Car" EntitySet="Car" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Client" Association="Entities.Store.FK_Order_Client">
+      <End Role="Client" EntitySet="Client" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_OrderProperties" Association="Entities.Store.FK_Order_OrderProperties">
+      <End Role="OrderProperties" EntitySet="OrderProperties" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderCompany_Company" Association="Entities.Store.FK_OrderCompany_Company">
+      <End Role="Company" EntitySet="Company" />
+      <End Role="OrderCompany" EntitySet="OrderCompany" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderCompany_Order" Association="Entities.Store.FK_OrderCompany_Order">
+      <End Role="Order" EntitySet="Order" />
+      <End Role="OrderCompany" EntitySet="OrderCompany" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderNote_Order" Association="Entities.Store.FK_OrderNote_Order">
+      <End Role="Order" EntitySet="Order" />
+      <End Role="OrderNote" EntitySet="OrderNote" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Right_Role" Association="Entities.Store.FK_Right_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="Right" EntitySet="Right" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Company" Association="Entities.Store.FK_User_Company">
+      <End Role="Company" EntitySet="Company" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRole_Role" Association="Entities.Store.FK_UserRole_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="UserRole" EntitySet="UserRole" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRole_User" Association="Entities.Store.FK_UserRole_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="UserRole" EntitySet="UserRole" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Address">
+    <Key>
+      <PropertyRef Name="AddressId" />
+    </Key>
+    <Property Name="AddressId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CityFrom" Type="int" Nullable="false" />
+    <Property Name="AddressFrom" Type="nvarchar" Nullable="false" MaxLength="250" />
+    <Property Name="CityTo" Type="int" />
+    <Property Name="AddressTo" Type="nvarchar" MaxLength="250" />
+    <Property Name="Latitude" Type="float" />
+    <Property Name="Longitude" Type="float" />
+    <Property Name="Accurancy" Type="float" />
+  </EntityType>
+  <EntityType Name="Car">
+    <Key>
+      <PropertyRef Name="CarId" />
+    </Key>
+    <Property Name="CarId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Mark" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Model" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Color" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="NrOfSeats" Type="int" />
+    <Property Name="DriverName" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="CarNumber" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="CompanyId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="City">
+    <Key>
+      <PropertyRef Name="CityId" />
+    </Key>
+    <Property Name="CityId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="DisplayOrder" Type="int" />
+  </EntityType>
+  <EntityType Name="Client">
+    <Key>
+      <PropertyRef Name="ClientId" />
+    </Key>
+    <Property Name="ClientId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Phone" Type="nvarchar" Nullable="false" MaxLength="15" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" MaxLength="200" />
+    <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Salt" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="CreationDate" Type="datetime" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="ActivateCode" Type="nvarchar" MaxLength="10" />
+    <Property Name="SmsSentCount" Type="int" />
+    <Property Name="LastLoginDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="CompanyId" />
+    </Key>
+    <Property Name="CompanyId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Description" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Name="OrderId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ClientId" Type="int" Nullable="false" />
+    <Property Name="OrderPropertiesId" Type="int" Nullable="false" />
+    <Property Name="CarId" Type="int" />
+    <Property Name="Deadline" Type="datetime" Nullable="false" />
+    <Property Name="AddressId" Type="int" Nullable="false" />
+    <Property Name="Tariff" Type="int" />
+    <Property Name="EstimatedPrice" Type="float" />
+    <Property Name="IsPrepaid" Type="bit" Nullable="false" />
+    <Property Name="IsPlanned" Type="bit" Nullable="false" />
+    <Property Name="PlannedOn" Type="datetime" />
+    <Property Name="Status" Type="int" Nullable="false" />
+    <Property Name="TimeCreated" Type="datetime" Nullable="false" />
+    <Property Name="TimeAssigned" Type="datetime" />
+    <Property Name="TimeArrived" Type="datetime" />
+    <Property Name="TimeInCar" Type="datetime" />
+    <Property Name="TimeDone" Type="datetime" />
+    <Property Name="TimeCanceled" Type="datetime" />
+    <Property Name="CanceledBy" Type="int" />
+    <Property Name="CancelCause" Type="int" />
+    <Property Name="FinalPrice" Type="float" />
+    <Property Name="UserComment" Type="nvarchar" MaxLength="500" />
+    <Property Name="TaxiComment" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="OrderNote">
+    <Key>
+      <PropertyRef Name="OrderNoteId" />
+    </Key>
+    <Property Name="OrderNoteId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="OrderId" Type="int" Nullable="false" />
+    <Property Name="NoteType" Type="int" Nullable="false" />
+    <Property Name="Vote" Type="int" />
+    <Property Name="UserComment" Type="nvarchar" MaxLength="500" />
+    <Property Name="CreationTime" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OrderProperties">
+    <Key>
+      <PropertyRef Name="OrderPropertiesId" />
+    </Key>
+    <Property Name="OrderPropertiesId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="OrderClass" Type="int" Nullable="false" />
+    <Property Name="Priority" Type="int" Nullable="false" />
+    <Property Name="Childer" Type="bit" Nullable="false" />
+    <Property Name="Nosmoking" Type="bit" Nullable="false" />
+    <Property Name="Animal" Type="bit" Nullable="false" />
+    <Property Name="English" Type="bit" Nullable="false" />
+    <Property Name="Card" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Right">
+    <Key>
+      <PropertyRef Name="RightId" />
+    </Key>
+    <Property Name="RightId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Value" Type="int" Nullable="false" />
+    <Property Name="RoleId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="RoleId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar" MaxLength="300" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Login" Type="nvarchar" MaxLength="50" />
+    <Property Name="CompanyId" Type="int" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" MaxLength="200" />
+    <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Salt" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="CreationDate" Type="datetime" Nullable="false" />
+    <Property Name="LastLoginDate" Type="datetime" />
+    <Property Name="BlockDate" Type="datetime" />
+    <Property Name="SuspendDate" Type="datetime" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="15" />
+    <Property Name="ActivateCode" Type="nvarchar" MaxLength="10" />
+    <Property Name="SmsSentCount" Type="int" />
+  </EntityType>
+  <EntityType Name="UserRole">
+    <Key>
+      <PropertyRef Name="UserRoleId" />
+    </Key>
+    <Property Name="UserRoleId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="RoleId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OrderCompany">
+    <Key>
+      <PropertyRef Name="OrderCompanyId" />
+    </Key>
+    <Property Name="OrderCompanyId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="OrderId" Type="int" Nullable="false" />
+    <Property Name="CompanyId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Address_CityFrom">
+    <End Role="City" Type="Entities.Store.City" Multiplicity="1" />
+    <End Role="Address" Type="Entities.Store.Address" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="City">
+        <PropertyRef Name="CityId" />
+      </Principal>
+      <Dependent Role="Address">
+        <PropertyRef Name="CityFrom" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Address_CityTo">
+    <End Role="City" Type="Entities.Store.City" Multiplicity="0..1" />
+    <End Role="Address" Type="Entities.Store.Address" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="City">
+        <PropertyRef Name="CityId" />
+      </Principal>
+      <Dependent Role="Address">
+        <PropertyRef Name="CityTo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Car_Company">
+    <End Role="Company" Type="Entities.Store.Company" Multiplicity="1" />
+    <End Role="Car" Type="Entities.Store.Car" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="CompanyId" />
+      </Principal>
+      <Dependent Role="Car">
+        <PropertyRef Name="CompanyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Address">
+    <End Role="Address" Type="Entities.Store.Address" Multiplicity="1" />
+    <End Role="Order" Type="Entities.Store.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Address">
+        <PropertyRef Name="AddressId" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="AddressId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Car">
+    <End Role="Car" Type="Entities.Store.Car" Multiplicity="0..1" />
+    <End Role="Order" Type="Entities.Store.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Car">
+        <PropertyRef Name="CarId" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="CarId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Client">
+    <End Role="Client" Type="Entities.Store.Client" Multiplicity="1" />
+    <End Role="Order" Type="Entities.Store.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="ClientId" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="ClientId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_OrderProperties">
+    <End Role="OrderProperties" Type="Entities.Store.OrderProperties" Multiplicity="1" />
+    <End Role="Order" Type="Entities.Store.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderProperties">
+        <PropertyRef Name="OrderPropertiesId" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="OrderPropertiesId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderCompany_Company">
+    <End Role="Company" Type="Entities.Store.Company" Multiplicity="1" />
+    <End Role="OrderCompany" Type="Entities.Store.OrderCompany" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="CompanyId" />
+      </Principal>
+      <Dependent Role="OrderCompany">
+        <PropertyRef Name="CompanyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderCompany_Order">
+    <End Role="Order" Type="Entities.Store.Order" Multiplicity="1" />
+    <End Role="OrderCompany" Type="Entities.Store.OrderCompany" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="OrderId" />
+      </Principal>
+      <Dependent Role="OrderCompany">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderNote_Order">
+    <End Role="Order" Type="Entities.Store.Order" Multiplicity="1" />
+    <End Role="OrderNote" Type="Entities.Store.OrderNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="OrderId" />
+      </Principal>
+      <Dependent Role="OrderNote">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Right_Role">
+    <End Role="Role" Type="Entities.Store.Role" Multiplicity="1" />
+    <End Role="Right" Type="Entities.Store.Right" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="Right">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Company">
+    <End Role="Company" Type="Entities.Store.Company" Multiplicity="0..1" />
+    <End Role="User" Type="Entities.Store.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="CompanyId" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="CompanyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRole_Role">
+    <End Role="Role" Type="Entities.Store.Role" Multiplicity="1" />
+    <End Role="UserRole" Type="Entities.Store.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="UserRole">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRole_User">
+    <End Role="User" Type="Entities.Store.User" Multiplicity="1" />
+    <End Role="UserRole" Type="Entities.Store.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="UserRole">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

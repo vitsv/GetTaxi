@@ -80,6 +80,9 @@
     <Compile Include="Domain\Order.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Domain\OrderCompany.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Domain\OrderNote.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>

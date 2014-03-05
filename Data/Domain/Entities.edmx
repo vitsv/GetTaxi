@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Entities.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Entities.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="EntitiesStoreContainer">
           <EntitySet Name="Address" EntityType="Entities.Store.Address" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Car" EntityType="Entities.Store.Car" store:Type="Tables" Schema="dbo" />
@@ -18,6 +18,7 @@
           <EntitySet Name="Role" EntityType="Entities.Store.Role" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="User" EntityType="Entities.Store.User" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UserRole" EntityType="Entities.Store.UserRole" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OrderCompany" EntityType="Entities.Store.OrderCompany" store:Type="Tables" Schema="vitsv_gettaxi" />
           <AssociationSet Name="FK_Address_CityFrom" Association="Entities.Store.FK_Address_CityFrom">
             <End Role="City" EntitySet="City" />
             <End Role="Address" EntitySet="Address" />
@@ -46,13 +47,17 @@
             <End Role="OrderProperties" EntitySet="OrderProperties" />
             <End Role="Order" EntitySet="Order" />
           </AssociationSet>
+          <AssociationSet Name="FK_OrderCompany_Company" Association="Entities.Store.FK_OrderCompany_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="OrderCompany" EntitySet="OrderCompany" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCompany_Order" Association="Entities.Store.FK_OrderCompany_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="OrderCompany" EntitySet="OrderCompany" />
+          </AssociationSet>
           <AssociationSet Name="FK_OrderNote_Order" Association="Entities.Store.FK_OrderNote_Order">
             <End Role="Order" EntitySet="Order" />
             <End Role="OrderNote" EntitySet="OrderNote" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderProperties_Company" Association="Entities.Store.FK_OrderProperties_Company">
-            <End Role="Company" EntitySet="Company" />
-            <End Role="OrderProperties" EntitySet="OrderProperties" />
           </AssociationSet>
           <AssociationSet Name="FK_Right_Role" Association="Entities.Store.FK_Right_Role">
             <End Role="Role" EntitySet="Role" />
@@ -174,7 +179,6 @@
             <PropertyRef Name="OrderPropertiesId" />
           </Key>
           <Property Name="OrderPropertiesId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="CompanyId" Type="int" />
           <Property Name="OrderClass" Type="int" Nullable="false" />
           <Property Name="Priority" Type="int" Nullable="false" />
           <Property Name="Childer" Type="bit" Nullable="false" />
@@ -228,6 +232,14 @@
           <Property Name="UserRoleId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="RoleId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderCompany">
+          <Key>
+            <PropertyRef Name="OrderCompanyId" />
+          </Key>
+          <Property Name="OrderCompanyId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Address_CityFrom">
           <End Role="City" Type="Entities.Store.City" Multiplicity="1" />
@@ -313,6 +325,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_OrderCompany_Company">
+          <End Role="Company" Type="Entities.Store.Company" Multiplicity="1" />
+          <End Role="OrderCompany" Type="Entities.Store.OrderCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="OrderCompany">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCompany_Order">
+          <End Role="Order" Type="Entities.Store.Order" Multiplicity="1" />
+          <End Role="OrderCompany" Type="Entities.Store.OrderCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="OrderCompany">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OrderNote_Order">
           <End Role="Order" Type="Entities.Store.Order" Multiplicity="1" />
           <End Role="OrderNote" Type="Entities.Store.OrderNote" Multiplicity="*" />
@@ -322,18 +358,6 @@
             </Principal>
             <Dependent Role="OrderNote">
               <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderProperties_Company">
-          <End Role="Company" Type="Entities.Store.Company" Multiplicity="0..1" />
-          <End Role="OrderProperties" Type="Entities.Store.OrderProperties" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
-            </Principal>
-            <Dependent Role="OrderProperties">
-              <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -385,8 +409,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Entities" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -398,7 +421,6 @@
           <EntitySet Name="Company" EntityType="Entities.Company" />
           <EntitySet Name="Order" EntityType="Entities.Order" />
           <EntitySet Name="OrderNote" EntityType="Entities.OrderNote" />
-          <EntitySet Name="OrderProperties" EntityType="Entities.OrderProperties" />
           <EntitySet Name="Right" EntityType="Entities.Right" />
           <EntitySet Name="Role" EntityType="Entities.Role" />
           <EntitySet Name="User" EntityType="Entities.User" />
@@ -427,17 +449,9 @@
             <End Role="Client" EntitySet="Client" />
             <End Role="Order" EntitySet="Order" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrderProperties_Company" Association="Entities.FK_OrderProperties_Company">
-            <End Role="Company" EntitySet="Company" />
-            <End Role="OrderProperties" EntitySet="OrderProperties" />
-          </AssociationSet>
           <AssociationSet Name="FK_User_Company" Association="Entities.FK_User_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="User" EntitySet="User" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_OrderProperties" Association="Entities.FK_Order_OrderProperties">
-            <End Role="OrderProperties" EntitySet="OrderProperties" />
-            <End Role="Order" EntitySet="Order" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderNote_Order" Association="Entities.FK_OrderNote_Order">
             <End Role="Order" EntitySet="Order" />
@@ -454,6 +468,20 @@
           <AssociationSet Name="FK_UserRole_User" Association="Entities.FK_UserRole_User">
             <End Role="User" EntitySet="User" />
             <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+          <EntitySet Name="OrderCompany" EntityType="Entities.OrderCompany" />
+          <AssociationSet Name="FK_OrderCompany_Company" Association="Entities.FK_OrderCompany_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="OrderCompany" EntitySet="OrderCompany" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCompany_Order" Association="Entities.FK_OrderCompany_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="OrderCompany" EntitySet="OrderCompany" />
+          </AssociationSet>
+          <EntitySet Name="OrderProperties" EntityType="Entities.OrderProperties" />
+          <AssociationSet Name="FK_Order_OrderProperties" Association="Entities.FK_Order_OrderProperties">
+            <End Role="OrderProperties" EntitySet="OrderProperties" />
+            <End Role="Order" EntitySet="Order" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Address">
@@ -523,8 +551,8 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="Description" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Car" Relationship="Entities.FK_Car_Company" FromRole="Company" ToRole="Car" />
-          <NavigationProperty Name="OrderProperties" Relationship="Entities.FK_OrderProperties_Company" FromRole="Company" ToRole="OrderProperties" />
           <NavigationProperty Name="User" Relationship="Entities.FK_User_Company" FromRole="Company" ToRole="User" />
+          <NavigationProperty Name="OrderCompany" Relationship="Entities.FK_OrderCompany_Company" FromRole="Company" ToRole="OrderCompany" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -556,8 +584,9 @@
           <NavigationProperty Name="Address" Relationship="Entities.FK_Order_Address" FromRole="Order" ToRole="Address" />
           <NavigationProperty Name="Car" Relationship="Entities.FK_Order_Car" FromRole="Order" ToRole="Car" />
           <NavigationProperty Name="Client" Relationship="Entities.FK_Order_Client" FromRole="Order" ToRole="Client" />
-          <NavigationProperty Name="OrderProperties" Relationship="Entities.FK_Order_OrderProperties" FromRole="Order" ToRole="OrderProperties" />
           <NavigationProperty Name="OrderNote" Relationship="Entities.FK_OrderNote_Order" FromRole="Order" ToRole="OrderNote" />
+          <NavigationProperty Name="OrderCompany" Relationship="Entities.FK_OrderCompany_Order" FromRole="Order" ToRole="OrderCompany" />
+          <NavigationProperty Name="OrderProperties" Relationship="Entities.FK_Order_OrderProperties" FromRole="Order" ToRole="OrderProperties" />
         </EntityType>
         <EntityType Name="OrderNote">
           <Key>
@@ -570,22 +599,6 @@
           <Property Name="UserComment" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
           <Property Name="CreationTime" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Order" Relationship="Entities.FK_OrderNote_Order" FromRole="OrderNote" ToRole="Order" />
-        </EntityType>
-        <EntityType Name="OrderProperties">
-          <Key>
-            <PropertyRef Name="OrderPropertiesId" />
-          </Key>
-          <Property Name="OrderPropertiesId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="CompanyId" Type="Int32" />
-          <Property Name="OrderClass" Type="Int32" Nullable="false" />
-          <Property Name="Priority" Type="Int32" Nullable="false" />
-          <Property Name="Childer" Type="Boolean" Nullable="false" />
-          <Property Name="Nosmoking" Type="Boolean" Nullable="false" />
-          <Property Name="Animal" Type="Boolean" Nullable="false" />
-          <Property Name="English" Type="Boolean" Nullable="false" />
-          <Property Name="Card" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Company" Relationship="Entities.FK_OrderProperties_Company" FromRole="OrderProperties" ToRole="Company" />
-          <NavigationProperty Name="Order" Relationship="Entities.FK_Order_OrderProperties" FromRole="OrderProperties" ToRole="Order" />
         </EntityType>
         <EntityType Name="Right">
           <Key>
@@ -712,18 +725,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrderProperties_Company">
-          <End Role="Company" Type="Entities.Company" Multiplicity="0..1" />
-          <End Role="OrderProperties" Type="Entities.OrderProperties" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
-            </Principal>
-            <Dependent Role="OrderProperties">
-              <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_User_Company">
           <End Role="Company" Type="Entities.Company" Multiplicity="0..1" />
           <End Role="User" Type="Entities.User" Multiplicity="*" />
@@ -733,18 +734,6 @@
             </Principal>
             <Dependent Role="User">
               <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_OrderProperties">
-          <End Role="OrderProperties" Type="Entities.OrderProperties" Multiplicity="1" />
-          <End Role="Order" Type="Entities.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrderProperties">
-              <PropertyRef Name="OrderPropertiesId" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="OrderPropertiesId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -793,6 +782,66 @@
             </Principal>
             <Dependent Role="UserRole">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OrderCompany">
+          <Key>
+            <PropertyRef Name="OrderCompanyId" />
+          </Key>
+          <Property Type="Int32" Name="OrderCompanyId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="OrderId" Nullable="false" />
+          <Property Type="Int32" Name="CompanyId" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="Entities.FK_OrderCompany_Company" FromRole="OrderCompany" ToRole="Company" />
+          <NavigationProperty Name="Order" Relationship="Entities.FK_OrderCompany_Order" FromRole="OrderCompany" ToRole="Order" />
+        </EntityType>
+        <Association Name="FK_OrderCompany_Company">
+          <End Type="Entities.Company" Role="Company" Multiplicity="1" />
+          <End Type="Entities.OrderCompany" Role="OrderCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="OrderCompany">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCompany_Order">
+          <End Type="Entities.Order" Role="Order" Multiplicity="1" />
+          <End Type="Entities.OrderCompany" Role="OrderCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="OrderCompany">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OrderProperties">
+          <Key>
+            <PropertyRef Name="OrderPropertiesId" />
+          </Key>
+          <Property Type="Int32" Name="OrderPropertiesId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="OrderClass" Nullable="false" />
+          <Property Type="Int32" Name="Priority" Nullable="false" />
+          <Property Type="Boolean" Name="Childer" Nullable="false" />
+          <Property Type="Boolean" Name="Nosmoking" Nullable="false" />
+          <Property Type="Boolean" Name="Animal" Nullable="false" />
+          <Property Type="Boolean" Name="English" Nullable="false" />
+          <Property Type="Boolean" Name="Card" Nullable="false" />
+          <NavigationProperty Name="Order" Relationship="Entities.FK_Order_OrderProperties" FromRole="OrderProperties" ToRole="Order" />
+        </EntityType>
+        <Association Name="FK_Order_OrderProperties">
+          <End Type="Entities.OrderProperties" Role="OrderProperties" Multiplicity="1" />
+          <End Type="Entities.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderProperties">
+              <PropertyRef Name="OrderPropertiesId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="OrderPropertiesId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -907,21 +956,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="OrderProperties">
-            <EntityTypeMapping TypeName="Entities.OrderProperties">
-              <MappingFragment StoreEntitySet="OrderProperties">
-                <ScalarProperty Name="OrderPropertiesId" ColumnName="OrderPropertiesId" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="OrderClass" ColumnName="OrderClass" />
-                <ScalarProperty Name="Priority" ColumnName="Priority" />
-                <ScalarProperty Name="Childer" ColumnName="Childer" />
-                <ScalarProperty Name="Nosmoking" ColumnName="Nosmoking" />
-                <ScalarProperty Name="Animal" ColumnName="Animal" />
-                <ScalarProperty Name="English" ColumnName="English" />
-                <ScalarProperty Name="Card" ColumnName="Card" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Right">
             <EntityTypeMapping TypeName="Entities.Right">
               <MappingFragment StoreEntitySet="Right">
@@ -969,6 +1003,29 @@
                 <ScalarProperty Name="UserRoleId" ColumnName="UserRoleId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderCompany">
+            <EntityTypeMapping TypeName="Entities.OrderCompany">
+              <MappingFragment StoreEntitySet="OrderCompany">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="OrderCompanyId" ColumnName="OrderCompanyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderProperties">
+            <EntityTypeMapping TypeName="Entities.OrderProperties">
+              <MappingFragment StoreEntitySet="OrderProperties">
+                <ScalarProperty Name="Card" ColumnName="Card" />
+                <ScalarProperty Name="English" ColumnName="English" />
+                <ScalarProperty Name="Animal" ColumnName="Animal" />
+                <ScalarProperty Name="Nosmoking" ColumnName="Nosmoking" />
+                <ScalarProperty Name="Childer" ColumnName="Childer" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="OrderClass" ColumnName="OrderClass" />
+                <ScalarProperty Name="OrderPropertiesId" ColumnName="OrderPropertiesId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

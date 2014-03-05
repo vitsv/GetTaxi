@@ -17,6 +17,7 @@ namespace Data.Domain
         public Order()
         {
             this.OrderNote = new HashSet<OrderNote>();
+            this.OrderCompany = new HashSet<OrderCompany>();
         }
     
         public int OrderId { get; set; }
@@ -46,7 +47,8 @@ namespace Data.Domain
         public virtual Address Address { get; set; }
         public virtual Car Car { get; set; }
         public virtual Client Client { get; set; }
-        public virtual OrderProperties OrderProperties { get; set; }
         public virtual ICollection<OrderNote> OrderNote { get; set; }
+        public virtual ICollection<OrderCompany> OrderCompany { get; set; }
+        public virtual OrderProperties OrderProperties { get; set; }
     }
 }

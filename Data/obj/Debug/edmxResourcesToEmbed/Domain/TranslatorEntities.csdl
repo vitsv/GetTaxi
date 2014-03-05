@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TranslatorModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="TranslatorEntities1" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Document" EntityType="TranslatorModel.Document" />
+    <EntitySet Name="Item" EntityType="TranslatorModel.Item" />
+    <EntitySet Name="Language" EntityType="TranslatorModel.Language" />
+    <EntitySet Name="Part" EntityType="TranslatorModel.Part" />
+    <EntitySet Name="Right" EntityType="TranslatorModel.Right" />
+    <EntitySet Name="Role" EntityType="TranslatorModel.Role" />
+    <EntitySet Name="RoleRight" EntityType="TranslatorModel.RoleRight" />
+    <EntitySet Name="Translate" EntityType="TranslatorModel.Translate" />
+    <EntitySet Name="User" EntityType="TranslatorModel.User" />
+    <EntitySet Name="UserRole" EntityType="TranslatorModel.UserRole" />
+    <AssociationSet Name="FK_Document_Language" Association="TranslatorModel.FK_Document_Language">
+      <End Role="Language" EntitySet="Language" />
+      <End Role="Document" EntitySet="Document" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Document_Language1" Association="TranslatorModel.FK_Document_Language1">
+      <End Role="Language" EntitySet="Language" />
+      <End Role="Document" EntitySet="Document" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Document_User" Association="TranslatorModel.FK_Document_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Document" EntitySet="Document" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Item_Document" Association="TranslatorModel.FK_Item_Document">
+      <End Role="Document" EntitySet="Document" />
+      <End Role="Item" EntitySet="Item" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Part_Document" Association="TranslatorModel.FK_Part_Document">
+      <End Role="Document" EntitySet="Document" />
+      <End Role="Part" EntitySet="Part" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Item_Part" Association="TranslatorModel.FK_Item_Part">
+      <End Role="Part" EntitySet="Part" />
+      <End Role="Item" EntitySet="Item" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Translate_Item" Association="TranslatorModel.FK_Translate_Item">
+      <End Role="Item" EntitySet="Item" />
+      <End Role="Translate" EntitySet="Translate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RoleRight_Right" Association="TranslatorModel.FK_RoleRight_Right">
+      <End Role="Right" EntitySet="Right" />
+      <End Role="RoleRight" EntitySet="RoleRight" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RoleRight_Role" Association="TranslatorModel.FK_RoleRight_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="RoleRight" EntitySet="RoleRight" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRole_Role" Association="TranslatorModel.FK_UserRole_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="UserRole" EntitySet="UserRole" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Translate_User" Association="TranslatorModel.FK_Translate_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Translate" EntitySet="Translate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRole_User" Association="TranslatorModel.FK_UserRole_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="UserRole" EntitySet="UserRole" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Document">
+    <Key>
+      <PropertyRef Name="DocumentId" />
+    </Key>
+    <Property Name="DocumentId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="OriginalLanguageId" Type="Int32" Nullable="false" />
+    <Property Name="TranslateLanguageId" Type="Int32" Nullable="false" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Language" Relationship="TranslatorModel.FK_Document_Language" FromRole="Document" ToRole="Language" />
+    <NavigationProperty Name="Language1" Relationship="TranslatorModel.FK_Document_Language1" FromRole="Document" ToRole="Language" />
+    <NavigationProperty Name="User" Relationship="TranslatorModel.FK_Document_User" FromRole="Document" ToRole="User" />
+    <NavigationProperty Name="Item" Relationship="TranslatorModel.FK_Item_Document" FromRole="Document" ToRole="Item" />
+    <NavigationProperty Name="Part" Relationship="TranslatorModel.FK_Part_Document" FromRole="Document" ToRole="Part" />
+  </EntityType>
+  <EntityType Name="Item">
+    <Key>
+      <PropertyRef Name="ItemId" />
+    </Key>
+    <Property Name="ItemId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="DocumentId" Type="Int32" Nullable="false" />
+    <Property Name="PartId" Type="Int32" />
+    <Property Name="Text" Type="String" Nullable="false" MaxLength="2000" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Document" Relationship="TranslatorModel.FK_Item_Document" FromRole="Item" ToRole="Document" />
+    <NavigationProperty Name="Part" Relationship="TranslatorModel.FK_Item_Part" FromRole="Item" ToRole="Part" />
+    <NavigationProperty Name="Translate" Relationship="TranslatorModel.FK_Translate_Item" FromRole="Item" ToRole="Translate" />
+  </EntityType>
+  <EntityType Name="Language">
+    <Key>
+      <PropertyRef Name="LanguageId" />
+    </Key>
+    <Property Name="LanguageId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Icon" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Document" Relationship="TranslatorModel.FK_Document_Language" FromRole="Language" ToRole="Document" />
+    <NavigationProperty Name="Document1" Relationship="TranslatorModel.FK_Document_Language1" FromRole="Language" ToRole="Document" />
+  </EntityType>
+  <EntityType Name="Part">
+    <Key>
+      <PropertyRef Name="PartId" />
+    </Key>
+    <Property Name="PartId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="DocumentId" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="Description" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Document" Relationship="TranslatorModel.FK_Part_Document" FromRole="Part" ToRole="Document" />
+    <NavigationProperty Name="Item" Relationship="TranslatorModel.FK_Item_Part" FromRole="Part" ToRole="Item" />
+  </EntityType>
+  <EntityType Name="Right">
+    <Key>
+      <PropertyRef Name="RightId" />
+    </Key>
+    <Property Name="RightId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Value" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="RoleRight" Relationship="TranslatorModel.FK_RoleRight_Right" FromRole="Right" ToRole="RoleRight" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="RoleId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Description" Type="String" MaxLength="300" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="RoleRight" Relationship="TranslatorModel.FK_RoleRight_Role" FromRole="Role" ToRole="RoleRight" />
+    <NavigationProperty Name="UserRole" Relationship="TranslatorModel.FK_UserRole_Role" FromRole="Role" ToRole="UserRole" />
+  </EntityType>
+  <EntityType Name="RoleRight">
+    <Key>
+      <PropertyRef Name="RoleRightId" />
+    </Key>
+    <Property Name="RoleRightId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleId" Type="Int32" Nullable="false" />
+    <Property Name="RightId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Right" Relationship="TranslatorModel.FK_RoleRight_Right" FromRole="RoleRight" ToRole="Right" />
+    <NavigationProperty Name="Role" Relationship="TranslatorModel.FK_RoleRight_Role" FromRole="RoleRight" ToRole="Role" />
+  </EntityType>
+  <EntityType Name="Translate">
+    <Key>
+      <PropertyRef Name="TranslateId" />
+    </Key>
+    <Property Name="TranslateId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="ItemId" Type="Int32" Nullable="false" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="Text" Type="String" Nullable="false" MaxLength="2000" Unicode="true" FixedLength="false" />
+    <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Item" Relationship="TranslatorModel.FK_Translate_Item" FromRole="Translate" ToRole="Item" />
+    <NavigationProperty Name="User" Relationship="TranslatorModel.FK_Translate_User" FromRole="Translate" ToRole="User" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Login" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="FirstName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="Salt" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="LastLoginDate" Type="DateTime" Precision="3" />
+    <Property Name="BlockDate" Type="DateTime" Precision="3" />
+    <Property Name="SuspendDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Document" Relationship="TranslatorModel.FK_Document_User" FromRole="User" ToRole="Document" />
+    <NavigationProperty Name="Translate" Relationship="TranslatorModel.FK_Translate_User" FromRole="User" ToRole="Translate" />
+    <NavigationProperty Name="UserRole" Relationship="TranslatorModel.FK_UserRole_User" FromRole="User" ToRole="UserRole" />
+  </EntityType>
+  <EntityType Name="UserRole">
+    <Key>
+      <PropertyRef Name="UserRoleId" />
+    </Key>
+    <Property Name="UserRoleId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="RoleId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Role" Relationship="TranslatorModel.FK_UserRole_Role" FromRole="UserRole" ToRole="Role" />
+    <NavigationProperty Name="User" Relationship="TranslatorModel.FK_UserRole_User" FromRole="UserRole" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_Document_Language">
+    <End Role="Language" Type="TranslatorModel.Language" Multiplicity="1" />
+    <End Role="Document" Type="TranslatorModel.Document" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="LanguageId" />
+      </Principal>
+      <Dependent Role="Document">
+        <PropertyRef Name="OriginalLanguageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Document_Language1">
+    <End Role="Language" Type="TranslatorModel.Language" Multiplicity="1" />
+    <End Role="Document" Type="TranslatorModel.Document" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="LanguageId" />
+      </Principal>
+      <Dependent Role="Document">
+        <PropertyRef Name="TranslateLanguageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Document_User">
+    <End Role="User" Type="TranslatorModel.User" Multiplicity="1" />
+    <End Role="Document" Type="TranslatorModel.Document" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Document">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Item_Document">
+    <End Role="Document" Type="TranslatorModel.Document" Multiplicity="1" />
+    <End Role="Item" Type="TranslatorModel.Item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Document">
+        <PropertyRef Name="DocumentId" />
+      </Principal>
+      <Dependent Role="Item">
+        <PropertyRef Name="DocumentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Part_Document">
+    <End Role="Document" Type="TranslatorModel.Document" Multiplicity="1" />
+    <End Role="Part" Type="TranslatorModel.Part" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Document">
+        <PropertyRef Name="DocumentId" />
+      </Principal>
+      <Dependent Role="Part">
+        <PropertyRef Name="DocumentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Item_Part">
+    <End Role="Part" Type="TranslatorModel.Part" Multiplicity="0..1" />
+    <End Role="Item" Type="TranslatorModel.Item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Part">
+        <PropertyRef Name="PartId" />
+      </Principal>
+      <Dependent Role="Item">
+        <PropertyRef Name="PartId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Translate_Item">
+    <End Role="Item" Type="TranslatorModel.Item" Multiplicity="1" />
+    <End Role="Translate" Type="TranslatorModel.Translate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Item">
+        <PropertyRef Name="ItemId" />
+      </Principal>
+      <Dependent Role="Translate">
+        <PropertyRef Name="ItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RoleRight_Right">
+    <End Role="Right" Type="TranslatorModel.Right" Multiplicity="1" />
+    <End Role="RoleRight" Type="TranslatorModel.RoleRight" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Right">
+        <PropertyRef Name="RightId" />
+      </Principal>
+      <Dependent Role="RoleRight">
+        <PropertyRef Name="RightId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RoleRight_Role">
+    <End Role="Role" Type="TranslatorModel.Role" Multiplicity="1" />
+    <End Role="RoleRight" Type="TranslatorModel.RoleRight" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="RoleRight">
+        <PropertyRef Name="RoleRightId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRole_Role">
+    <End Role="Role" Type="TranslatorModel.Role" Multiplicity="1" />
+    <End Role="UserRole" Type="TranslatorModel.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="UserRole">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Translate_User">
+    <End Role="User" Type="TranslatorModel.User" Multiplicity="1" />
+    <End Role="Translate" Type="TranslatorModel.Translate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Translate">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRole_User">
+    <End Role="User" Type="TranslatorModel.User" Multiplicity="1" />
+    <End Role="UserRole" Type="TranslatorModel.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="UserRole">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

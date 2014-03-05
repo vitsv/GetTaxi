@@ -10,16 +10,29 @@ namespace Managers
 {
     public abstract class GlobalManager : IDisposable
     {
+        public GlobalManager(bool enableProxy)
+        {
+            EnableProxy = enableProxy;
+        }
+
+        public GlobalManager()
+        {
+            EnableProxy = true;
+        }
+
+        public bool EnableProxy { get; set; }
         public User CurrentUser { get; set; }
 
-        public static DbContext _ctx;
-        public static DbContext CTX
+        public DbContext _ctx;
+        public DbContext CTX
         {
             get
             {
                 if (_ctx == null)
                     _ctx = new GetTaxiEntities();
-
+                _ctx.Configuration.ProxyCreationEnabled = EnableProxy;
+                _ctx.Configuration.LazyLoadingEnabled = EnableProxy;
+                _ctx.Configuration.AutoDetectChangesEnabled = EnableProxy;
                 return _ctx;
             }
         }
@@ -29,6 +42,7 @@ namespace Managers
             get
             {
                 var ctx = CTX;
+
                 var repository = new GenericRepository(ctx);
                 return repository;
             }

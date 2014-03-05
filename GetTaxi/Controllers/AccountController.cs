@@ -61,7 +61,7 @@ namespace WebUI.Controllers
                     };
 
                     //Nadpisuje cookie dla przechowywania dodatkowych informacji
-                    Response.SetAuthCookie(model.Phone, model.RememberMe, userData);
+                    Response.SetAuthCookie(model.Phone, true, userData);
 
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                         && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))

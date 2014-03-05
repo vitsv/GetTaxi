@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="cea9d1e82a484d489e808ca1636aa07b" Name="Diagram1">
+      <Diagram DiagramId="cea9d1e82a484d489e808ca1636aa07b" Name="Diagram1" ZoomLevel="82">
         <EntityTypeShape EntityType="Entities.Address" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Entities.Car" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="Entities.City" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
@@ -12,7 +12,6 @@
         <EntityTypeShape EntityType="Entities.Company" Width="1.5" PointX="0.75" PointY="10" IsExpanded="true" />
         <EntityTypeShape EntityType="Entities.Order" Width="1.5" PointX="5.25" PointY="5.25" IsExpanded="true" />
         <EntityTypeShape EntityType="Entities.OrderNote" Width="1.5" PointX="7.5" PointY="7.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="Entities.OrderProperties" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Entities.Right" Width="1.5" PointX="5.25" PointY="23.875" IsExpanded="true" />
         <EntityTypeShape EntityType="Entities.Role" Width="1.5" PointX="3" PointY="23.875" IsExpanded="true" />
         <EntityTypeShape EntityType="Entities.User" Width="1.5" PointX="3" PointY="12.625" IsExpanded="true" />
@@ -23,13 +22,16 @@
         <AssociationConnector Association="Entities.FK_Car_Company" ManuallyRouted="false" />
         <AssociationConnector Association="Entities.FK_Order_Car" ManuallyRouted="false" />
         <AssociationConnector Association="Entities.FK_Order_Client" ManuallyRouted="false" />
-        <AssociationConnector Association="Entities.FK_OrderProperties_Company" ManuallyRouted="false" />
         <AssociationConnector Association="Entities.FK_User_Company" ManuallyRouted="false" />
-        <AssociationConnector Association="Entities.FK_Order_OrderProperties" ManuallyRouted="false" />
         <AssociationConnector Association="Entities.FK_OrderNote_Order" ManuallyRouted="false" />
         <AssociationConnector Association="Entities.FK_Right_Role" ManuallyRouted="false" />
         <AssociationConnector Association="Entities.FK_UserRole_Role" ManuallyRouted="false" />
         <AssociationConnector Association="Entities.FK_UserRole_User" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Entities.OrderCompany" Width="1.5" PointX="7" PointY="21.25" />
+        <AssociationConnector Association="Entities.FK_OrderCompany_Company" />
+        <AssociationConnector Association="Entities.FK_OrderCompany_Order" />
+        <EntityTypeShape EntityType="Entities.OrderProperties" Width="1.5" PointX="0.088450882625044747" PointY="21.708020130967732" />
+        <AssociationConnector Association="Entities.FK_Order_OrderProperties" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
