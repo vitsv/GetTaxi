@@ -37,5 +37,10 @@ namespace WebUI.Models.Order
         /// Czak oczekiwanie w minutach
         /// </summary>
         public int? WaitTime { get; set; }
+
+        /// <summary>
+        /// Numer telefonu
+        /// </summary>
+        public string PhoneNbr { get; set; }
     }
 }

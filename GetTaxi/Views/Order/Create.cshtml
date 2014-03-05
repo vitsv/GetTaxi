@@ -1,102 +1,165 @@
 ﻿@model WebUI.Models.Order.EditableOrder
-@{
-    ViewBag.Title = "Nowe zamówienie";
-}
 
-@using (Html.BeginForm("Create", "Order"))
-{
-    @Html.ValidationSummary(true)
-    
-    <legend>Nowe zamowienie</legend>
-      
-    <div class="editor-label">
-        Skąd
-    </div>
-    <div class="editor-field">
-        <label>Miasto:</label>
-        @Html.DropDownList("CityFrom", ViewBag.CityList as IEnumerable<SelectListItem>);
-        @Html.ValidationMessageFor(model => model.CityFrom)
+<div style="min-width: 250px; width: 500px;height:323px; -webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;background:#fff;" id="order_container">
 
-        <label>Adres</label>
-        @Html.EditorFor(model => model.AddressFrom)
-        @Html.ValidationMessageFor(model => model.AddressFrom)
-    </div>
+    @using (Ajax.BeginForm("Create", "Order", new { }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "SendOrderCallback(data)" }, new { @class = "form-horizontal", role = "form", autocomplete = "off" }))
+    {
+        @Html.Hidden("CityFrom", 1)
+        <ul class="nav nav-tabs" id="order_tabs">
+            <li class="active"><a href="#placetime" data-toggle="tab">Miejsce i czas</a></li>
+            <li><a href="#tarifs" data-toggle="tab">Wybór przewoźnika</a></li>
+            <li><a href="#order" data-toggle="tab">Zamówienie</a></li>
+        </ul>
     
-    <div class="editor-label">
-        Dokąd
-    </div>
-    <div class="editor-field">
-        <label>Miasto:</label>
-        @Html.DropDownList("CityTo", ViewBag.CityList as IEnumerable<SelectListItem>);
-        @Html.ValidationMessageFor(model => model.CityTo)
+        <div class="tab-content" style="margin: 10px">
+            <div class="tab-pane active" id="placetime">
+                <div class="form-group">
+                    <label for="AddressFrom" class="col-sm-2 control-label">Skąd</label>
+                    <div class="col-sm-10">
+                        <input type="text" value="" name="AddressFrom" id="AddressFrom" class="form-control" placeholder="Np. Karmelicka, 16">
+                        <span id="address_from_val_req_msg" class="text-danger" style="display: none;">Należy podać adres</span>
+                        <span id="address_from_val_msg" class="text-danger" style="display: none;">Nie prawidłowy adres</span>
+                    </div>
+                </div>
 
-        <label>Adres</label>
-        @Html.EditorFor(model => model.AddressTo)
-        @Html.ValidationMessageFor(model => model.AddressTo)
-    </div>
-    
-    <div class="editor-label">
-        Kiedy
-    </div>
-    <div class="editor-field">
-        @Html.DropDownList("IsPlanned", new List<SelectListItem> { new SelectListItem { Text = "Teraz", Value = "False", Selected = true }, new SelectListItem { Text = "Później", Value = "True" } });
-    </div>
-    
-    <div class="editor-label">
-        Na kiedy podać samochod
-    </div>
-    <div class="editor-field">
-        <label>Dzień</label>
-        @Html.DropDownList("PlannedDay", new List<SelectListItem> { new SelectListItem { Text = "Dzisiaj", Value = "1", Selected = true }, new SelectListItem { Text = "Jutro", Value = "2" } });
-                <label>Godzina</label>
-        @{//TODO Zrobic to jako partial, przeladowany AJAXem przy zmianie PlannedDay
-        }
-        @Html.DropDownList("PlannedHour", ViewBag.HoursList as IEnumerable<SelectListItem>);
-                <label>Minuty</label>
-        @Html.DropDownList("PlannedMinute", ViewBag.MinutesList as IEnumerable<SelectListItem>);
-    </div>
-    
-    <div class="editor-label">
-        Platność kartą kredytową
-    </div>
-    <div class="editor-field">
-        @Html.CheckBoxFor(m => m.Card)
-    </div>
-   
-    <div class="editor-label">
-        Niepalący
-    </div>
-    <div class="editor-field">
-        @Html.CheckBoxFor(m => m.NoSmoking)
-    </div>
-    
-    <div class="editor-label">
-        Zwierzęta
-    </div>
-    <div class="editor-field">
-        @Html.CheckBoxFor(m => m.Animal)
-    </div>
-    
-    <div class="editor-label">
-        Krzesłko dla dziecka
-    </div>
-    <div class="editor-field">
-        @Html.CheckBoxFor(m => m.Childer)
-    </div>
-    
-        <div class="editor-label">
-        Komentarz
-    </div>
-    <div class="editor-field">
-        @Html.TextAreaFor(model => model.Comment)
-        @Html.ValidationMessageFor(model => model.Comment)
-    </div>
-    
-    <p>
-        <input class="btn" type="submit" value="Zamów" />
-    </p>
-}
+                <div class="form-group">
+                    <label for="AddressTo" class="col-sm-2 control-label">Dokąd</label>
+                    <div class="col-sm-10">
+                        <input type="text" value="" name="AddressTo" id="AddressTo" class="form-control" placeholder="Np. Lotnisko Balice">
+                        <span id="address_to_val_msg" class="text-danger" style="display: none;">Nie prawidłowy adres</span>
+                    </div>
+                </div>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+                <div class="form-group">
+                    <label for="planned_time_tb" class="col-sm-2 control-label">Kiedy</label>
+                    <div class="col-sm-10">
+                        <table id="planned_time_tb">
+                            <tr>
+
+                                <td></td>
+                                <td>@Html.DropDownList("PlannedDay", new List<SelectListItem> { new SelectListItem { Text = "Dzisiaj", Value = "1", Selected = true }, new SelectListItem { Text = "Jutro", Value = "2" } }, new { onclick = "PlannedDayClick(this)" })</td>
+                                <td>o </td>
+                                <td>@Html.DropDownList("PlannedHour", ViewBag.HoursList as IEnumerable<SelectListItem>, new { id = "ddl_planedhour_td" })
+                                    @Html.DropDownList("PlannedHour", ViewBag.HoursListTomorrow as IEnumerable<SelectListItem>, new { id = "ddl_planedhour_tm", style = "display: none" })
+                                </td>
+                                <td>@Html.DropDownList("PlannedMinute", ViewBag.MinutesList as IEnumerable<SelectListItem>)</td>
+                            </tr>
+                        </table>
+                        <span id="planned_time_val_msg" class="text-danger" style="display: none;">Nie prawidłowy czas</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <a href="#" data-toggle="collapse" data-target="#order_adds">Wymagania do auta</a>
+                        <div id="order_adds" class="collapse">
+                            <label class="checkbox-inline">
+                                @Html.CheckBoxFor(m => m.Card)Platność kartą kredytową
+                            </label>
+                            <label class="checkbox-inline">@Html.CheckBoxFor(m => m.NoSmoking)
+                                Dla niepalących
+                            </label>
+                            <label class="checkbox-inline">@Html.CheckBoxFor(m => m.Animal) Zwierzęta
+                            </label>
+                            <label class="checkbox-inline">
+                                @Html.CheckBoxFor(m => m.Childer) Krzesłko dla dziecka
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <a href="#" data-toggle="collapse" data-target="#order_adds_comm">Komentarz</a>
+                        <div id="order_adds_comm" class="collapse">
+                            @Html.TextAreaFor(model => model.Comment)
+                            @Html.ValidationMessageFor(model => model.Comment)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button class="btn btn-info btn-lg" type="button" onclick="$('#order_tabs a:last').tab('show');">Dalej ...</button>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="tarifs">
+                <span id="companies_val_msg" class="text-danger" style="display: none;">Proszę zaznaczyć chociażby jedną firmą</span>
+                <div style="max-height: 300px; overflow: auto;">
+                    <table class="table table-hover table-condensed" id="companies_tbl">
+                        <thead>
+                            <tr>
+                                <th style="width: 30px">
+                                    <input type="checkbox" id="companies_all" checked="checked" onclick="select_all_comp();" /></th>
+                                <th>Firma</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var company in ViewBag.Companies as List<Data.Domain.Company>)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="Companies"  id="company_@company.CompanyId" value="@company.CompanyId" class="company_cb" checked="checked"/></td>
+                                    <td onclick="select_comp(@company.CompanyId);">@company.Name</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane" id="order">
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <div class="form-group">
+                        <label for="AddressFrom" class="col-sm-2 control-label">Imię</label>
+                        <div class="col-lg-4">
+                            <input type="text" value="" name="Name" id="Name" class="form-control .col-sm-10" placeholder="">
+                            @Html.ValidationMessageFor(model => model.Name)
+                        </div>
+                    </div>
+                    <div class="form-group" id="send_sms_box">
+                        <span>Na Podany numer zostanie wysłany SMS z kodem potwierdzenia</span>
+                        <div class="col-lg-6">
+                            <span style="float: left; line-height: 30px; margin-right: 5px;">+48</span>
+                            <div class="input-group">
+                                <input type="text" value="" name="Phone" id="Phone" class="form-control" placeholder="333 222 111">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" id="send_code_btn" onclick="SendCode()">Potwierdź</button>
+                                </span>
+                            </div>
+                            <span id="phone_val_msg" class="text-danger" style="display: none;">Nie prawidłowy numer</span>
+                        </div>
+                    </div>
+                    <div class="form-group" id="confirm_sms_box" style="display: none;">
+                        <span id="confirm_sms_lbl">Za chwilę dostaniesz SMS z kodem, wprowadż go poniżej:</span>
+                        <div class="col-lg-4">
+                            <div class="input-group">
+                                <input type="text" value="" name="Code" id="Code" class="form-control">
+                                <span class="glyphicon glyphicon-ok form-control-feedback" id="conf_code_suc_i" style="display: none;"></span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" onclick="ConfirmCode();" id="confirm_code_btn">OK</button>
+                                </span>
+                            </div>
+                            <span id="code_val_msg" class="text-danger" style="display: none;">Nie prawidłowy kod</span>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info" id="reg_log_al">Możesz <a href="#" class="alert-link">zarejestrować się</a>, lub <a href="#" class="alert-link">zalogować się</a> jeżeli już masz konto, żeby nie potwierdzać numer za każdym razem.</div>
+                    <div class="alert alert-success" id="code_ok_al" style="display: none;">Numer telefonu został potwierdzony. Wciśnij 'Zamów taksówkę' żeby złożyć zamówienie.</div>
+                }
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input class="btn btn-success btn-lg" id="send_order_btn" type="submit" @((!User.Identity.IsAuthenticated) ? "disabled=\"disabled\"" : "") value="Zamów taksówkę" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+    
+
+    }
+
 </div>

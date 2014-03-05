@@ -10,7 +10,6 @@
     <title>@ViewBag.Title - GetTaxi</title>
 
     <!-- Custom styles for this template -->
-    <link href="jumbotron.css" rel="stylesheet">
     @Styles.Render("~/Content/css")
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -21,11 +20,10 @@
 </head>
 
 <body>
-
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0px;">
         <div class="container">
-            <div class="navbar-header">                          
-                <a class="navbar-brand" href="#">GetTaxi</a>
+            <div class="navbar-header">
+                <a class="navbar-brand" href="@Url.Action("Index", "Home")">GetTaxi</a>
             </div>
             <div class="navbar-collapse collapse">
                 @Html.Action("UserBox", "Account")
@@ -52,6 +50,7 @@
     <!-- /container -->
 
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

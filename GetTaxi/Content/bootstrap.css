@@ -4679,7 +4679,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-default {
-  background-color: #f8f8f8;
+  background-color:  transparent;
   border-color: #e7e7e7;
 }
 

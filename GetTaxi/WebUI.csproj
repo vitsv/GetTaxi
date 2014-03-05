@@ -124,6 +124,8 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="Common\AccountHelper.cs" />
+    <Compile Include="Helpers\Helpers.cs" />
+    <Compile Include="Infrastructure\NotificationExtention.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
@@ -235,6 +237,8 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.10.2.js" />
     <Content Include="Scripts\jquery-ui-1.10.2.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
@@ -247,7 +251,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Scripts\jquery-2.0.0.min.map" />
     <Content Include="Views\Shared\_LoginPartial.cshtml">
       <SubType>Code</SubType>
@@ -257,6 +263,13 @@
     <Content Include="Views\User\Activate.cshtml" />
     <Content Include="Views\Order\Create.cshtml" />
     <Content Include="Views\Order\Status.cshtml" />
+    <Content Include="Views\Order\js\Scripts.cshtml" />
+    <Content Include="Views\Order\Partial\_orderInfoCreated.cshtml" />
+    <Content Include="Views\Order\Partial\_orderInfoAssigned.cshtml" />
+    <Content Include="Views\Order\Partial\_orderInfoInCar.cshtml" />
+    <Content Include="Views\Order\Partial\_orderInfoCanceled.cshtml" />
+    <Content Include="Views\Order\Partial\_orderInfoDone.cshtml" />
+    <Content Include="Views\Shared\_Notification.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

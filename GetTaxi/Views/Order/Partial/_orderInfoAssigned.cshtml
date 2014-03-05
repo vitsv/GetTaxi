@@ -1,0 +1,14 @@
+﻿@model WebUI.Models.Order.OrderStatusModel
+
+<p>Samochód już czeka pod podanym pod czas składana zamówienia adresem</p>
+<div id="auto-info">
+    Opis samochodu:<br />
+    Samochód firmy @Model.AssignedCar.Company.Name -
+    @Model.AssignedCar.Color @Model.AssignedCar.Mark  @Model.AssignedCar.Model
+    @(!string.IsNullOrEmpty(Model.AssignedCar.CarNumber) ? " o numerach rejestracyjnych " + Model.AssignedCar.CarNumber : "")
+</div>
+<p>
+    <a class="btn btn-primary" onclick="OrderNote(@((int)Data.Enumerators.GlobalEnumerator.OrderNoteType.CantSeeCar))" href="#">Nie widzę samochodu</a>
+    <a class="btn btn-primary" onclick="CancelOrder()" href="#">Anuluj</a>
+</p>
+

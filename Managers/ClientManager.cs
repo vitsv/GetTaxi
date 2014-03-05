@@ -36,6 +36,37 @@ namespace Managers
             return res;
         }
 
+        public IUnitOfWorkResult AddByCode(string phone)
+        {
+            var repo = RepoGeneric;
+            var client = repo.FindOne<Client>(c => c.Phone.Equals(phone));
+
+            if (client == null)
+            {
+                client = new Client();
+
+                client.Phone = phone;
+                client.CreationDate = DateTime.Now;
+
+                client.IsActive = true;
+
+                string _salt = GenerateSalt(32);
+                client.Salt = _salt;
+                client.Password = CreatePasswordHash(GenerateSmsCode(10).ToString(), _salt);
+
+
+                repo.Add<Client>(client);
+            }
+
+            client.ActivateCode = GenerateSmsCode();
+            client.SmsSentCount += 1;
+
+            //TODO wysłac kod
+
+            var res = repo.UnitOfWork.SaveChanges();
+            return res;
+        }
+
         public Client GetUserById(int id)
         {
             return RepoGeneric.FindOne<Client>(c => c.ClientId == id);
@@ -61,7 +92,7 @@ namespace Managers
 
             return res;
         }
-     
+
 
         public IUnitOfWorkResult Delete(int id)
         {
@@ -81,6 +112,7 @@ namespace Managers
             var repo = RepoGeneric;
             var client = repo.FindOne<Client>(c => c.ClientId == id);
             client.LastLoginDate = DateTime.Now;
+            client.SmsSentCount = 0;
 
             var res = repo.UnitOfWork.SaveChanges();
             return res;
@@ -165,7 +197,7 @@ namespace Managers
 
             var res = repo.UnitOfWork.SaveChanges();
             return res;
-        }    
+        }
 
         /// <summary>
         /// Check if user with given phone exist in DB
@@ -181,24 +213,46 @@ namespace Managers
         {
             var repo = RepoGeneric;
             var user = repo.FindOne<Client>(c => c.ClientId == clientId);
-            if (user.ActivateCode.Equals(code))
+            if (user != null)
             {
-                user.IsActive = true;
+                if (user.ActivateCode.Equals(code))
+                {
+                    user.IsActive = true;
 
-                var res = repo.UnitOfWork.SaveChanges();
-                if (res.IsError)
-                    throw new Exception(res.ErrorMessage);
-                return true;
+                    var res = repo.UnitOfWork.SaveChanges();
+                    if (res.IsError)
+                        throw new Exception(res.ErrorMessage);
+                    return true;
+                }
             }
-            else
-                return false;
+
+            return false;
         }
 
-        public string GenerateSmsCode()
+        public bool ActivateNewUserByPhone(string phone, string code)
+        {
+            var repo = RepoGeneric;
+            var user = repo.FindOne<Client>(c => c.Phone == phone);
+            if (user != null)
+            {
+                if (user.ActivateCode.Equals(code))
+                {
+                    user.IsActive = true;
+
+                    var res = repo.UnitOfWork.SaveChanges();
+                    if (res.IsError)
+                        throw new Exception(res.ErrorMessage);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public string GenerateSmsCode(int size = 5)
         {
             Random _rng = new Random((int)DateTime.Now.Ticks);
             string _chars = "0123456789";
-            int size = 5;
 
             char[] buffer = new char[size];
 

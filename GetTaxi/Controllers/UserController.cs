@@ -71,7 +71,7 @@ namespace WebUI.Controllers
 
         private void LogInUser(Client client)
         {
-            FormsAuthentication.SetAuthCookie(client.Phone, false);
+            FormsAuthentication.SetAuthCookie(client.Phone, true);
 
             UserData userData = new UserData
             {
@@ -81,7 +81,7 @@ namespace WebUI.Controllers
             };
 
             //Nadpisuje cookie dla przechowywania dodatkowych informacji
-            Response.SetAuthCookie(client.Phone, false, userData);
+            Response.SetAuthCookie(client.Phone, true, userData);
         }
 
 

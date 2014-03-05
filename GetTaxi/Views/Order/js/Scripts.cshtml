@@ -1,0 +1,197 @@
+﻿<script type="text/javascript">
+
+    var interval = 5000;
+    var intevalId;
+    var orderId;
+    var currStatus;
+
+    function initialize() {
+
+        var inputFrom = (document.getElementById('AddressFrom'));
+        var inputTo = (document.getElementById('AddressTo'));
+
+
+        var bounds = new google.maps.LatLngBounds(
+             new google.maps.LatLng(50.008622, 19.804802),
+         new google.maps.LatLng(50.102084, 20.141945));
+
+
+        var autocompleteFrom = new google.maps.places.Autocomplete(inputFrom, ({
+            bounds: bounds,
+            componentRestrictions: ({ country: 'pl' }),
+            types: ['geocode']
+        }));
+
+        var autocompleteTo = new google.maps.places.Autocomplete(inputTo, ({
+            bounds: bounds,
+            componentRestrictions: ({ country: 'pl' }),
+            types: ['geocode']
+        }));
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
+    function PlannedDayClick(sender) {
+        if ($(sender).val() == 1) {
+            $('#ddl_planedhour_td').show();
+            $('#ddl_planedhour_tm').hide();
+        } else {
+            $('#ddl_planedhour_tm').show();
+            $('#ddl_planedhour_td').hide();
+        }
+    }
+
+    function select_all_comp() {
+        $('.company_cb').prop('checked', $('#companies_all').is(':checked'));
+    }
+
+    function select_comp(id) {
+        $('#company_' + id).prop('checked', !$('#company_' + id).is(':checked'));
+        $('#companies_all').prop('checked', false);
+    }
+
+    $('.company_cb').click(function () {
+        $('#companies_all').prop('checked', false);
+    });
+
+    var sms_send_count = 0;
+
+    function SendCode() {
+        var url = '@Url.Action("SendCode", "Order")';
+        $('#phone_val_msg').hide();
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: { phone: $('#Phone').val() },
+            success: function (data) {
+                if (data.result == "OK") {
+                    sms_send_count++;
+                    $('#confirm_sms_box').show();
+                    $('#Phone').attr("disabled", "disabled");
+                    $('#send_code_btn').html('Jeszcze raz');
+                    if (sms_send_count >= 3)
+                        $('#send_code_btn').attr("disabled", "disabled");
+                    if (sms_send_count > 1)
+                        $('#confirm_sms_lbl').html('Został wysłany jeszcze jeden SMS z kodem.');
+                } else {
+                    if (data.error == "phone") {
+                        $('#phone_val_msg').show();
+                    }
+                }
+            },
+            error: function (data) {
+                alert(data);
+            }
+        })
+    }
+
+    function ConfirmCode() {
+        var url = '@Url.Action("ConfirmCode", "Order")';
+        $('#code_val_msg').hide();
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: { phone: $('#Phone').val(), code: $('#Code').val() },
+            success: function (data) {
+                if (data.result == "OK") {
+                    $('#send_sms_box').hide();
+                    $('#confirm_sms_box').hide();
+                    $('#reg_log_al').hide();
+                    $('#code_ok_al').show();
+                    $('#send_order_btn').removeAttr('disabled');
+                } else {
+                    if (data.error == "code") {
+                        $('#code_val_msg').show();
+                    }
+                }
+            },
+            error: function (data) {
+                alert(data);
+            }
+        })
+    }
+
+    function SendOrderCallback(data) {
+        if (data.result == "OK") {
+            orderId = data.order_id;
+            currStatus = @((int)Data.Enumerators.GlobalEnumerator.OrderStatus.Created);
+            ShowOrderStatus(orderId);
+        } else {
+            alert(data.msg);
+        }
+    }
+
+
+    function ShowOrderStatus(id) {
+        $('#order_container').load('@Url.Action("Status", "Order")', { id: id }, function () {
+            intevalId = window.setInterval(function () {
+                CheckStatus();
+            }, interval);
+        });
+
+    };
+
+    function CheckStatus() {
+        var url = '@Url.Action("CheckStatus", "Order")';
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: { id: orderId },
+            success: function (data) {
+                if (data.result == "OK") {
+                    if (currStatus != data.status){
+                        currStatus = data.status;
+                        $('#order_container').load('@Url.Action("Status", "Order")', { id: orderId });
+                    }
+                } else {
+                    window.clearInterval(intevalId);
+                    alert(data.msg);
+                }
+            },
+            error: function (data) {
+                window.clearInterval(intevalId);
+                alert(data);
+            }
+        })
+    }
+
+    function CancelOrder() {
+        var url = '@Url.Action("CancelOrder", "Order")';
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: { id: orderId },
+            success: function (data) {
+                if (data.result == "OK") {
+                    location.reload(true);
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error: function (data) {
+                alert(data);
+            }
+        })
+    }
+
+    function OrderNote(type) {
+        var url = '@Url.Action("OrderNote", "Order")';
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: { id: orderId, type: type },
+            success: function (data) {
+                if (data.result == "OK") {
+                    location.reload(true);
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error: function (data) {
+                alert(data);
+            }
+        })
+    }
+</script>
