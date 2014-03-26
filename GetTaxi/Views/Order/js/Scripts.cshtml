@@ -6,6 +6,13 @@
     var currStatus;
 
     function initialize() {
+        $('#AddressFrom').focus(function(){
+            $('#address_from_extra').removeClass('hidden');
+        });
+
+        $('#AddressTo').focus(function(){
+            $('#address_to_extra').removeClass('hidden');
+        });
 
         var inputFrom = (document.getElementById('AddressFrom'));
         var inputTo = (document.getElementById('AddressTo'));
@@ -26,12 +33,11 @@
             bounds: bounds,
             componentRestrictions: ({ country: 'pl' }),
             types: ['geocode']
-        }));
+        })); 
+            
     }
 
-    google.maps.event.addDomListener(window, 'load', initialize);
-
-
+    google.maps.event.addDomListener(window, 'load', initialize);    
 
     function PlannedDayClick(sender) {
         if ($(sender).val() == 1) {
@@ -59,24 +65,63 @@
     var sms_send_count = 0;
 
     function SendCode() {
+        var validator = $('#order_form').bootstrapValidator(
+   {
+       message: 'Niepoprawne',
+       submitButtons: '#send_code_btn',
+       submitHandler: function(validator_, form, submitButton) {
+           SendCodeValidated();
+           validator_.resetForm();
+       },
+       fields: {
+           Name: {
+               validators: {
+                   notEmpty: {
+                       message: 'Proszę podać imię'
+                   }
+               }
+           },
+           Phone: {
+               validators: {
+                   notEmpty: {
+                       message: 'Proszę podać numer telefonu'
+                   },
+                   regexp: {
+                       regexp: /^\d{9}$/,
+                       message: 'Numer musi składać się z 9 cyfr'
+                   }
+               }
+           }
+       }
+   }
+   );
+        validator.bootstrapValidator('validate');
+    }
+
+    function SendCodeValidated(){
         var url = '@Url.Action("SendCode", "Order")';
         $('#phone_val_msg').hide();
+        $('#send_code_btn').removeAttr('disabled');
         $.ajax({
             type: "POST",
             url: url,
-            data: { phone: $('#Phone').val() },
+            data: { phone: $('#Phone').val(), name:   $('#Name').val()},
             success: function (data) {
                 if (data.result == "OK") {
                     sms_send_count++;
                     $('#confirm_sms_box').show();
-                    $('#Phone').attr("disabled", "disabled");
                     $('#send_code_btn').html('Jeszcze raz');
-                    if (sms_send_count >= 3)
-                        $('#send_code_btn').attr("disabled", "disabled");
+
                     if (sms_send_count > 1)
                         $('#confirm_sms_lbl').html('Został wysłany jeszcze jeden SMS z kodem.');
                 } else {
                     if (data.error == "phone") {
+                        $('#phone_val_msg').show();
+                    }
+
+                    if(data.error == 'SMS_LIMIT'){
+                        $('#send_code_btn').attr("disabled", "disabled");
+                        $('#phone_val_msg').html('Prosze skontaktować sie z biurem obsługi klienta serwisu.');
                         $('#phone_val_msg').show();
                     }
                 }
@@ -84,7 +129,7 @@
             error: function (data) {
                 alert(data);
             }
-        })
+        });
     }
 
     function ConfirmCode() {
@@ -96,9 +141,7 @@
             data: { phone: $('#Phone').val(), code: $('#Code').val() },
             success: function (data) {
                 if (data.result == "OK") {
-                    $('#send_sms_box').hide();
-                    $('#confirm_sms_box').hide();
-                    $('#reg_log_al').hide();
+                    $('#not_auth_user_verif').hide();
                     $('#code_ok_al').show();
                     $('#send_order_btn').removeAttr('disabled');
                 } else {
@@ -119,7 +162,26 @@
             currStatus = @((int)Data.Enumerators.GlobalEnumerator.OrderStatus.Created);
             ShowOrderStatus(orderId);
         } else {
-            alert(data.msg);
+            $('.val-msg').hide();
+            if(data.errors == null){
+                alert(data.msg);}
+            else{
+                for (var i = 0; i < data.errors.length; i++) {
+                    RaiseError(data.errors[i].key, data.errors[i].value);
+                }
+                if(data.errors[0].key == 'Companies')
+                    $('#order_tabs li:eq(1) a').tab('show');
+                else
+                    $('#order_tabs a:first').tab('show');
+            }
+        }
+    }
+
+    function RaiseError(key, value){
+        var valField = $('#'+key+'_val');
+        if(valField != null){
+            valField.html(value);
+            valField.show();
         }
     }
 
@@ -158,22 +220,25 @@
     }
 
     function CancelOrder() {
-        var url = '@Url.Action("CancelOrder", "Order")';
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: { id: orderId },
-            success: function (data) {
-                if (data.result == "OK") {
-                    location.reload(true);
-                } else {
-                    alert(data.msg);
+        if(confirm("Na pewno chcesz anulować zamówienie?")){
+            var url = '@Url.Action("CancelOrder", "Order")';
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: { id: orderId },
+                success: function (data) {
+                    if (data.result == "OK") {
+                        window.clearInterval(intevalId);
+                        $('#order_container').load('@Url.Action("Status", "Order")', { id: orderId });
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (data) {
+                    alert(data);
                 }
-            },
-            error: function (data) {
-                alert(data);
-            }
-        })
+            })
+        }
     }
 
     function OrderNote(type) {
@@ -194,4 +259,53 @@
             }
         })
     }
+
+    function ReseandSMS(id) {
+        var url = '@Url.Action("ResendActivateSms", "User")';
+        $.ajax({
+            type: "POST",
+            url: url,
+            data:{userId:id},
+            success: function (data) {
+                $("#activate_alert").removeClass("alert-danger");
+                $("#activate_alert").removeClass("alert-success");
+                if (data.result == "OK") {
+                    $("#activate_alert").addClass("alert-success");
+                    $("#activate_alert").html(data.msg);
+                } else {
+                    $("#activate_alert").addClass("alert-danger");
+                    $("#activate_alert").html(data.msg);
+                }
+                $("#activate_alert").show();
+            },
+            error: function (data) {
+                alert(data);
+            }
+        })
+    }
+
+    function ShowRememberPass(){
+        $('#login_modal .modal-content').load('@Url.Action("RememberPassSendSMS", "User")');
+    }
+
+    function ShowModal(btn){
+        $($(btn).attr('data-tar') + ' .modal-content').load($(btn).attr('data-rem'),function(){
+            $($(btn).attr('data-tar')).modal('toggle');
+        });
+    }
+
+
+    function ShowLogin(){
+        $('#login_modal .modal-content').load('@Url.Action("LogOn","Account")',function(){
+            $('#login_modal').modal('toggle');
+        });
+    }
+
+    function ShowRegister(){
+        $('#login_modal').modal('hide');
+        $('#register_modal .modal-content').load('@Url.Action("Register","User")',function(){
+                $('#register_modal').modal('toggle');
+            });
+        }
+
 </script>

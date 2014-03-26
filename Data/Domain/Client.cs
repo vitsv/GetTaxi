@@ -31,6 +31,8 @@ namespace Data.Domain
         public string ActivateCode { get; set; }
         public Nullable<int> SmsSentCount { get; set; }
         public Nullable<System.DateTime> LastLoginDate { get; set; }
+        public Nullable<int> FailedAttemptCode { get; set; }
+        public Nullable<int> FailedAttemptPass { get; set; }
     
         public virtual ICollection<Order> Order { get; set; }
     }

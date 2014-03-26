@@ -149,6 +149,7 @@
     <Compile Include="Models\UserDataModelBinder.cs" />
     <Compile Include="Models\User\ActivateModel.cs" />
     <Compile Include="Models\User\AddUserModel.cs" />
+    <Compile Include="Models\User\RememberPassModel.cs" />
     <Compile Include="Models\User\EditableUser.cs" />
     <Compile Include="Models\User\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -232,6 +233,7 @@
     <None Include="Scripts\jquery-2.0.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\bootstrapValidator.js" />
     <Content Include="Scripts\jquery-2.0.0.js" />
     <Content Include="Scripts\jquery-2.0.0.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -255,9 +257,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Scripts\jquery-2.0.0.min.map" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Views\User\js\Scripts.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\User\Activate.cshtml" />
@@ -270,6 +269,17 @@
     <Content Include="Views\Order\Partial\_orderInfoCanceled.cshtml" />
     <Content Include="Views\Order\Partial\_orderInfoDone.cshtml" />
     <Content Include="Views\Shared\_Notification.cshtml" />
+    <Content Include="Views\Account\SignInPartial.cshtml" />
+    <Content Include="Views\Account\SignInSuccessPartial.cshtml" />
+    <Content Include="Views\User\Partial\_registerPartial.cshtml" />
+    <Content Include="Views\User\Partial\_activatePartial.cshtml" />
+    <Content Include="Views\User\Partial\_registerSuccessPartial.cshtml" />
+    <Content Include="Views\User\Partial\_activateSuccessPartial.cshtml" />
+    <Content Include="Views\User\RememberPassSendSMS.cshtml" />
+    <Content Include="Views\User\RememberPassSendConfirm.cshtml" />
+    <Content Include="Views\User\Partial\_rememberPassSendSmsPartial.cshtml" />
+    <Content Include="Views\User\Partial\_rememberPassSendSMSSuccess.cshtml" />
+    <Content Include="Views\User\Partial\_rememberPassConfirmSuccessPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

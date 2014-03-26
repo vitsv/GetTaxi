@@ -1,3 +1,6 @@
-﻿@model WebUI.Models.Order.OrderStatusModel
-
-<p>Zamówienie zostało anulowane!</p>
+﻿<p>
+    <div class="alert alert-success">Zamówienie zostało anulowane!</div>
+</p>
+<p>
+    <a class="btn btn-warning btn-lg" href="@Url.Action("Index", "Home")">Złożyć inne zamówienie</a>
+</p>

@@ -10,18 +10,14 @@ namespace WebUI.Models
 
     public class LogOnModel
     {
-        [Required]
-        [Display(Name = "Telefon")]
+        [Required(ErrorMessage = "Proszę podać telefon")]
+        [RegularExpression(@"^\d{9}$", ErrorMessage = "Numer telefonu powinien składać się z 9 cyfr")]
         public string Phone { get; set; }
 
-        [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Hasło")]
+        [Required(ErrorMessage = "Proszę podać hasło")]
         public string Password { get; set; }
 
-        [Display(Name = "Zapamiętaj mnie?")]
         public bool RememberMe { get; set; }
 
-        public string ApplicationTitle { get; set; }
     }
 }

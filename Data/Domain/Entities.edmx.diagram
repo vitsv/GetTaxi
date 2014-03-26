@@ -4,37 +4,36 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="cea9d1e82a484d489e808ca1636aa07b" Name="Diagram1" ZoomLevel="41">
-        <EntityTypeShape EntityType="Entities.Address" PointX="3" PointY="0.75" Width="1.5" IsExpanded="true" />
+      <Diagram DiagramId="cea9d1e82a484d489e808ca1636aa07b" Name="Diagram1" ZoomLevel="100">
         <EntityTypeShape EntityType="Entities.Car" PointX="3" PointY="5" Width="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="Entities.City" PointX="0.75" PointY="5" Width="1.5" IsExpanded="true" />
-        <AssociationConnector ManuallyRouted="false" Association="Entities.FK_Address_CityFrom" />
-        <AssociationConnector ManuallyRouted="false" Association="Entities.FK_Address_CityTo" />
         <EntityTypeShape EntityType="Entities.Client" Width="1.5" PointX="10.875" PointY="2.375" />
         <EntityTypeShape EntityType="Entities.Company" Width="1.5" PointX="1.375" PointY="10.5" />
         <EntityTypeShape EntityType="Entities.Order" Width="1.5" PointX="7" PointY="4" />
         <EntityTypeShape EntityType="Entities.OrderNote" Width="1.5" PointX="10.625" PointY="6.875" />
-        <EntityTypeShape EntityType="Entities.OrderProperties" Width="1.5" PointX="10.75" PointY="9.875" />
         <EntityTypeShape EntityType="Entities.PricesRate" Width="1.5" PointX="4.625" PointY="13.5" />
         <EntityTypeShape EntityType="Entities.Right" Width="1.5" PointX="9.75" PointY="13.5" />
         <EntityTypeShape EntityType="Entities.Role" Width="1.5" PointX="10.125" PointY="16.625" />
         <EntityTypeShape EntityType="Entities.User" Width="1.5" PointX="1.625" PointY="15.125" />
         <EntityTypeShape EntityType="Entities.UserRole" Width="1.5" PointX="7" PointY="16.75" />
         <EntityTypeShape EntityType="Entities.OrderCompany" Width="1.5" PointX="7" PointY="11.125" />
-        <AssociationConnector Association="Entities.FK_Order_Address" />
         <AssociationConnector Association="Entities.FK_Car_Company" />
         <AssociationConnector Association="Entities.FK_Order_Car" />
         <AssociationConnector Association="Entities.FK_Order_Client" />
         <AssociationConnector Association="Entities.FK_OrderCompany_Company" />
         <AssociationConnector Association="Entities.FK_PricesRate_Company" />
         <AssociationConnector Association="Entities.FK_User_Company" />
-        <AssociationConnector Association="Entities.FK_Order_OrderProperties" />
         <AssociationConnector Association="Entities.FK_OrderCompany_Order" />
         <AssociationConnector Association="Entities.FK_OrderNote_Order" />
         <AssociationConnector Association="Entities.FK_Right_Role" />
         <AssociationConnector Association="Entities.FK_UserRole_Role" />
         <AssociationConnector Association="Entities.FK_UserRole_User" />
-        <EntityTypeShape EntityType="Entities.OrderDetails" Width="1.5" PointX="15.375" PointY="1.25" />
+        <EntityTypeShape EntityType="Entities.Address" Width="1.5" PointX="5.8023253333765661" PointY="6.7038824440463829" />
+        <AssociationConnector Association="Entities.FK_Address_CityFrom" />
+        <AssociationConnector Association="Entities.FK_Address_CityTo" />
+        <AssociationConnector Association="Entities.FK_Order_Address" />
+        <EntityTypeShape EntityType="Entities.OrderProperties" Width="1.5" PointX="2.884811970817303" PointY="8.62847876950562" />
+        <AssociationConnector Association="Entities.FK_Order_OrderProperties" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

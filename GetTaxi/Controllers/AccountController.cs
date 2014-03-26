@@ -27,11 +27,11 @@ namespace WebUI.Controllers
         /// Logowanie usera
         /// </summary>
         /// <returns></returns>
-        public ActionResult LogOn()
+        public PartialViewResult LogOn()
         {
             LogOnModel model = new LogOnModel();
 
-            return View(model);
+            return PartialView("LogOn",model);
         }
 
 
@@ -42,7 +42,7 @@ namespace WebUI.Controllers
         /// <param name="returnUrl"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult LogOn(LogOnModel model, string returnUrl)
+        public PartialViewResult LogOn(LogOnModel model, string returnUrl)
         {
 
             if (ModelState.IsValid)
@@ -63,23 +63,24 @@ namespace WebUI.Controllers
                     //Nadpisuje cookie dla przechowywania dodatkowych informacji
                     Response.SetAuthCookie(model.Phone, true, userData);
 
-                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-                    {
-                        return Redirect(returnUrl);
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
+                    //if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+                    //    && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                    //{
+                    //    return Redirect(returnUrl);
+                    //}
+                    //else
+                    //{
+                    //    return RedirectToAction("Index", "Home");
+                    //}
+                    return PartialView("SignInSuccessPartial");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Invalid login or password!");
+                    ModelState.AddModelError("", "Nieprawidłowe telefon lub hasło!");
                 }
             }
 
-            return View(model);
+            return PartialView("SignInPartial",model);
         }
 
 
@@ -91,7 +92,7 @@ namespace WebUI.Controllers
         {
             FormsAuthentication.SignOut();
 
-            return RedirectToAction("LogOn", "Account");
+            return RedirectToAction("Index", "Home");
         }
 
         public PartialViewResult UserBox()

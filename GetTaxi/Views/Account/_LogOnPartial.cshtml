@@ -10,6 +10,6 @@
     }
     else
     {
-        <li><a href="@Url.Action("LogOn", "Account")" class="btn btn-success btn-sm" role="button">Zaloguj się</a></li>
+        <b><a href="#" class="btn btn-link btn-sm" role="button" data-tar="#login_modal" data-rem="@Url.Action("LogOn","Account")" onclick="ShowModal(this)">Zaloguj się</a></b>@:/<a href="#" class="btn btn-link btn-sm" role="button" data-tar="#register_modal" data-rem="@Url.Action("Register","User")"  onclick="ShowModal(this)">Załóż konto</a>
     }
 </ul>

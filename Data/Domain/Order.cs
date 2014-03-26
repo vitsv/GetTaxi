@@ -44,11 +44,11 @@ namespace Data.Domain
         public string UserComment { get; set; }
         public string TaxiComment { get; set; }
     
-        public virtual Address Address { get; set; }
         public virtual Car Car { get; set; }
         public virtual Client Client { get; set; }
-        public virtual OrderProperties OrderProperties { get; set; }
         public virtual ICollection<OrderCompany> OrderCompany { get; set; }
         public virtual ICollection<OrderNote> OrderNote { get; set; }
+        public virtual Address Address { get; set; }
+        public virtual OrderProperties OrderProperties { get; set; }
     }
 }

@@ -23,14 +23,31 @@
     <div class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0px;">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="@Url.Action("Index", "Home")">GetTaxi</a>
+                <a class="navbar-brand" href="@Url.Action("Index", "Home")"><span class="glyphicon glyphicon-flash"></span>GetTaxi</a>
             </div>
-            <div class="navbar-collapse collapse">
-                @Html.Action("UserBox", "Account")
+            <div class="navbar-collapse" style="color: #1e1d1d">
+                <div id="account-info-container">
+                    @Html.Action("UserBox", "Account")
+                </div>
             </div>
-            <!--/.navbar-collapse -->
         </div>
     </div>
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <div class="modal fade" id="login_modal" tabindex="-1" role="dialog" aria-labelledby="login_modal_lbl" aria-hidden="true">
+            <div class="modal-dialog" style="width: 300px">
+                <div class="modal-content">
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="register_modal" tabindex="-1" role="dialog" aria-labelledby="register_modal_lbl" aria-hidden="true">
+            <div class="modal-dialog" style="width: 300px">
+                <div class="modal-content">
+                </div>
+            </div>
+        </div>
+    }
 
     @RenderSection("jumbotron", required: false)
 
@@ -44,7 +61,7 @@
         <hr>
 
         <footer>
-            <p>&copy; GetTaxi 2013</p>
+            <p>&copy; GetTaxi 2014</p>
         </footer>
     </div>
     <!-- /container -->

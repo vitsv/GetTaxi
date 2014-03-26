@@ -74,6 +74,9 @@ namespace Dashboard.Controllers
             UserManager userManager = new UserManager();
             var user = userManager.GetUserById(userID);
             return (int)user.CompanyId;
+
+
+          
         }
     }
 }

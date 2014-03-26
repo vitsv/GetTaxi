@@ -154,11 +154,11 @@ namespace Managers
             return orders;
         }
 
-         public OrderDetails GetOrderDetails(int orderId)
-        {
-            //var order = CTX.Set<Order>().Include("Address").Include("Client").Include("OrderNote").Include("OrderProperties").Where(o => o.OrderId == orderId).Single();
-            var order = RepoGeneric.Find<OrderDetails>(o => o.OrderId == orderId).Single();
-            return order;
-        }
+        // public OrderDetails GetOrderDetails(int orderId)
+        //{
+        //    //var order = CTX.Set<Order>().Include("Address").Include("Client").Include("OrderNote").Include("OrderProperties").Where(o => o.OrderId == orderId).Single();
+        //    var order = RepoGeneric.Find<OrderDetails>(o => o.OrderId == orderId).Single();
+        //    return order;
+        //}
     }
 }

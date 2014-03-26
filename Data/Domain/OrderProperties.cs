@@ -22,7 +22,7 @@ namespace Data.Domain
         public int OrderPropertiesId { get; set; }
         public int OrderClass { get; set; }
         public int Priority { get; set; }
-        public bool Childer { get; set; }
+        public bool Children { get; set; }
         public bool Nosmoking { get; set; }
         public bool Animal { get; set; }
         public bool English { get; set; }

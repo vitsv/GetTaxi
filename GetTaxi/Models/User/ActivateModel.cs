@@ -11,5 +11,6 @@ namespace WebUI.Models.User
         [Required(ErrorMessage = "Proszę podać kod")]
         [RegularExpression(@"^\d{5}$", ErrorMessage = "Kod powinien składać się z 5 cyfr, bez spacii")]
         public string Code { get; set; }
+        public int IdUser { get; set; }
     }
 }

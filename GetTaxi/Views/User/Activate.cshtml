@@ -1,25 +1,13 @@
 ﻿@model WebUI.Models.User.ActivateModel
-@using (Ajax.BeginForm("Activate", "User", new AjaxOptions { UpdateTargetId = "af_activate_user", HttpMethod = "POST", InsertionMode = InsertionMode.Replace }, new { id = "af_activate_user" }))
-{
-    <h2>Aktywacja konta</h2>
-    <div class="alert fade in alert-success" style="display: none"></div>
-    <p>
-        Prosze wpisać kod z wiadomości SMS ktora za chwile Pańwstwo otrzymaja na podany pod czas rejestracji numer.
-    </p>
-    <div class="editor-label">
-        Kod
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.Code)
-        @Html.ValidationMessageFor(model => model.Code)
-    </div>
-    
-    <p>
-        <input type="submit" value="OK" />
-    </p>
-    <p>
-        <a href="#" onclick="ReseandSMS()">Wysłać kod jeszcze raz</a>
-    </p>
-}
-
-@Html.Partial("js/Scripts")
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="register_modal_lbl">Aktywacja konta</h4>
+</div>
+<div class="modal-body">
+    @using (Ajax.BeginForm("Activate", "User", new AjaxOptions { UpdateTargetId = "af_activate_user", HttpMethod = "POST", InsertionMode = InsertionMode.Replace }))
+    {
+        <div id="af_activate_user">
+            @Html.Partial("Partial/_activatePartial", Model)
+        </div>
+    }
+</div>

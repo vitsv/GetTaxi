@@ -1,8 +1,7 @@
 ﻿@model WebUI.Models.Order.EditableOrder
 
-<div style="min-width: 250px; width: 500px;height:323px; -webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;background:#fff;" id="order_container">
-
-    @using (Ajax.BeginForm("Create", "Order", new { }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "SendOrderCallback(data)" }, new { @class = "form-horizontal", role = "form", autocomplete = "off" }))
+<div id="order_container">
+    @using (Ajax.BeginForm("Create", "Order", new { }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "SendOrderCallback(data)" }, new { @class = "form-horizontal", role = "form", autocomplete = "off", id = "order_form" }))
     {
         @Html.Hidden("CityFrom", 1)
         <ul class="nav nav-tabs" id="order_tabs">
@@ -15,24 +14,61 @@
             <div class="tab-pane active" id="placetime">
                 <div class="form-group">
                     <label for="AddressFrom" class="col-sm-2 control-label">Skąd</label>
-                    <div class="col-sm-10">
+                    <div>
                         <input type="text" value="" name="AddressFrom" id="AddressFrom" class="form-control" placeholder="Np. Karmelicka, 16">
-                        <span id="address_from_val_req_msg" class="text-danger" style="display: none;">Należy podać adres</span>
-                        <span id="address_from_val_msg" class="text-danger" style="display: none;">Nie prawidłowy adres</span>
+                        <span id="AddressFrom_val" class="text-danger val-msg" style="display: none;"></span>
+                        <span id="AddressFromBlock_val" class="text-danger val-msg" style="display: none;"></span>
+                        <span id="AddressFromPorch_val" class="text-danger val-msg" style="display: none;"></span>
+                    </div>
+                    <div class="col-sm-6 pull-right hidden" style="margin-top: 3px;" id="address_from_extra">
+                        <table>
+                            <tr>
+                                <td>Blok
+                                </td>
+                                <td>
+                                    <input style="display: inline-block" type="text" value="" name="AddressFromBuilding" id="AddressFromBuilding" class="form-control input-sm">
+                                </td>
+                                <td style="padding-left: 5px;">Klatka
+                                </td>
+                                <td>
+                                    <input style="display: inline-block" type="text" value="" name="AddressFromPorch" id="AddressFromPorch" class="form-control input-sm">
+                                </td>
+                            </tr>
+                        </table>
+
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="AddressTo" class="col-sm-2 control-label">Dokąd</label>
-                    <div class="col-sm-10">
+                    <div>
                         <input type="text" value="" name="AddressTo" id="AddressTo" class="form-control" placeholder="Np. Lotnisko Balice">
-                        <span id="address_to_val_msg" class="text-danger" style="display: none;">Nie prawidłowy adres</span>
+                        <span id="AddressTo_val" class="text-danger val-msg" style="display: none;"></span>
+                        <span id="AddressToBlock_val" class="text-danger val-msg" style="display: none;"></span>
+                        <span id="AddressToPorch_val" class="text-danger val-msg" style="display: none;"></span>
+                    </div>
+                    <div class="col-sm-6 pull-right hidden" style="margin-top: 3px;" id="address_to_extra">
+                        <table>
+                            <tr>
+                                <td>Blok
+                                </td>
+                                <td>
+                                    <input style="display: inline-block" type="text" value="" name="AddressToBuilding" id="AddressToBuilding" class="form-control input-sm">
+                                </td>
+                                <td style="padding-left: 5px;">Klatka
+                                </td>
+                                <td>
+                                    <input style="display: inline-block" type="text" value="" name="AddressToPorch" id="AddressToPorch" class="form-control input-sm">
+                                </td>
+                            </tr>
+                        </table>
+
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="planned_time_tb" class="col-sm-2 control-label">Kiedy</label>
-                    <div class="col-sm-10">
+                    <div>
                         <table id="planned_time_tb">
                             <tr>
 
@@ -45,12 +81,12 @@
                                 <td>@Html.DropDownList("PlannedMinute", ViewBag.MinutesList as IEnumerable<SelectListItem>)</td>
                             </tr>
                         </table>
-                        <span id="planned_time_val_msg" class="text-danger" style="display: none;">Nie prawidłowy czas</span>
+                        <span id="PlannedDay_val val-msg" class="text-danger" style="display: none;"></span>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
+                    <div>
                         <a href="#" data-toggle="collapse" data-target="#order_adds">Wymagania do auta</a>
                         <div id="order_adds" class="collapse">
                             <label class="checkbox-inline">
@@ -68,24 +104,24 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
+                    <div>
                         <a href="#" data-toggle="collapse" data-target="#order_adds_comm">Komentarz</a>
                         <div id="order_adds_comm" class="collapse">
                             @Html.TextAreaFor(model => model.Comment)
-                            @Html.ValidationMessageFor(model => model.Comment)
                         </div>
+                        <span id="Comment_val val-msg" class="text-danger" style="display: none;"></span>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button class="btn btn-info btn-lg" type="button" onclick="$('#order_tabs a:last').tab('show');">Dalej ...</button>
+                    <div>
+                        <button class="btn btn-info pull-right btn-lg" type="button" onclick="$('#order_tabs a:last').tab('show');">Dalej ...</button>
                     </div>
                 </div>
             </div>
             <div class="tab-pane" id="tarifs">
-                <span id="companies_val_msg" class="text-danger" style="display: none;">Proszę zaznaczyć chociażby jedną firmą</span>
                 <div style="max-height: 300px; overflow: auto;">
+                    <span id="Companies_val" class="text-danger val-msg" style="display: none;"></span>
                     <table class="table table-hover table-condensed" id="companies_tbl">
                         <thead>
                             <tr>
@@ -110,46 +146,47 @@
             <div class="tab-pane" id="order">
                 @if (!User.Identity.IsAuthenticated)
                 {
-                    <div class="form-group">
-                        <label for="AddressFrom" class="col-sm-2 control-label">Imię</label>
-                        <div class="col-lg-4">
-                            <input type="text" value="" name="Name" id="Name" class="form-control .col-sm-10" placeholder="">
-                            @Html.ValidationMessageFor(model => model.Name)
-                        </div>
-                    </div>
-                    <div class="form-group" id="send_sms_box">
-                        <span>Na Podany numer zostanie wysłany SMS z kodem potwierdzenia</span>
-                        <div class="col-lg-6">
-                            <span style="float: left; line-height: 30px; margin-right: 5px;">+48</span>
-                            <div class="input-group">
-                                <input type="text" value="" name="Phone" id="Phone" class="form-control" placeholder="333 222 111">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button" id="send_code_btn" onclick="SendCode()">Potwierdź</button>
-                                </span>
+                    <div id="not_auth_user_verif">
+                        <div class="form-group">
+                            <label for="Name" class="col-md-2 col-lg2 control-label">Imię</label>
+                            <div>
+                                <input type="text" value="" name="Name" id="Name" class="form-control" placeholder="" required />
                             </div>
-                            <span id="phone_val_msg" class="text-danger" style="display: none;">Nie prawidłowy numer</span>
                         </div>
-                    </div>
-                    <div class="form-group" id="confirm_sms_box" style="display: none;">
-                        <span id="confirm_sms_lbl">Za chwilę dostaniesz SMS z kodem, wprowadż go poniżej:</span>
-                        <div class="col-lg-4">
-                            <div class="input-group">
-                                <input type="text" value="" name="Code" id="Code" class="form-control">
-                                <span class="glyphicon glyphicon-ok form-control-feedback" id="conf_code_suc_i" style="display: none;"></span>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button" onclick="ConfirmCode();" id="confirm_code_btn">OK</button>
-                                </span>
+                        <div class="form-group" id="send_sms_box">
+                            <span>Na Podany numer zostanie wysłany SMS z kodem potwierdzenia</span>
+                            <div>
+                                <span style="float: left; line-height: 30px; margin-right: 5px;">+48</span>
+                                <div class="input-group">
+                                    <input type="text" value="" name="Phone" id="Phone" class="form-control" placeholder="333 222 111" required />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" id="send_code_btn" onclick="SendCode()">OK</button>
+                                    </span>
+                                </div>
                             </div>
-                            <span id="code_val_msg" class="text-danger" style="display: none;">Nie prawidłowy kod</span>
                         </div>
-                    </div>
+                        <div class="form-group" id="confirm_sms_box" style="display: none;">
+                            <span id="confirm_sms_lbl">Za chwilę dostaniesz SMS z kodem, wprowadż go poniżej:</span>
+                            <div>
+                                <div class="input-group">
+                                    <input type="text" value="" name="Code" id="Code" class="form-control">
+                                    <span class="glyphicon glyphicon-ok form-control-feedback" id="conf_code_suc_i" style="display: none;"></span>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" onclick="ConfirmCode();" id="confirm_code_btn">OK</button>
+                                    </span>
+                                </div>
+                                <span id="code_val_msg" class="text-danger" style="display: none;">Nie prawidłowy kod</span>
+                            </div>
+                        </div>
 
-                    <div class="alert alert-info" id="reg_log_al">Możesz <a href="#" class="alert-link">zarejestrować się</a>, lub <a href="#" class="alert-link">zalogować się</a> jeżeli już masz konto, żeby nie potwierdzać numer za każdym razem.</div>
+                        <div class="alert alert-info" id="reg_log_al">Możesz <a href="#" class="alert-link" onclick="ShowRegister()">zarejestrować się</a>, lub <a href="#" class="alert-link" onclick="ShowLogin()">zalogować się</a> jeżeli już masz konto, żeby nie potwierdzać numer za każdym razem.</div>
+                    </div>
                     <div class="alert alert-success" id="code_ok_al" style="display: none;">Numer telefonu został potwierdzony. Wciśnij 'Zamów taksówkę' żeby złożyć zamówienie.</div>
+               
                 }
                 <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <input class="btn btn-success btn-lg" id="send_order_btn" type="submit" @((!User.Identity.IsAuthenticated) ? "disabled=\"disabled\"" : "") value="Zamów taksówkę" />
+                    <div>
+                        <input class="btn btn-success btn-lg pull-right" id="send_order_btn" type="submit" @((!User.Identity.IsAuthenticated) ? "disabled=\"disabled\"" : "") value="Zamów taksówkę" />
                     </div>
                 </div>
             </div>

@@ -98,6 +98,9 @@ namespace WebUI.Controllers
             if (serveCarTime <= DateTime.Now)
                 ModelState.AddModelError("PlannedDay", "Niestety nie możemy podać samochód na tą godzinę");
 
+            if(model.Companies == null || (model.Companies != null && model.Companies.Count == 0))
+                ModelState.AddModelError("Companies", "Proszę wybrać chociażby jednego przewoźnika");
+
             if (ModelState.IsValid)
             {
                 Order newOrder = new Order();
@@ -116,8 +119,15 @@ namespace WebUI.Controllers
                 Address address = new Address();
                 address.CityFrom = model.CityFrom;
                 address.AddressFrom = model.AddressFrom;
+                address.AddressFromBlock = model.AddressFromBlock;
+                address.AddressFromPorch = model.AddressFromPorch;
+
                 if (!string.IsNullOrEmpty(model.AddressTo))
+                {
                     address.AddressTo = model.AddressTo;
+                    address.AddressToBlock = model.AddressToBlock;
+                    address.AddressToPorch = model.AddressToPorch;
+                }
                 newOrder.Address = address;
 
                 newOrder.UserComment = model.Comment;
@@ -131,7 +141,7 @@ namespace WebUI.Controllers
 
                 properties.OrderClass = (int)GlobalEnumerator.OrderClass.Fastest;
                 properties.Priority = (int)GlobalEnumerator.OrderPriority.Normal;
-                properties.Childer = model.Childer;
+                properties.Children = model.Childer;
                 properties.Nosmoking = model.NoSmoking;
                 properties.Card = model.Card;
                 properties.Animal = model.Animal;
@@ -146,8 +156,16 @@ namespace WebUI.Controllers
                 else
                     return Json(new { result = "ERROR", msg = res.ErrorMessage });
             }
-
-            return Json(new { result = "ERROR", msg = "Unknown" });
+            else
+            {
+                var errors = ModelState.Where(c => c.Value.Errors.Any()).Select(c => new
+                {
+                    key = c.Key,
+                    value = c.Value.Errors[0].ErrorMessage
+                }
+                );
+                return Json(new { result = "ERROR", errors = errors });
+            }
         }
 
         public PartialViewResult Status(int id)
@@ -209,13 +227,13 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public JsonResult SendCode(string phone)
+        public JsonResult SendCode(string phone, string name)
         {
             //sprawdzam telefon
             if (!new Regex(@"^\d{9}$").IsMatch(phone))
                 return Json(new { result = "ERROR", error = "phone" });
 
-            var res = ManagerClient.AddByCode(phone);
+            var res = ManagerClient.AddByCode(phone, name);
             if (res.IsError)
                 return Json(new { result = "ERROR", error = res.ErrorMessage });
 

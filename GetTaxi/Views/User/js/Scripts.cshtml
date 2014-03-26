@@ -6,16 +6,16 @@
            type: "POST",
            url: url,
            success: function (data) {
-               $(".alert").removeClass("alert-danger");
-               $(".alert").removeClass("alert-success");
+               $("#af_activate_user .alert").removeClass("alert-danger");
+               $("#af_activate_user .alert").removeClass("alert-success");
                if (data.result == "OK") {
-                   $(".alert").addClass("alert-success");
-                   $(".alert").html(data.msg);
+                   $("#af_activate_user .alert").addClass("alert-success");
+                   $("#af_activate_user .alert").html(data.msg);
                } else {
-                   $(".alert").addClass("alert-danger");
-                   $(".alert").html(data.msg);
+                   $("#af_activate_user .alert").addClass("alert-danger");
+                   $("#af_activate_user .alert").html(data.msg);
                }
-               $(".alert").show();
+               $("#af_activate_user .alert").show();
            },
            error: function (data) {
                alert(data);

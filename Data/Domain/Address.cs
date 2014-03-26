@@ -27,6 +27,10 @@ namespace Data.Domain
         public Nullable<double> Latitude { get; set; }
         public Nullable<double> Longitude { get; set; }
         public Nullable<double> Accurancy { get; set; }
+        public string AddressFromBlock { get; set; }
+        public string AddressFromPorch { get; set; }
+        public string AddressToBlock { get; set; }
+        public string AddressToPorch { get; set; }
     
         public virtual City City { get; set; }
         public virtual City City1 { get; set; }

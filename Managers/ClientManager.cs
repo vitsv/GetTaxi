@@ -13,6 +13,9 @@ namespace Managers
 {
     public class ClientManager : GlobalManager
     {
+        private const int FAILED_ATTEMPTS_CODE = 5;
+        private const int FAILED_ATTEMPTS_PASS = 5;
+        private const int MAX_SMS_SEND = 5;
 
         public Client GetClientByPhone(string phone)
         {
@@ -36,7 +39,7 @@ namespace Managers
             return res;
         }
 
-        public IUnitOfWorkResult AddByCode(string phone)
+        public IUnitOfWorkResult AddByCode(string phone, string name)
         {
             var repo = RepoGeneric;
             var client = repo.FindOne<Client>(c => c.Phone.Equals(phone));
@@ -46,9 +49,10 @@ namespace Managers
                 client = new Client();
 
                 client.Phone = phone;
+                client.FirstName = name;
                 client.CreationDate = DateTime.Now;
 
-                client.IsActive = true;
+                client.IsActive = false;
 
                 string _salt = GenerateSalt(32);
                 client.Salt = _salt;
@@ -56,6 +60,11 @@ namespace Managers
 
 
                 repo.Add<Client>(client);
+            }
+            else
+            {
+                if (client.SmsSentCount.GetValueOrDefault() >= 3)
+                    return CreateResultError("SMS_LIMIT");
             }
 
             client.ActivateCode = GenerateSmsCode();
@@ -112,7 +121,6 @@ namespace Managers
             var repo = RepoGeneric;
             var client = repo.FindOne<Client>(c => c.ClientId == id);
             client.LastLoginDate = DateTime.Now;
-            client.SmsSentCount = 0;
 
             var res = repo.UnitOfWork.SaveChanges();
             return res;
@@ -215,14 +223,23 @@ namespace Managers
             var user = repo.FindOne<Client>(c => c.ClientId == clientId);
             if (user != null)
             {
-                if (user.ActivateCode.Equals(code))
+                if (user.ActivateCode.Equals(code) && user.FailedAttemptPass.GetValueOrDefault() <= FAILED_ATTEMPTS_CODE && user.SmsSentCount.GetValueOrDefault() > 0)
                 {
                     user.IsActive = true;
+                    user.FailedAttemptCode = 0;
+                    user.SmsSentCount = 0;
 
                     var res = repo.UnitOfWork.SaveChanges();
                     if (res.IsError)
                         throw new Exception(res.ErrorMessage);
                     return true;
+                }
+                else
+                {
+                    user.FailedAttemptCode = user.FailedAttemptCode.GetValueOrDefault() + 1;
+                    var res = repo.UnitOfWork.SaveChanges();
+                    if (res.IsError)
+                        throw new Exception(res.ErrorMessage);
                 }
             }
 
@@ -235,14 +252,23 @@ namespace Managers
             var user = repo.FindOne<Client>(c => c.Phone == phone);
             if (user != null)
             {
-                if (user.ActivateCode.Equals(code))
+                if (user.ActivateCode.Equals(code) && user.FailedAttemptPass.GetValueOrDefault() <= FAILED_ATTEMPTS_CODE && user.SmsSentCount.GetValueOrDefault() > 0)
                 {
                     user.IsActive = true;
+                    user.FailedAttemptCode = 0;
+                    user.SmsSentCount = 0;
 
                     var res = repo.UnitOfWork.SaveChanges();
                     if (res.IsError)
                         throw new Exception(res.ErrorMessage);
                     return true;
+                }
+                else
+                {
+                    user.FailedAttemptCode = user.FailedAttemptCode.GetValueOrDefault() + 1;
+                    var res = repo.UnitOfWork.SaveChanges();
+                    if (res.IsError)
+                        throw new Exception(res.ErrorMessage);
                 }
             }
 
@@ -267,7 +293,7 @@ namespace Managers
         {
             var repo = RepoGeneric;
 
-            var user = repo.FindOne<User>(c => c.UserId == userId);
+            var user = repo.FindOne<Client>(c => c.ClientId == userId);
 
             if (user == null)
                 return false;
@@ -289,6 +315,67 @@ namespace Managers
 
             return true;
 
+        }
+
+        public IUnitOfWorkResult RememberPassSendSMS(string phone)
+        {
+            var repo = RepoGeneric;
+
+            var user = repo.FindOne<Client>(c => c.Phone == phone);
+
+            if (user == null)
+                return CreateResultError("NOTEXIST");
+
+            if (user.SmsSentCount >= 3)
+                return CreateResultError("Proszę skontaktować się z biurem obsługi klienta.");
+
+            var kod = GenerateSmsCode();
+
+            //TODO Wyslac SMS
+
+            user.SmsSentCount = user.SmsSentCount + 1;
+            user.ActivateCode = kod;
+
+            var res = repo.UnitOfWork.SaveChanges();
+            return res;
+        }
+
+        public bool RepairPass(int userId, string code)
+        {
+            var repo = RepoGeneric;
+            var user = repo.FindOne<Client>(c => c.ClientId == userId);
+            if (user != null)
+            {
+                if (user.ActivateCode.Equals(code) && user.FailedAttemptPass.GetValueOrDefault() <= FAILED_ATTEMPTS_CODE && user.SmsSentCount.GetValueOrDefault() > 0)
+                {
+                    user.FailedAttemptCode = 0;
+                    user.SmsSentCount = 0;
+                    var pass = GenerateSmsCode(8);
+
+                    string _salt = GenerateSalt(32);
+                    user.Salt = _salt;
+                    user.Password = CreatePasswordHash(pass.ToString(), _salt);
+
+                    var res = repo.UnitOfWork.SaveChanges();
+                    if (res.IsError)
+                        throw new Exception(res.ErrorMessage);
+
+                    //TODO Sent SMS with new pass
+
+                    return true;
+                }
+                else
+                {
+                    user.FailedAttemptCode = user.FailedAttemptCode.GetValueOrDefault() + 1;
+                    var res = repo.UnitOfWork.SaveChanges();
+                    if (res.IsError)
+                        throw new Exception(res.ErrorMessage);
+                }
+
+
+            }
+
+            return false;
         }
     }
 }

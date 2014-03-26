@@ -27,16 +27,14 @@ namespace WebUI.Controllers
             }
         }
 
-        public ActionResult Register()
+        public PartialViewResult Register()
         {
-            if (AccountHelper.currentUser == null)
-                return View();
-            else
-                return RedirectToAction("Index", "Home");
+            var model = new RegisterModel();
+            return PartialView("Register", model);
         }
 
         [HttpPost]
-        public ActionResult Register(RegisterModel model)
+        public PartialViewResult Register(RegisterModel model)
         {
             if (!string.IsNullOrEmpty(model.Phone) && !Manager.CheckIfPhoneUniq(model.Phone))
                 ModelState.AddModelError("Phone", "Taki telefon został już zarejestrowany");
@@ -56,16 +54,15 @@ namespace WebUI.Controllers
 
                 if (!res.IsError)
                 {
-                    LogInUser(newUser);
 
                     //TODO wyslac SMS
 
-                    return RedirectToAction("Activate");
+                    return PartialView("Partial/_registerSuccessPartial", newUser.ClientId);
                 }
             }
 
 
-            return View();
+            return PartialView("Partial/_registerPartial", model);
 
         }
 
@@ -80,15 +77,19 @@ namespace WebUI.Controllers
                 FullName = client.FullName
             };
 
+            Manager.UpdateLastLoginDate(client.ClientId);
+            
+
             //Nadpisuje cookie dla przechowywania dodatkowych informacji
             Response.SetAuthCookie(client.Phone, true, userData);
         }
 
 
-
-        public ActionResult Activate()
+        public PartialViewResult Activate(int userId)
         {
-            return View();
+            var model = new ActivateModel();
+            model.IdUser = userId;
+            return PartialView("Activate", model);
         }
 
         [HttpPost]
@@ -96,15 +97,15 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Manager.ActivateNewUser(AccountHelper.currentUser.ID, model.Code))
+                if (Manager.ActivateNewUser(model.IdUser, model.Code))
                 {
-                    var user = Manager.GetUserById(AccountHelper.currentUser.ID);
+                    var user = Manager.GetUserById(model.IdUser);
 
                     AccountHelper.Logout();
 
                     LogInUser(user);
 
-                    return RedirectToAction("Index", "Home");
+                    return PartialView("Partial/_activateSuccessPartial");
                 }
                 else
                 {
@@ -112,13 +113,13 @@ namespace WebUI.Controllers
                 }
             }
 
-            return View();
+            return PartialView("Partial/_activatePartial", model);
         }
 
         [HttpPost]
-        public JsonResult ResendActivateSms()
+        public JsonResult ResendActivateSms(int userId)
         {
-            if (Manager.ResendActivateSms(AccountHelper.currentUser.ID))
+            if (Manager.ResendActivateSms(userId))
             {
                 return Json(new { result = "OK", msg = "SMS został wysłany." });
             }
@@ -126,6 +127,71 @@ namespace WebUI.Controllers
             {
                 return Json(new { result = "ERROR", msg = "SMS nie został wysłany! Proszę skontaktować się z biurem obsługi klienta." });
             }
+        }
+
+        public PartialViewResult RememberPassSendSMS()
+        {
+            ViewBag.AccountNotExistMsg = false;
+            var model = new RemeberPassModel();
+            return PartialView("RememberPassSendSMS", model);
+        }
+
+        [HttpPost]
+        public ActionResult RememberPassSendSMS(RemeberPassModel model)
+        {
+            ViewBag.AccountNotExistMsg = false;
+            if (ModelState.IsValid)
+            {
+                var res = Manager.RememberPassSendSMS(model.Phone);
+                if (res.IsError)
+                {
+                    if (res.ErrorMessage == "NOTEXIST")
+                        ViewBag.AccountNotExistMsg = true;
+                    else
+                    {
+                        ModelState.AddModelError("", res.ErrorMessage);
+                    }
+                }
+                else
+                {
+                    var user = Manager.GetClientByPhone(model.Phone);
+                    return PartialView("Partial/_rememberPassSendSMSSuccess", user.ClientId);
+                }
+
+            }
+
+            return PartialView("Partial/_rememberPassSendSmsPartial", model);
+        }
+
+        public PartialViewResult RememberPassConfirm(int userId)
+        {
+            var model = new ActivateModel();
+            model.IdUser = userId;
+            return PartialView("RememberPassSendConfirm", model);
+        }
+
+        [HttpPost]
+        public ActionResult RememberPassConfirm(ActivateModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (Manager.RepairPass(model.IdUser, model.Code))
+                {
+                    var user = Manager.GetUserById(model.IdUser);
+
+                    AccountHelper.Logout();
+
+                    LogInUser(user);
+
+                    return PartialView("Partial/_rememberPassConfirmSuccessPartial");
+                }
+                else
+                {
+                    ModelState.AddModelError("Code", "Kod jest nieprawidłowy");
+                }
+            }
+
+            return PartialView("Partial/_activatePartial", model);
         }
     }
 }

@@ -1,34 +1,13 @@
 ﻿@model WebUI.Models.User.RegisterModel
-
-@using (Ajax.BeginForm("Register", "User", new AjaxOptions { UpdateTargetId = "af_register_user", HttpMethod = "POST", InsertionMode = InsertionMode.Replace }, new { id = "af_register_user" }))
-{
-    <h2>Rejestracja</h2>
-
-    <div class="editor-label">
-        Imię
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.Name)
-        @Html.ValidationMessageFor(model => model.Name)
-    </div>
-
-    <div class="editor-label">
-        Telefon komórkowy (9 cyfr)
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.Phone)
-        @Html.ValidationMessageFor(model => model.Phone)
-    </div>
-
-    <div class="editor-label">
-        Hasło
-    </div>
-    <div class="editor-field">
-        @Html.PasswordFor(model => model.Password)
-        @Html.ValidationMessageFor(model => model.Password)
-    </div>
-
-    <p>
-        <input type="submit" value="Zarejestruj" />
-    </p>
-}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="register_modal_lbl">Rejestracja</h4>
+</div>
+<div class="modal-body">
+    @using (Ajax.BeginForm("Register", "User", new AjaxOptions { UpdateTargetId = "af_register_user", HttpMethod = "POST", InsertionMode = InsertionMode.Replace }))
+    {
+        <div id="af_register_user">
+            @Html.Partial("Partial/_registerPartial", Model)
+        </div>
+    }
+</div>

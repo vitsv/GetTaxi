@@ -1,5 +1,4 @@
 ﻿body {
-
 }
 
 #account-box {
@@ -31,3 +30,7 @@
         font-weight: bold;
         white-space: nowrap;
     }
+
+.bootstrap-validator-form .help-block {
+    margin-bottom: 0;
+}
