@@ -1,0 +1,13 @@
+﻿@model WebUI.Models.User.RemeberPassModel
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="login_modal_lbl">Przywrocenie hasła</h4>
+</div>
+<div class="modal-body">
+    @using (Ajax.BeginForm("RememberPassSendSMS", "User", new AjaxOptions { UpdateTargetId = "af_activate_user", HttpMethod = "POST", InsertionMode = InsertionMode.Replace }))
+    {
+        <div id="af_activate_user">
+            @Html.Partial("Partial/_rememberPassSendSMSPartial", Model)
+        </div>
+    }
+</div>

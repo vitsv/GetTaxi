@@ -1,0 +1,18 @@
+﻿<script type="text/javascript">
+    try{
+        $('#not_auth_user_verif').hide();
+        $('#send_order_btn').removeAttr('disabled');
+    } catch (e) {
+
+    }
+    $('#account-info-container').load('@Url.Action("UserBox", "Account")');
+
+</script>
+<div class="alert alert-info">
+    Nowe hasło zostało wysłane na twój telefon! Zmienić hasło można w ustawieniach konta -  <a href="#" class="alert-link">zmienić teraz</a>.
+</div>
+<p>
+    <button class="btn btn-lg btn-success btn-block" type="button" data-dismiss="modal" aria-hidden="true">OK</button>
+</p>
+
+

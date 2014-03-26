@@ -1,0 +1,23 @@
+﻿@model WebUI.Models.User.RegisterModel
+
+<div class="text-danger">
+    @Html.ValidationSummary(true)
+</div>
+<div class="form-group @Html.ValidateWithClass("Name")">
+
+    <input type="text" name="Name" class="form-control" placeholder="Imię" value="@Model.Name" autofocus style="margin-bottom:10px" />
+    <small style="" data-bs-validator="notEmpty" class="help-block">@Html.ValidationMessageFor(model => model.Name)</small>
+</div>
+<div class="form-group @Html.ValidateWithClass("Phone")">
+
+    <input type="text" name="Phone" class="form-control" placeholder="Telefon (9 cyfr)" value="@Model.Phone" autofocus style="margin-bottom:10px" />
+    <small style="" data-bs-validator="notEmpty" class="help-block">@Html.ValidationMessageFor(model => model.Phone)</small>
+</div>
+
+<div class="form-group @Html.ValidateWithClass("Password")">
+
+    <input type="password" name="Password" class="form-control" placeholder="Hasło" value="@Model.Password" style="margin-bottom: 10px">
+    <small style="" data-bs-validator="notEmpty" class="help-block">@Html.ValidationMessageFor(model => model.Password)</small>
+</div>
+
+<button class="btn btn-lg btn-primary btn-block" type="submit">Załóż konto</button>

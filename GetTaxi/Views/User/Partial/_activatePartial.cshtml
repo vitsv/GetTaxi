@@ -1,0 +1,20 @@
+﻿@model WebUI.Models.User.ActivateModel
+@Html.HiddenFor(m => m.IdUser)
+<div class="alert fade in alert-success" style="display: none" id="activate_alert"></div>
+<p>
+    Prosze wpisać kod z wiadomości SMS ktora za chwile Pańwstwo otrzymaja na podany pod czas rejestracji numer.
+</p>
+
+<div class="form-group @Html.ValidateWithClass("Code")">
+    <input type="text" name="Code" class="form-control" placeholder="Kod" value="@Model.Code" autofocus style="margin-bottom:10px" />
+    <small style="" data-bs-validator="notEmpty" class="help-block">@Html.ValidationMessageFor(model => model.Code)</small>
+</div>
+
+<p>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">OK</button>
+</p>
+<p>
+    <a href="#" onclick="ReseandSMS(@Model.IdUser)">Wysłać kod jeszcze raz</a>
+</p>
+
+

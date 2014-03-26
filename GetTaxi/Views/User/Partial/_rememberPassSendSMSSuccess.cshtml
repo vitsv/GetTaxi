@@ -1,0 +1,4 @@
+﻿@model int
+<script type="text/javascript">
+    $('#login_modal .modal-content').load('@Url.Action("RememberPassConfirm", "User", new { userId = Model })');
+</script>

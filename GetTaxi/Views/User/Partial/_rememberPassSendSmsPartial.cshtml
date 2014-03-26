@@ -1,0 +1,19 @@
+﻿@model WebUI.Models.User.RemeberPassModel
+
+<div class="text-danger">
+    @Html.ValidationSummary(true)
+</div>
+@if (ViewBag.AccountNotExistMsg)
+{
+    <div class="alert alert-warning">Nie znaleziono konto z takim numerem telefonu. Proszę <a href="#" class="alert-link" onclick="ShowRegister()">założyć konto</a></div>
+}
+<p>
+    Podaj numer telefonu, dla którego było zakładane konto
+</p>
+<div class="form-group @Html.ValidateWithClass("Phone")">
+
+    <input type="text" name="Phone" class="form-control" placeholder="Telefon (9 cyfr)" value="@Model.Phone" autofocus style="margin-bottom:10px" />
+    <small style="" data-bs-validator="notEmpty" class="help-block">@Html.ValidationMessageFor(model => model.Phone)</small>
+</div>
+
+<button class="btn btn-lg btn-primary btn-block" type="submit">Wyślij SMS</button>

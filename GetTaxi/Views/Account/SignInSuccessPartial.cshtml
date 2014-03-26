@@ -1,0 +1,11 @@
+﻿<script type="text/javascript">
+    try{
+        $('#not_auth_user_verif').hide();
+        $('#send_order_btn').removeAttr('disabled');
+    } catch (e) {
+
+    }
+    $('#account-info-container').load('@Url.Action("UserBox", "Account")');
+    $('#login_modal').modal('hide');
+
+</script>
